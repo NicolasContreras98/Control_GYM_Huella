@@ -66,20 +66,20 @@
             // lblDetalle
             // 
             this.lblDetalle.AutoSize = true;
-            this.lblDetalle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDetalle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDetalle.Location = new System.Drawing.Point(171, 57);
             this.lblDetalle.Name = "lblDetalle";
-            this.lblDetalle.Size = new System.Drawing.Size(160, 20);
+            this.lblDetalle.Size = new System.Drawing.Size(182, 20);
             this.lblDetalle.TabIndex = 19;
             this.lblDetalle.Text = "Detalle de la venta N°";
             // 
             // lblNumVenta
             // 
             this.lblNumVenta.AutoSize = true;
-            this.lblNumVenta.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNumVenta.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNumVenta.Location = new System.Drawing.Point(328, 57);
             this.lblNumVenta.Name = "lblNumVenta";
-            this.lblNumVenta.Size = new System.Drawing.Size(14, 20);
+            this.lblNumVenta.Size = new System.Drawing.Size(15, 20);
             this.lblNumVenta.TabIndex = 29;
             this.lblNumVenta.Text = "-";
             // 

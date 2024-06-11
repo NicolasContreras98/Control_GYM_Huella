@@ -62,31 +62,58 @@ namespace Control_Gym.Capa_de_presentacion
 
         private void btnAgregarCliente_Click(object sender, EventArgs e)
         {
-            string query = "INSERT INTO clientes(dni_cliente, nombre, apellido, telefono,domicilio, email) VALUES (@dni_cliente, @nombre, @apellido, @telefono, @domicilio, @email)";
+            // Validar campos requeridos
+            if (string.IsNullOrWhiteSpace(DniCliente))
+            {
+                MessageBox.Show("El campo DNI Cliente es obligatorio.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(Nombre))
+            {
+                MessageBox.Show("El campo Nombre es obligatorio.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(Apellido))
+            {
+                MessageBox.Show("El campo Apellido es obligatorio.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string query = "INSERT INTO clientes(dni_cliente, nombre, apellido, telefono, domicilio, email) VALUES (@dni_cliente, @nombre, @apellido, @telefono, @domicilio, @email)";
             try
             {
-                SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
+                using (SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion()))
+                {
+                    comando.Parameters.Add(new SqlParameter("@dni_cliente", DniCliente));
+                    comando.Parameters.Add(new SqlParameter("@nombre", Nombre));
+                    comando.Parameters.Add(new SqlParameter("@apellido", Apellido));
+                    comando.Parameters.Add(new SqlParameter("@telefono", Telefono));
+                    comando.Parameters.Add(new SqlParameter("@domicilio", Domicilio));
+                    comando.Parameters.Add(new SqlParameter("@email", Email));
 
-                comando.Parameters.Add(new SqlParameter("@dni_cliente", DniCliente));
-                comando.Parameters.Add(new SqlParameter("@nombre", Nombre));
-                comando.Parameters.Add(new SqlParameter("@apellido", Apellido));
-                comando.Parameters.Add(new SqlParameter("@telefono", Telefono));
-                comando.Parameters.Add(new SqlParameter("@domicilio", Domicilio));
-                comando.Parameters.Add(new SqlParameter("@email", Email));
+                    comando.ExecuteNonQuery();
+                }
 
-                comando.ExecuteNonQuery();
-
+                MessageBox.Show("Cliente registrado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
+            }
+            catch (SqlException sqlEx)
+            {
+                MessageBox.Show("Error al registrar el cliente. Error SQL: " + sqlEx.Message);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al registrar el cliente." + ex.Message);
+                MessageBox.Show("Error al registrar el cliente: " + ex.Message);
             }
             finally
             {
                 conexionBD.CerrarConexion();
             }
         }
+
+
 
         private void iconminimizar_Click(object sender, EventArgs e)
         {

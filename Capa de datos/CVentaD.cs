@@ -290,7 +290,7 @@ namespace Control_Gym.Capa_de_datos
 
         public decimal ObtenerTotalHoy()
         {
-            string query = "SELECT ISNULL(SUM(total), 0) as total from ventas WHERE fecha = CAST(GETDATE() AS DATE);";
+            string query = "SELECT ISNULL(SUM(total), 0) as total FROM ventas WHERE CONVERT(DATE, fecha) = CONVERT(DATE, GETDATE());";
 
             try
             {
@@ -311,9 +311,9 @@ namespace Control_Gym.Capa_de_datos
                     return 0;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Ocurrió un error al obtener el total de hoy");
+                MessageBox.Show("Ocurrió un error al obtener el total de hoy: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
             finally
@@ -321,6 +321,8 @@ namespace Control_Gym.Capa_de_datos
                 conexionBD.CerrarConexion();
             }
         }
+
+
 
         public List<CDetalleVenta> traerDetalles(int num_venta)
         {

@@ -36,7 +36,6 @@
             this.btnCancelarMembresia = new System.Windows.Forms.Button();
             this.btnCrearMembresia = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnRenovar = new System.Windows.Forms.Button();
             this.dvgMembresias = new System.Windows.Forms.DataGridView();
             this.txtBuscarDni = new System.Windows.Forms.TextBox();
             this.lblDni2Membresia = new System.Windows.Forms.Label();
@@ -57,10 +56,10 @@
             // 
             // txtDniMembresia
             // 
-            this.txtDniMembresia.Location = new System.Drawing.Point(137, 26);
+            this.txtDniMembresia.Location = new System.Drawing.Point(185, 23);
             this.txtDniMembresia.Name = "txtDniMembresia";
-            this.txtDniMembresia.Size = new System.Drawing.Size(200, 20);
-            this.txtDniMembresia.TabIndex = 1;
+            this.txtDniMembresia.Size = new System.Drawing.Size(200, 26);
+            this.txtDniMembresia.TabIndex = 0;
             this.txtDniMembresia.Click += new System.EventHandler(this.txtDniMembresia_Click);
             this.txtDniMembresia.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDniMembresia_KeyDown);
             this.txtDniMembresia.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDniMembresia_KeyPress);
@@ -71,7 +70,7 @@
             this.lblDniMembresia.AutoSize = true;
             this.lblDniMembresia.Location = new System.Drawing.Point(19, 29);
             this.lblDniMembresia.Name = "lblDniMembresia";
-            this.lblDniMembresia.Size = new System.Drawing.Size(26, 13);
+            this.lblDniMembresia.Size = new System.Drawing.Size(40, 20);
             this.lblDniMembresia.TabIndex = 7;
             this.lblDniMembresia.Text = "DNI";
             // 
@@ -130,14 +129,13 @@
             this.btnCrearMembresia.Location = new System.Drawing.Point(3, 27);
             this.btnCrearMembresia.Name = "btnCrearMembresia";
             this.btnCrearMembresia.Size = new System.Drawing.Size(75, 30);
-            this.btnCrearMembresia.TabIndex = 0;
+            this.btnCrearMembresia.TabIndex = 3;
             this.btnCrearMembresia.Text = "Agregar";
             this.btnCrearMembresia.UseVisualStyleBackColor = false;
             this.btnCrearMembresia.Click += new System.EventHandler(this.btnCrearMembresia_Click);
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.btnRenovar);
             this.panel1.Controls.Add(this.btnEliminarMembresia);
             this.panel1.Controls.Add(this.btnCancelarMembresia);
             this.panel1.Controls.Add(this.btnCrearMembresia);
@@ -146,21 +144,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(286, 111);
             this.panel1.TabIndex = 19;
-            // 
-            // btnRenovar
-            // 
-            this.btnRenovar.BackColor = System.Drawing.Color.Green;
-            this.btnRenovar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRenovar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRenovar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRenovar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnRenovar.Location = new System.Drawing.Point(106, 74);
-            this.btnRenovar.Name = "btnRenovar";
-            this.btnRenovar.Size = new System.Drawing.Size(75, 30);
-            this.btnRenovar.TabIndex = 7;
-            this.btnRenovar.Text = "Renovar";
-            this.btnRenovar.UseVisualStyleBackColor = false;
-            this.btnRenovar.Click += new System.EventHandler(this.btnRenovar_Click);
             // 
             // dvgMembresias
             // 
@@ -184,7 +167,7 @@
             this.txtBuscarDni.Location = new System.Drawing.Point(69, 204);
             this.txtBuscarDni.Name = "txtBuscarDni";
             this.txtBuscarDni.Size = new System.Drawing.Size(189, 26);
-            this.txtBuscarDni.TabIndex = 77;
+            this.txtBuscarDni.TabIndex = 7;
             this.txtBuscarDni.TextChanged += new System.EventHandler(this.txtBuscarDni_TextChanged);
             // 
             // lblDni2Membresia
@@ -206,9 +189,10 @@
             this.groupBox2.Controls.Add(this.lblFechaInicioMembresia);
             this.groupBox2.Controls.Add(this.txtDniMembresia);
             this.groupBox2.Controls.Add(this.lblDniMembresia);
-            this.groupBox2.Location = new System.Drawing.Point(134, 24);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Location = new System.Drawing.Point(12, 24);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(390, 157);
+            this.groupBox2.Size = new System.Drawing.Size(512, 157);
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Datos del socio";
@@ -218,10 +202,10 @@
             this.cbTipoMembresia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbTipoMembresia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbTipoMembresia.FormattingEnabled = true;
-            this.cbTipoMembresia.Location = new System.Drawing.Point(137, 57);
+            this.cbTipoMembresia.Location = new System.Drawing.Point(185, 54);
             this.cbTipoMembresia.Name = "cbTipoMembresia";
-            this.cbTipoMembresia.Size = new System.Drawing.Size(200, 21);
-            this.cbTipoMembresia.TabIndex = 2;
+            this.cbTipoMembresia.Size = new System.Drawing.Size(200, 28);
+            this.cbTipoMembresia.TabIndex = 1;
             this.cbTipoMembresia.SelectedIndexChanged += new System.EventHandler(this.cbTipoMembresia_SelectedIndexChanged);
             this.cbTipoMembresia.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cbTipoMembresia_KeyDown);
             this.cbTipoMembresia.MouseDown += new System.Windows.Forms.MouseEventHandler(this.cbTipoMembresia_MouseDown);
@@ -231,25 +215,25 @@
             this.lblTipoMembresia.AutoSize = true;
             this.lblTipoMembresia.Location = new System.Drawing.Point(19, 62);
             this.lblTipoMembresia.Name = "lblTipoMembresia";
-            this.lblTipoMembresia.Size = new System.Drawing.Size(96, 13);
+            this.lblTipoMembresia.Size = new System.Drawing.Size(160, 20);
             this.lblTipoMembresia.TabIndex = 24;
             this.lblTipoMembresia.Text = "Tipo de membresia";
             // 
             // dtpFechaFin
             // 
             this.dtpFechaFin.Enabled = false;
-            this.dtpFechaFin.Location = new System.Drawing.Point(137, 123);
+            this.dtpFechaFin.Location = new System.Drawing.Point(185, 120);
             this.dtpFechaFin.Name = "dtpFechaFin";
-            this.dtpFechaFin.Size = new System.Drawing.Size(200, 20);
+            this.dtpFechaFin.Size = new System.Drawing.Size(200, 26);
             this.dtpFechaFin.TabIndex = 33;
             this.dtpFechaFin.ValueChanged += new System.EventHandler(this.dtpFechaFin_ValueChanged);
             // 
             // dtpFechaInicio
             // 
-            this.dtpFechaInicio.Location = new System.Drawing.Point(137, 91);
+            this.dtpFechaInicio.Location = new System.Drawing.Point(185, 88);
             this.dtpFechaInicio.Name = "dtpFechaInicio";
-            this.dtpFechaInicio.Size = new System.Drawing.Size(200, 20);
-            this.dtpFechaInicio.TabIndex = 3;
+            this.dtpFechaInicio.Size = new System.Drawing.Size(200, 26);
+            this.dtpFechaInicio.TabIndex = 2;
             this.dtpFechaInicio.ValueChanged += new System.EventHandler(this.dtpFechaInicio_ValueChanged);
             // 
             // lblFechaFinMembresia
@@ -257,7 +241,7 @@
             this.lblFechaFinMembresia.AutoSize = true;
             this.lblFechaFinMembresia.Location = new System.Drawing.Point(19, 123);
             this.lblFechaFinMembresia.Name = "lblFechaFinMembresia";
-            this.lblFechaFinMembresia.Size = new System.Drawing.Size(54, 13);
+            this.lblFechaFinMembresia.Size = new System.Drawing.Size(89, 20);
             this.lblFechaFinMembresia.TabIndex = 10;
             this.lblFechaFinMembresia.Text = "Fecha Fin";
             // 
@@ -266,13 +250,13 @@
             this.lblFechaInicioMembresia.AutoSize = true;
             this.lblFechaInicioMembresia.Location = new System.Drawing.Point(19, 91);
             this.lblFechaInicioMembresia.Name = "lblFechaInicioMembresia";
-            this.lblFechaInicioMembresia.Size = new System.Drawing.Size(65, 13);
+            this.lblFechaInicioMembresia.Size = new System.Drawing.Size(107, 20);
             this.lblFechaInicioMembresia.TabIndex = 8;
             this.lblFechaInicioMembresia.Text = "Fecha Inicio";
             // 
             // txtCodMembresia
             // 
-            this.txtCodMembresia.Location = new System.Drawing.Point(12, 35);
+            this.txtCodMembresia.Location = new System.Drawing.Point(709, 209);
             this.txtCodMembresia.Name = "txtCodMembresia";
             this.txtCodMembresia.Size = new System.Drawing.Size(100, 20);
             this.txtCodMembresia.TabIndex = 99;
@@ -337,6 +321,5 @@
         private System.Windows.Forms.Label lblTipoMembresia;
         private System.Windows.Forms.TextBox txtCodMembresia;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button btnRenovar;
     }
 }

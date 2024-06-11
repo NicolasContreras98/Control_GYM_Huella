@@ -56,17 +56,17 @@ namespace Control_Gym.Capa_de_presentacion
         {
             try
             {
-                long cod_producto;
-
                 if (string.IsNullOrWhiteSpace(txtCodProducto.Text))
                 {
-                    MessageBox.Show("El campo Código de Producto no puede estar vacío.", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("El campo Código de Producto no puede estar vacío.", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
 
-                if (!long.TryParse(txtCodProducto.Text.Trim(), out cod_producto))
+                int cod_producto;
+
+                if (!int.TryParse(txtCodProducto.Text.Trim(), out cod_producto))
                 {
-                    MessageBox.Show("El campo Código de Producto debe ser un número válido.", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("El campo Código de Producto debe ser un número válido.", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
 
@@ -81,7 +81,7 @@ namespace Control_Gym.Capa_de_presentacion
                 int stock = Convert.ToInt32(txtStock.Text);
 
                 CProducto CProductoD = new CProducto();
-                CProductoD.ModificarProducto(cod, cod_producto, cod_proveedor, cod_tipo_producto, nombre, fecha_venc, precioventa, preciocosto, ganancia, stock);
+                CProductoD.ModificarProducto(cod, cod_proveedor, cod_tipo_producto, nombre, fecha_venc, preciocosto, precioventa, ganancia, stock);
 
                 dgvProductos.DataSource = CProductoD.MostrarDatos();
 
@@ -90,18 +90,32 @@ namespace Control_Gym.Capa_de_presentacion
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al modificar producto: " + ex.Message);
+                MessageBox.Show("Error al modificar producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(txtCod.Text))
+                {
+                    MessageBox.Show("Debe seleccionar un producto para eliminar.", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+
+                int cod_producto;
+
+                if (!int.TryParse(txtCod.Text.Trim(), out cod_producto))
+                {
+                    MessageBox.Show("El campo Código de Producto debe ser un número válido.", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+
                 CProducto CProductoD = new CProducto();
-                string cod = txtCod.Text;
                 string nombre = txtNombre.Text;
-                CProductoD.EliminarProducto(cod, nombre);
+                CProductoD.EliminarProducto(cod_producto, nombre);
                 dgvProductos.DataSource = CProductoD.MostrarDatos();
 
                 limpiarCampos();
@@ -109,57 +123,46 @@ namespace Control_Gym.Capa_de_presentacion
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al eliminar producto: " + ex.Message);
+                MessageBox.Show("Error al eliminar producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void btnCrear_Click(object sender, EventArgs e)
         {
             try
             {
-                if (txtNombre.Text != "" && txtPrecioVenta.Text != "" && txtStock.Text != "")
+                // Verificar que los campos obligatorios no estén vacíos
+                if (string.IsNullOrWhiteSpace(txtNombre.Text) || string.IsNullOrWhiteSpace(txtPrecioVenta.Text) || string.IsNullOrWhiteSpace(txtStock.Text))
                 {
-                    long cod_producto;
-
-                    if (string.IsNullOrWhiteSpace(txtCodProducto.Text))
-                    {
-                        MessageBox.Show("El campo Código de Producto no puede estar vacío.", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        return;
-                    }
-
-                    if (!long.TryParse(txtCodProducto.Text.Trim(), out cod_producto))
-                    {
-                        MessageBox.Show("El campo Código de Producto debe ser un número válido.", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        return;
-                    }
-
-                    int cod_proveedor = cProveedor.Cod;
-                    int cod_tipo_producto = cTipoProducto.Cod_tipo_producto;
-                    string nombre = txtNombre.Text.Trim();
-                    DateTime fecha_venc = dtpFechaVenc.Value;
-                    decimal preciocosto = Convert.ToDecimal(txtCosto.Text);
-                    decimal precioventa = Convert.ToDecimal(txtPrecioVenta.Text);
-                    decimal resultado = (precioventa - preciocosto);
-                    txtGanancia.Text = resultado.ToString();
-                    decimal ganancia = Convert.ToDecimal(txtGanancia.Text);
-                    int stock = Convert.ToInt32(txtStock.Text);
-
-                    CProducto CProductoD = new CProducto();
-                    CProductoD.GuardarProducto(cod_producto, cod_proveedor, cod_tipo_producto, nombre, fecha_venc, preciocosto, precioventa, ganancia, stock);
-                    dgvProductos.DataSource = CProductoD.MostrarDatos();
-
-                    limpiarCampos();
+                    MessageBox.Show("Por favor complete todos los campos obligatorios.", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
                 }
-                else
-                {
-                    MessageBox.Show("Por favor complete todos los campos", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
+
+                // Obtener los valores de los campos
+                int cod_proveedor = cProveedor.Cod;
+                int cod_tipo_producto = cTipoProducto.Cod_tipo_producto;
+                string nombre = txtNombre.Text.Trim();
+                DateTime fecha_venc = dtpFechaVenc.Value;
+                decimal preciocosto = Convert.ToDecimal(txtCosto.Text);
+                decimal precioventa = Convert.ToDecimal(txtPrecioVenta.Text);
+                decimal ganancia = precioventa - preciocosto;
+                int stock = Convert.ToInt32(txtStock.Text);
+
+                // Crear una instancia de la clase CProducto y guardar el producto
+                CProducto CProductoD = new CProducto();
+                CProductoD.GuardarProducto(cod_proveedor, cod_tipo_producto, nombre, fecha_venc, preciocosto, precioventa, ganancia, stock);
+                dgvProductos.DataSource = CProductoD.MostrarDatos();
+
+                // Limpiar los campos después de guardar el producto
+                limpiarCampos();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al crear producto: " + ex.Message);
+                MessageBox.Show("Error al crear producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void cmbProveedor_SelectedIndexChanged(object sender, EventArgs e)
         {

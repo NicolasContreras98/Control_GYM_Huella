@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Control_Gym.Capa_de_presentacion;
+using System.IO;
 
 namespace Control_Gym
 {
@@ -17,15 +18,76 @@ namespace Control_Gym
         public FormContenedor()
         {
             InitializeComponent();
+
+            string relativePath = @"Iconos\control-gym-logo.png";
+            string absolutePath = Path.Combine(Application.StartupPath, relativePath);
+
+            RoundedPictureBox roundedPictureBox = new RoundedPictureBox
+            {
+                CornerRadius = 80, // Establece el radio de las esquinas
+                Image = Image.FromFile(absolutePath),
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                Width = 200,
+                Height = 200,
+                Location = new Point(5, 5)
+            };
+
+            this.Controls.Add(roundedPictureBox);
         }
         private int dni_empleado;
         private string nombre;
+
+        private Color colorMouseOver = Color.FromArgb(65, 65, 68);
+        private Color colorDefault = Color.FromArgb(0, 122, 204);
+        private Color colorSeleccionado = Color.FromArgb(45, 45, 48);
+
+        private Button botonSeleccionado = null;
+
+
         public FormContenedor(int dni_empleado, string nombre)
         {
             InitializeComponent();
             this.dni_empleado = dni_empleado;
             this.nombre = nombre;
         }
+
+        // Evento Click: Cambiar el color de fondo del botón seleccionado
+        private void boton_Click(object sender, EventArgs e)
+        {
+            Button boton = sender as Button;
+
+            // Restablecer el color de fondo de los demás botones
+            if (botonSeleccionado != null)
+            {
+                botonSeleccionado.BackColor = colorDefault;
+            }
+
+            // Cambiar el color de fondo del botón seleccionado
+            boton.BackColor = colorSeleccionado;
+            botonSeleccionado = boton;
+        }
+
+        // Evento MouseEnter: Cambiar el color de fondo cuando el ratón entra en el botón
+        private void boton_MouseEnter(object sender, EventArgs e)
+        {
+            Button boton = sender as Button;
+            if (boton != botonSeleccionado) // Solo cambiar el color si el botón no está seleccionado
+            {
+                boton.BackColor = colorMouseOver;
+            }
+        }
+
+        // Evento MouseLeave: Restaurar el color de fondo original cuando el ratón sale del botón
+        private void boton_MouseLeave(object sender, EventArgs e)
+        {
+            Button boton = sender as Button;
+            if (boton != botonSeleccionado) // Solo restaurar el color si el botón no está seleccionado
+            {
+                boton.BackColor = colorDefault;
+            }
+        }
+
+        //
 
         [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
         private extern static void ReleaseCapture();
@@ -51,7 +113,7 @@ namespace Control_Gym
             {
                 if (MenuVertical.Width == 250)
                 {
-                    MenuVertical.Width = 70;
+                    MenuVertical.Width = 50;
                 }
                 else
                     MenuVertical.Width = 250;
@@ -133,15 +195,102 @@ namespace Control_Gym
             }
         }
 
+        //
+
+        private void btnSocios_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AbrirFormEnPanel(new FormSocio());
+
+                Button boton = sender as Button;
+
+                // Restablecer el color de fondo de los demás botones
+                if (botonSeleccionado != null)
+                {
+                    botonSeleccionado.BackColor = colorDefault;
+                }
+
+                // Cambiar el color de fondo del botón seleccionado
+                boton.BackColor = colorSeleccionado;
+                botonSeleccionado = boton;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al abrir el formulario de socios: " + ex.Message);
+            }
+        }
+        private void btnMembresias_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AbrirFormEnPanel(new FormMembresias());
+
+                Button boton = sender as Button;
+
+                // Restablecer el color de fondo de los demás botones
+                if (botonSeleccionado != null)
+                {
+                    botonSeleccionado.BackColor = colorDefault;
+                }
+
+                // Cambiar el color de fondo del botón seleccionado
+                boton.BackColor = colorSeleccionado;
+                botonSeleccionado = boton;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al abrir el formulario de membresías: " + ex.Message);
+            }
+        }
+
         private void btnClientes_Click(object sender, EventArgs e)
         {
             try
             {
                 AbrirFormEnPanel(new FormVentas(dni_empleado, nombre));
+
+                Button boton = sender as Button;
+
+                // Restablecer el color de fondo de los demás botones
+                if (botonSeleccionado != null)
+                {
+                    botonSeleccionado.BackColor = colorDefault;
+                }
+
+                // Cambiar el color de fondo del botón seleccionado
+                boton.BackColor = colorSeleccionado;
+                botonSeleccionado = boton;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al abrir el formulario de ventas: " + ex.Message);
+            }
+        }
+        private void btnCaja_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AbrirFormEnPanel(new FormCaja());
+
+                Button boton = sender as Button;
+
+                // Restablecer el color de fondo de los demás botones
+                if (botonSeleccionado != null)
+                {
+                    botonSeleccionado.BackColor = colorDefault;
+                }
+
+                // Cambiar el color de fondo del botón seleccionado
+                boton.BackColor = colorSeleccionado;
+                botonSeleccionado = boton;
+
+                lblDNI.Text = this.dni_empleado.ToString();
+                lblNombre.Text = this.nombre;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar el formulario de contenedor: " + ex.Message);
             }
         }
 
@@ -150,6 +299,18 @@ namespace Control_Gym
             try
             {
                 AbrirFormEnPanel(new FormAdministracion());
+
+                Button boton = sender as Button;
+
+                // Restablecer el color de fondo de los demás botones
+                if (botonSeleccionado != null)
+                {
+                    botonSeleccionado.BackColor = colorDefault;
+                }
+
+                // Cambiar el color de fondo del botón seleccionado
+                boton.BackColor = colorSeleccionado;
+                botonSeleccionado = boton;
             }
             catch (Exception ex)
             {
@@ -157,29 +318,7 @@ namespace Control_Gym
             }
         }
 
-        private void btnSocios_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                AbrirFormEnPanel(new FormSocio());
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al abrir el formulario de socios: " + ex.Message);
-            }
-        }
 
-        private void btnMembresias_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                AbrirFormEnPanel(new FormMembresias());
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al abrir el formulario de membresías: " + ex.Message);
-            }
-        }
 
         private void FormContenedor_Load(object sender, EventArgs e)
         {
@@ -195,18 +334,5 @@ namespace Control_Gym
             }
         }
 
-        private void btnCaja_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                AbrirFormEnPanel(new FormCaja());
-                lblDNI.Text = this.dni_empleado.ToString();
-                lblNombre.Text = this.nombre;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar el formulario de contenedor: " + ex.Message);
-            }
-        }
     }
 }

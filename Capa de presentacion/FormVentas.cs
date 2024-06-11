@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,16 @@ namespace Control_Gym.Capa_de_presentacion
 {
     public partial class FormVentas : Form
     {
+        private ConexionBD conexionBD = ConexionBD.Instancia;
+
+        private string nombreProductoGlobal;
+        private decimal precioGlobal;
+        private int stockGlobal;
+        private long codProductoGlobal;
+        private decimal subtotalGlobal;
+        private int cantidadGlobal;
+        private string descuentoGlobal;
+
         private int dni_empleado;
         private string nombre;
         public FormVentas(int dni_empleado, string nombre)
@@ -21,7 +32,7 @@ namespace Control_Gym.Capa_de_presentacion
             InitializeComponent();
             this.nombre = nombre;
             this.dni_empleado = dni_empleado;
-        }
+    }
         private CVenta cVenta = new CVenta();
         private CProducto cProducto = new CProducto();
         private CVentaD cVentaD = new CVentaD();
@@ -35,6 +46,7 @@ namespace Control_Gym.Capa_de_presentacion
                 List<CProducto> productos = cProducto.traerProductos();
                 cbCodProducto.DataSource = productos;
                 btnQuitar.Visible = false;
+                btnVenta.Visible = false;
                 txtNombreProducto.Text = "";
                 txtPrecio.Text = "";
                 txtSubtotal.Text = "";
@@ -43,10 +55,71 @@ namespace Control_Gym.Capa_de_presentacion
                 txtStock.Text = "";
 
                 txtCodProducto.Text = "";
+
+                LoadCategories();
+              
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar productos: " + ex.Message);
+            }
+        }
+
+        private void LoadCategories()
+        {
+            string query = "SELECT cod_tipo_producto, nombre FROM tipos_productos";
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conexionBD.AbrirConexion()))
+                {
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    DataTable dt = new DataTable();
+                    dt.Load(reader);
+                    cbCategoria.DisplayMember = "nombre";
+                    cbCategoria.ValueMember = "cod_tipo_producto";
+                    cbCategoria.DataSource = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar categorías: " + ex.Message);
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
+
+        private void LoadProducts(long cod_tipo_producto)
+        {
+            string query = "SELECT cod_producto, nombre, precio_venta, stock FROM productos WHERE cod_tipo_producto = @cod_tipo_producto";
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conexionBD.AbrirConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@cod_tipo_producto", cod_tipo_producto);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    DataTable dt = new DataTable();
+                    dt.Load(reader);
+
+                    // Desvincular el evento antes de cargar los datos
+                    cbCodProducto.SelectedIndexChanged -= cbCodProducto_SelectedIndexChanged;
+
+                    cbCodProducto.DisplayMember = "nombre";
+                    cbCodProducto.ValueMember = "cod_producto";
+                    cbCodProducto.DataSource = dt;
+
+                    // Volver a vincular el evento después de cargar los datos
+                    cbCodProducto.SelectedIndexChanged += cbCodProducto_SelectedIndexChanged;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar productos: " + ex.Message);
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
             }
         }
 
@@ -92,6 +165,12 @@ namespace Control_Gym.Capa_de_presentacion
         {
             try
             {
+                if (string.IsNullOrEmpty(txtDniCliente.Text) || txtDniCliente.Text.Length != 8)
+                {
+                    MessageBox.Show("El DNI del cliente debe tener 8 caracteres.", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+
                 if (!string.IsNullOrEmpty(txtCodProducto.Text) && !string.IsNullOrEmpty(txtNombreProducto.Text) && !string.IsNullOrEmpty(txtPrecio.Text) && !string.IsNullOrEmpty(txtCantidad.Text) && !string.IsNullOrEmpty(txtStock.Text))
                 {
                     decimal descuento__ = 0;
@@ -116,6 +195,14 @@ namespace Control_Gym.Capa_de_presentacion
                             txtDescuento.Text = "0";
                         }
 
+                        int stockDisponible = int.Parse(txtStock.Text);
+                        int cantidadAAgregar = int.Parse(txtCantidad.Text);
+                        if (cantidadAAgregar > stockDisponible)
+                        {
+                            MessageBox.Show("La cantidad a agregar supera el stock disponible.", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            return;
+                        }
+
                         foreach (DataGridViewRow row in dvgCarrito.Rows)
                         {
                             if (row.Cells["cod_producto"].Value != null)
@@ -133,7 +220,6 @@ namespace Control_Gym.Capa_de_presentacion
                                 }
                             }
                         }
-
 
                         if (!productoExistente)
                         {
@@ -173,13 +259,31 @@ namespace Control_Gym.Capa_de_presentacion
                     else
                     {
                         MessageBox.Show("Llená todos los campos.", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    
+                        return;
                     }
                 }
                 else
                 {
                     MessageBox.Show("Datos incorrectos. Verifica los campos!", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
                 }
+
+
+                nombreProductoGlobal = txtNombreProducto.Text;
+                precioGlobal = decimal.Parse(txtPrecio.Text);
+                stockGlobal = int.Parse(txtStock.Text);
+                codProductoGlobal = long.Parse(txtCodProducto.Text);
+                subtotalGlobal = decimal.Parse(txtSubtotal.Text);
+                cantidadGlobal = int.Parse(txtCantidad.Text);
+                descuentoGlobal = txtDescuento.Text;
+
+                // Limpiar campos después de agregar al carrito
+                limpiarCampos();
+
+                // Mensaje de éxito
+                MessageBox.Show("Producto agregado al carrito correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                btnVenta.Visible = true;
             }
             catch (Exception ex)
             {
@@ -199,7 +303,7 @@ namespace Control_Gym.Capa_de_presentacion
                     decimal descuento;
 
                     if (int.TryParse(txtDniCliente.Text, out dni_Cliente) && int.TryParse(txtDniEmpleado.Text, out dniEmpleado) &&
-                        decimal.TryParse(txtDescuento.Text, out descuento) && Convert.ToInt32(txtPrecio.Text) > 0)
+                        decimal.TryParse(descuentoGlobal, out descuento) && precioGlobal > 0)
                     {
                         if (descuento < 0 || descuento > 100)
                         {
@@ -248,10 +352,12 @@ namespace Control_Gym.Capa_de_presentacion
                             }
                             else
                             {
-                                MessageBox.Show("Venta realizada con éxito.");
+                                MessageBox.Show("Venta realizada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                btnVenta.Visible = false;
                                 List<CProducto> productos = cProducto.traerProductos();
                                 Limpiar();
                                 cbCodProducto.DataSource = productos;
+                                limpiarCampos();
                             }
                         }
                         else
@@ -266,6 +372,9 @@ namespace Control_Gym.Capa_de_presentacion
                 }
                 else if(!existeSocio)
                 {
+                    MessageBox.Show("El Cliente no está registrado en la base de datos, Regístrelo por favor", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
                     FormAgregarCliente agregarClienteForm = new FormAgregarCliente(txtDniCliente.Text);
 
                     DialogResult result = agregarClienteForm.ShowDialog();
@@ -277,7 +386,6 @@ namespace Control_Gym.Capa_de_presentacion
                         string telefono = agregarClienteForm.Telefono;
                         string domicilio = agregarClienteForm.Domicilio;
                         string email = agregarClienteForm.Email;
-
                     }
                 }
                 else
@@ -285,10 +393,11 @@ namespace Control_Gym.Capa_de_presentacion
                     MessageBox.Show("No hay un empleado con ese DNI!", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Por favor, verifique y llene todos los campos", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Error: " + ex.Message, "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
+
         }
 
         public void Limpiar()
@@ -311,7 +420,7 @@ namespace Control_Gym.Capa_de_presentacion
                     bool existe = cVentaD.ClienteExiste(Convert.ToInt32(txtDniCliente.Text));
                     if (existe)
                     {
-                        MessageBox.Show("El cliente SI está registrado");
+                        MessageBox.Show("El cliente está registrado, Prosiga con la compra");
                     }
                     else
                     {
@@ -326,7 +435,6 @@ namespace Control_Gym.Capa_de_presentacion
                             string telefono = agregarClienteForm.Telefono;
                             string domicilio = agregarClienteForm.Domicilio;
                             string email = agregarClienteForm.Email;
-
                         }
                     }
                 }
@@ -341,30 +449,6 @@ namespace Control_Gym.Capa_de_presentacion
             }
         }
 
-        private void cbCodProducto_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                CProducto cProducto = new CProducto();
-                if (cbCodProducto.SelectedItem != null)
-                {
-                    CProducto productoSeleccionado = (CProducto)cbCodProducto.SelectedItem;
-                    long cod_producto = productoSeleccionado.cod_producto;
-                    cProducto.cod_producto = cod_producto;
-
-                    txtNombreProducto.Text = productoSeleccionado.nombre;
-                    txtCodProducto.Text = productoSeleccionado.cod_producto.ToString();
-                    txtPrecio.Text = productoSeleccionado.precio_venta.ToString();
-                    txtStock.Text = productoSeleccionado.stock.ToString();
-                    txtSubtotal.Text = "$ " + CalcultarTotal().ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al seleccionar producto: " + ex.Message);
-            }
-        }
-
         private void btnQuitar_Click(object sender, EventArgs e)
         {
             try
@@ -373,6 +457,9 @@ namespace Control_Gym.Capa_de_presentacion
                 {
                     dvgCarrito.Rows.Remove(dvgCarrito.SelectedRows[0]);
                     lblTotal.Text = "$ " + CalcularTodosSubtotales().ToString();
+                    MessageBox.Show("Producto eliminado del carrito correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    btnQuitar.Visible=false;
+                    btnAgregarCarrito.Visible = true;
                 }
                 else
                 {
@@ -389,6 +476,7 @@ namespace Control_Gym.Capa_de_presentacion
         {
             if (dvgCarrito.SelectedRows.Count > 0)
             {
+                btnAgregarCarrito.Visible = false;
                 btnQuitar.Visible = true;
             }
         }
@@ -609,5 +697,66 @@ namespace Control_Gym.Capa_de_presentacion
                 e.Handled = true;
             }
         }
+
+        private void limpiarCampos()
+        {
+            cbCodProducto.Text = "";
+            txtCodProducto.Clear();
+            txtNombreProducto.Clear();
+            txtStock.Clear();
+            txtPrecio.Clear();
+            txtSubtotal.Clear();
+            txtCantidad.Clear();
+            txtDescuento.Text = "0";
+        }
+
+        private void cbCategoria_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cbCategoria.SelectedValue != null)
+                {
+                    long cod_tipo_producto = Convert.ToInt64(cbCategoria.SelectedValue);
+                    LoadProducts(cod_tipo_producto);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al seleccionar categoría: " + ex.Message);
+            }
+        }
+
+        private void cbCodProducto_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cbCodProducto.SelectedItem != null)
+                {
+                    DataRowView selectedRow = cbCodProducto.SelectedItem as DataRowView;
+
+                    if (selectedRow != null)
+                    {
+                        CProducto productoSeleccionado = new CProducto
+                        {
+                            cod_producto = Convert.ToInt64(selectedRow["cod_producto"]),
+                            nombre = selectedRow["nombre"].ToString(),
+                            precio_venta = Convert.ToDecimal(selectedRow["precio_venta"]),
+                            stock = Convert.ToInt32(selectedRow["stock"])
+                        };
+
+                        txtNombreProducto.Text = productoSeleccionado.nombre;
+                        txtCodProducto.Text = productoSeleccionado.cod_producto.ToString();
+                        txtPrecio.Text = productoSeleccionado.precio_venta.ToString();
+                        txtStock.Text = productoSeleccionado.stock.ToString();
+                        txtSubtotal.Text = "$ " + CalcultarTotal().ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al seleccionar producto: " + ex.Message);
+            }
+        }
+
     }
 }

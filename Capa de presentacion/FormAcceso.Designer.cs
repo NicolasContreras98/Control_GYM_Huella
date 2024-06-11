@@ -44,7 +44,7 @@
             this.txtDniEmpleado.Location = new System.Drawing.Point(132, 37);
             this.txtDniEmpleado.Name = "txtDniEmpleado";
             this.txtDniEmpleado.Size = new System.Drawing.Size(129, 26);
-            this.txtDniEmpleado.TabIndex = 2;
+            this.txtDniEmpleado.TabIndex = 1;
             this.txtDniEmpleado.TextChanged += new System.EventHandler(this.txtDniEmpleado_TextChanged);
             this.txtDniEmpleado.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDniEmpleado_KeyDown);
             this.txtDniEmpleado.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDniEmpleado_KeyPress);
@@ -58,7 +58,7 @@
             this.txtContraseñaEmpleado.Name = "txtContraseñaEmpleado";
             this.txtContraseñaEmpleado.PasswordChar = '*';
             this.txtContraseñaEmpleado.Size = new System.Drawing.Size(129, 26);
-            this.txtContraseñaEmpleado.TabIndex = 3;
+            this.txtContraseñaEmpleado.TabIndex = 2;
             this.txtContraseñaEmpleado.TextChanged += new System.EventHandler(this.txtContraseñaEmpleado_TextChanged);
             this.txtContraseñaEmpleado.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtContraseñaEmpleado_KeyDown);
             this.txtContraseñaEmpleado.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtContraseñaEmpleado_KeyPress);
@@ -76,7 +76,7 @@
             this.btnIniciarSesion.Location = new System.Drawing.Point(132, 123);
             this.btnIniciarSesion.Name = "btnIniciarSesion";
             this.btnIniciarSesion.Size = new System.Drawing.Size(130, 33);
-            this.btnIniciarSesion.TabIndex = 4;
+            this.btnIniciarSesion.TabIndex = 3;
             this.btnIniciarSesion.Text = "Iniciar Sesión";
             this.btnIniciarSesion.UseVisualStyleBackColor = false;
             this.btnIniciarSesion.Click += new System.EventHandler(this.btnIniciarSesion_Click);

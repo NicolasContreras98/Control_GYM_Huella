@@ -158,6 +158,9 @@
     <Compile Include="Capa de presentacion\FormVerDetalle.Designer.cs">
       <DependentUpon>FormVerDetalle.cs</DependentUpon>
     </Compile>
+    <Compile Include="Capa de presentacion\RoundedPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Capa logica\CAcceso.cs" />
     <Compile Include="Capa logica\CCuota.cs" />
     <Compile Include="Capa logica\CDetalleVenta.cs" />
@@ -246,6 +249,9 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Content Include="Iconos\control-gym-logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Iconos\caja.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

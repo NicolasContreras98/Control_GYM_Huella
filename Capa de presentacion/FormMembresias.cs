@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
 using Control_Gym.Capa_de_datos;
@@ -9,6 +10,8 @@ namespace Control_Gym.Capa_de_presentacion
 {
     public partial class FormMembresias : Form
     {
+        private ConexionBD conexionBD = ConexionBD.Instancia;
+
         private int dni_socio;
 
         public FormMembresias()
@@ -54,7 +57,6 @@ namespace Control_Gym.Capa_de_presentacion
             btnCancelarMembresia.Visible = false;
             btnActualizarMembresia.Visible = false;
             btnEliminarMembresia.Visible = false;
-            btnRenovar.Visible = false;
             dtpFechaFin.Value = dtpFechaFin.Value.AddDays(cMembresia.cantidad_dias);
             dvgMembresias.CellFormatting += dvgMembresias_CellFormatting;
             CargarGrilla();
@@ -75,7 +77,6 @@ namespace Control_Gym.Capa_de_presentacion
             btnActualizarMembresia.Visible = false;
             btnEliminarMembresia.Visible = false;
             btnCancelarMembresia.Visible = false;
-            btnRenovar.Visible = false;
 
             txtDniMembresia.ReadOnly = false;
         }
@@ -143,6 +144,7 @@ namespace Control_Gym.Capa_de_presentacion
                 {
                     DataGridViewRow filaSeleccionada = dvgMembresias.SelectedRows[0];
                     int id = Convert.ToInt32(filaSeleccionada.Cells["cod_membresia"].Value);
+                    EliminarCuota(id);
                     cMembresia.EliminarMembresia(id);
                     CargarGrilla();
                     LimpiarCampos();
@@ -276,7 +278,6 @@ namespace Control_Gym.Capa_de_presentacion
                     btnCancelarMembresia.Visible = true;
                     btnActualizarMembresia.Visible = true;
                     btnEliminarMembresia.Visible = true;
-                    btnRenovar.Visible = true;
 
                     txtDniMembresia.ReadOnly = true;
 
@@ -381,43 +382,32 @@ namespace Control_Gym.Capa_de_presentacion
             }
         }
 
-        private void btnRenovar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (dvgMembresias.SelectedRows.Count > 0)
-                {
-                    CMembresia cMembresiaG = new CMembresia(Convert.ToInt32(txtCodMembresia.Text), cTipoMembresia.cod_tipo_membresia, Convert.ToInt32(txtDniMembresia.Text), DateTime.Parse(dtpFechaInicio.Value.ToString("yyyy/MM/dd")), DateTime.Parse(dtpFechaFin.Value.ToString("yyyy/MM/dd")));
-                    CMembresiaD cMembresiaD = new CMembresiaD();
-                    //bool existe = cMembresiaD.SocioExiste(cMembresiaG.dni_socio);
-                    if (dvgMembresias.SelectedRows[0].Cells[4].Style.BackColor != Color.LightGreen)
-                    {
-                        cMembresiaD.Renovar(cMembresiaG);
-                        CargarGrilla();
-                        LimpiarCampos();
-                        CancelarModificar();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Quedan muchos dias, aún no se puede renovar.", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Por favor ingrese el DNI", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al actualizar la membresía: " + ex.Message);
-            }
-        }
-
         private void txtDniMembresia_Click(object sender, EventArgs e)
         {
             if (txtDniMembresia.ReadOnly)
             {
                 MessageBox.Show("No se puede modificar el DNI", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
+        public void EliminarCuota(int codMembresia)
+        {
+            try
+            {
+                // Eliminar la cuota
+                string query = "DELETE FROM cuotas WHERE cod_membresia = @codMembresia";
+                SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
+                comando.Parameters.AddWithValue("@codMembresia", codMembresia);
+                comando.ExecuteNonQuery();
+                MessageBox.Show("Se ha eliminado la cuota con código: " + codMembresia.ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al eliminar la cuota: " + ex.Message);
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
             }
         }
     }

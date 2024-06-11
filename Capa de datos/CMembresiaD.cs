@@ -235,35 +235,36 @@ namespace Control_Gym.Capa_de_datos
 
         public void EliminarMembresia(int id)
         {
+            string query = "DELETE FROM membresias WHERE cod_membresia = @cod_membresia";
+
             try
             {
-                SqlCommand comando = new SqlCommand("EliminarMembresia", conexionBD.AbrirConexion());
-                comando.CommandType = CommandType.StoredProcedure;
+                SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
 
-                // Parámetro de entrada
-                comando.Parameters.AddWithValue("@id", id);
+                comando.Parameters.Add(new SqlParameter("@cod_membresia", id));
 
-                // Parámetro de salida para capturar el mensaje del procedimiento almacenado
-                SqlParameter mensajeOutput = new SqlParameter("@mensajeOutput", SqlDbType.NVarChar, 500);
-                mensajeOutput.Direction = ParameterDirection.Output;
-                comando.Parameters.Add(mensajeOutput);
+                int filasAfectadas = comando.ExecuteNonQuery();
 
-                comando.ExecuteNonQuery();
-
-                // Obtener el mensaje de salida del procedimiento almacenado
-                string mensajeResultado = mensajeOutput.Value.ToString();
-
-                MessageBox.Show(mensajeResultado, "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (filasAfectadas > 0)
+                {
+                    MessageBox.Show("La membresía ha sido eliminada correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("No se encontró ninguna membresía con el ID proporcionado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al eliminar la membresía: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
                 conexionBD.CerrarConexion();
             }
         }
+
+
 
         public List<CMembresia> BuscarPorDNI(int dni)
         {

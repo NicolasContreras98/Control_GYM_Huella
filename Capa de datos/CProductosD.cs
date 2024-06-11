@@ -56,14 +56,13 @@ namespace Control_Gym.Capa_de_datos
                 conexionBD.CerrarConexion();
             }
         }
-        public void GuardarProducto(long cod_producto, int cod_proveedor, int cod_tipo_producto, string nombre , DateTime fecha_venc, decimal precio_costo, decimal precio_venta, decimal ganancia, int stock)
+        public void GuardarProducto(int cod_proveedor, int cod_tipo_producto, string nombre, DateTime fecha_venc, decimal precio_costo, decimal precio_venta, decimal ganancia, int stock)
         {
 
-            string query = "INSERT INTO productos(cod_producto, cod_proveedor, cod_tipo_producto, nombre, fecha_venc,  precio_costo, precio_venta, ganancia, stock)VALUES(@codigoproducto, @codigoproveedor, @codigotipoproducto, @nombre, @fechavencimiento, @preciocosto, @precioventa, @ganancia, @stock)";
+            string query = "INSERT INTO productos(cod_proveedor, cod_tipo_producto, nombre, fecha_venc,  precio_costo, precio_venta, ganancia, stock)VALUES(@codigoproveedor, @codigotipoproducto, @nombre, @fechavencimiento, @preciocosto, @precioventa, @ganancia, @stock)";
             try
             {
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
-                comando.Parameters.AddWithValue("@codigoproducto", cod_producto);
                 comando.Parameters.AddWithValue("@codigoproveedor", cod_proveedor);
                 comando.Parameters.AddWithValue("@codigotipoproducto", cod_tipo_producto);
                 comando.Parameters.AddWithValue("@nombre", nombre);
@@ -85,18 +84,18 @@ namespace Control_Gym.Capa_de_datos
                 conexionBD.CerrarConexion();
             }
         }
-        public void ModificarProducto(string cod, long cod_producto, int cod_proveedor, int cod_tipo_producto, string nombre, DateTime fecha_venc, decimal precio_costo, decimal precio_venta, decimal ganancia, int stock)
+
+        public void ModificarProducto(string cod, int cod_proveedor, int cod_tipo_producto, string nombre, DateTime fecha_venc, decimal precio_costo, decimal precio_venta, decimal ganancia, int stock)
         {
-            string query = "UPDATE productos SET cod_producto = @codigoproducto, cod_tipo_producto = @codigotipoproducto, cod_proveedor = @codigoproveedor, nombre = @nombre, fecha_venc = @fechavencimiento, precio_costo = @preciocosto, precio_venta = @precioventa, ganancia = @ganancia, stock = @stock WHERE cod_producto = @cod";
+            string query = "UPDATE productos SET cod_tipo_producto = @codigotipoproducto, cod_proveedor = @codigoproveedor, nombre = @nombre, fecha_venc = @fechavencimiento, precio_costo = @preciocosto, precio_venta = @precioventa, ganancia = @ganancia, stock = @stock WHERE cod_producto = @cod";
 
             try
             {
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
 
-                comando.Parameters.AddWithValue("@codigoproducto", cod_producto);
                 comando.Parameters.AddWithValue("@codigotipoproducto", cod_tipo_producto);
                 comando.Parameters.AddWithValue("@codigoproveedor", cod_proveedor);
-                comando.Parameters.AddWithValue("@cod", cod);
+                comando.Parameters.AddWithValue("@cod", cod); // Utilizamos el código original para identificar el producto
                 comando.Parameters.AddWithValue("@nombre", nombre);
                 comando.Parameters.AddWithValue("@fechavencimiento", fecha_venc);
                 comando.Parameters.AddWithValue("@preciocosto", precio_costo);
@@ -116,6 +115,7 @@ namespace Control_Gym.Capa_de_datos
                 conexionBD.CerrarConexion();
             }
         }
+
 
         public DataTable MostrarDatos()
         {
@@ -147,19 +147,20 @@ namespace Control_Gym.Capa_de_datos
             return tabla;
         }
 
-        public void EliminarProducto(string cod, string nombre)
+        public void EliminarProducto(int cod_producto, string nombre)
         {
-            string query = "DELETE productos WHERE cod_producto='" + cod + "'";
+            string query = "DELETE FROM productos WHERE cod_producto = @cod_producto";
             try
             {
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
+                comando.Parameters.AddWithValue("@cod_producto", cod_producto);
 
                 comando.ExecuteNonQuery();
-                MessageBox.Show("Eliminaste los datos del producto " + nombre);
+                MessageBox.Show("Se eliminó el producto " + nombre);
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
-                if (ex is SqlException sqlException && sqlException.Number == 547)
+                if (ex.Number == 547)
                 {
                     MessageBox.Show("No se puede eliminar el producto porque tiene ventas relacionadas.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -173,6 +174,7 @@ namespace Control_Gym.Capa_de_datos
                 conexionBD.CerrarConexion();
             }
         }
+
         public DataTable MostrarTipoProducto()
         {
             string query = "SELECT * FROM tipos_productos";
