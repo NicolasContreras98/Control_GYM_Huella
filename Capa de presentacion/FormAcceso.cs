@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -15,6 +16,7 @@ namespace Control_Gym.Capa_de_presentacion
 {
     public partial class FormAcceso : Form
     {
+        private ConexionBD conexionBD = ConexionBD.Instancia;
         private CAcceso cAcceso = new CAcceso();
         private CAccesoD cAccesoD = new CAccesoD();
 
@@ -46,24 +48,34 @@ namespace Control_Gym.Capa_de_presentacion
 
                     if (acceso.Count > 0 && acceso[0] != null)
                     {
-                        MessageBox.Show("Acceso Concedido");
-                        FormContenedor formContenedor = new FormContenedor(acceso[0].dni_empleado, acceso[0].nombre);
+                        // Verificar si la licencia está activa
+                        if (VerificarLicenciaEmpleado(Convert.ToInt32(txtDniEmpleado.Text)))
+                        {
+                            FormContenedor formContenedor = new FormContenedor(acceso[0].dni_empleado, acceso[0].nombre);
 
-                        formContenedor.Show();
+                            formContenedor.Show();
 
-                        txtDniEmpleado.Text = "";
-                        txtContraseñaEmpleado.Text = "";
+                            txtDniEmpleado.Text = "";
+                            txtContraseñaEmpleado.Text = "";
+                        }
+                        else
+                        {
+                            // Si la licencia ha expirado, mostrar un mensaje de error
+                            MessageBox.Show("Tu licencia ha expirado. Por favor, contacta con el administrador.", "Licencia Expirada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtDniEmpleado.Text = "";
+                            txtContraseñaEmpleado.Text = "";
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Datos incorrectos.", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox.Show("Datos incorrectos.", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         txtDniEmpleado.Text = "";
                         txtContraseñaEmpleado.Text = "";
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Uno de los campos está vacío", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Uno de los campos está vacío", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
             catch (Exception ex)
@@ -71,6 +83,86 @@ namespace Control_Gym.Capa_de_presentacion
                 MessageBox.Show("Error al iniciar sesión: " + ex.Message);
             }
         }
+
+        private bool VerificarLicenciaEmpleado(int dniEmpleado)
+        {
+            string query = "SELECT Estado FROM Licencias WHERE dni_empleado = @dni_empleado AND FechaExpiracion >= GETDATE()";
+            MostrarDiasRestantesLicencia(dniEmpleado);
+            bool licenciaValida = false;
+
+
+
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conexionBD.AbrirConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@dni_empleado", dniEmpleado);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Verificar si el estado de la licencia es "Activa"
+                            licenciaValida = reader["Estado"].ToString() == "Activa";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al verificar la licencia: " + ex.Message);
+            }
+            finally
+            {
+                conexionBD.CerrarConexion(); // Asegura cerrar la conexión
+            }
+
+            return licenciaValida;
+        }
+
+        private void MostrarDiasRestantesLicencia(int dniEmpleado)
+        {
+            string query = "SELECT DATEDIFF(day, GETDATE(), FechaExpiracion) AS DiasRestantes FROM Licencias WHERE dni_empleado = @dni_empleado AND Estado = 'Activa' AND FechaExpiracion >= GETDATE()";
+            int diasRestantes = 0;
+
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conexionBD.AbrirConexion()))
+                {
+                    // Agregar parámetro a la consulta
+                    cmd.Parameters.AddWithValue("@dni_empleado", dniEmpleado);
+
+                    // Ejecutar el lector de datos
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Leer los días restantes de la licencia
+                            diasRestantes = reader.GetInt32(reader.GetOrdinal("DiasRestantes"));
+                        }
+                    }
+                }
+
+                // Mostrar un MessageBox con el número de días restantes
+                if (diasRestantes > 0)
+                {
+                    MessageBox.Show($"El empleado con DNI {dniEmpleado} tiene {diasRestantes} días de licencia restantes.", "Licencia ACTIVA", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Mostrar mensaje de error si ocurre una excepción
+                MessageBox.Show("Error al obtener los días restantes de la licencia: " + ex.Message, "Error");
+            }
+            finally
+            {
+                // Asegurar que la conexión se cierre
+                conexionBD.CerrarConexion();
+            }
+        }
+
+
+
 
         private void txtDniEmpleado_KeyPress(object sender, KeyPressEventArgs e)
         {

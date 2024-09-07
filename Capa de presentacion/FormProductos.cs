@@ -14,9 +14,12 @@ namespace Control_Gym.Capa_de_presentacion
 {
     public partial class FormProductos : Form
     {
+        CProducto cProducto = new CProducto();
+
         public FormProductos()
         {
             InitializeComponent();
+
         }
         private CTipoProducto cTipoProducto = new CTipoProducto();
         private ClsProvedores cProveedor = new ClsProvedores();
@@ -27,22 +30,24 @@ namespace Control_Gym.Capa_de_presentacion
 
             try
             {
-                CProducto CProductoD = new CProducto();
-                dgvProductos.DataSource = CProductoD.MostrarDatos();
-
+                DataTable dtProductos = cProducto.ObtenerDatosProductos();
+                dgvProductos.DataSource = dtProductos;
 
                 dgvProductos.Columns["cod_proveedor"].Visible = false;
+                dgvProductos.Columns["nombre_proveedor"].HeaderText = "Proveedor";
                 dgvProductos.Columns["cod_producto"].Visible = false;
                 dgvProductos.Columns["cod_tipo_producto"].Visible = false;
-
+                dgvProductos.Columns["nombre_tipo_producto"].HeaderText = "Tipo de Producto";
                 dgvProductos.Columns["nombre"].HeaderText = "Nombre";
-                dgvProductos.Columns["fecha_venc"].HeaderText = "Fecha de vencimiento";
-                dgvProductos.Columns["precio_costo"].HeaderText = "Precio de costo";
-                dgvProductos.Columns["precio_venta"].HeaderText = "Precio de venta";
-                dgvProductos.Columns["ganancia"].HeaderText = "Ganancia";
                 dgvProductos.Columns["stock"].HeaderText = "Stock";
+                dgvProductos.Columns["precio_venta"].HeaderText = "Precio de venta";
+                dgvProductos.Columns["precio_costo"].HeaderText = "Precio de costo";
+                dgvProductos.Columns["ganancia"].HeaderText = "Ganancia";
+                dgvProductos.Columns["fecha_venc"].HeaderText = "Fecha de venc.";
+
                 List<CTipoProducto> tipos_productos = cTipoProducto.traerTiposProductos();
                 cmbTipoProducto.DataSource = tipos_productos;
+
                 List<ClsProvedores> tipos_provedores = cProveedor.traerTiposProveedores();
                 cmbProveedor.DataSource = tipos_provedores;
             }
@@ -51,6 +56,7 @@ namespace Control_Gym.Capa_de_presentacion
                 MessageBox.Show("Error al cargar datos: " + ex.Message);
             }
         }
+
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
@@ -77,13 +83,14 @@ namespace Control_Gym.Capa_de_presentacion
                 DateTime fecha_venc = dtpFechaVenc.Value;
                 decimal precioventa = Convert.ToDecimal(txtPrecioVenta.Text);
                 decimal preciocosto = Convert.ToDecimal(txtCosto.Text);
-                decimal ganancia = Convert.ToDecimal(txtGanancia.Text);
+                decimal ganancia = precioventa - preciocosto;
                 int stock = Convert.ToInt32(txtStock.Text);
 
                 CProducto CProductoD = new CProducto();
                 CProductoD.ModificarProducto(cod, cod_proveedor, cod_tipo_producto, nombre, fecha_venc, preciocosto, precioventa, ganancia, stock);
 
-                dgvProductos.DataSource = CProductoD.MostrarDatos();
+                DataTable dtProductos = cProducto.ObtenerDatosProductos();
+                dgvProductos.DataSource = dtProductos;
 
                 limpiarCampos();
                 cancelarActualizar();
@@ -116,7 +123,8 @@ namespace Control_Gym.Capa_de_presentacion
                 CProducto CProductoD = new CProducto();
                 string nombre = txtNombre.Text;
                 CProductoD.EliminarProducto(cod_producto, nombre);
-                dgvProductos.DataSource = CProductoD.MostrarDatos();
+                DataTable dtProductos = cProducto.ObtenerDatosProductos();
+                dgvProductos.DataSource = dtProductos;
 
                 limpiarCampos();
                 cancelarActualizar();
@@ -152,7 +160,8 @@ namespace Control_Gym.Capa_de_presentacion
                 // Crear una instancia de la clase CProducto y guardar el producto
                 CProducto CProductoD = new CProducto();
                 CProductoD.GuardarProducto(cod_proveedor, cod_tipo_producto, nombre, fecha_venc, preciocosto, precioventa, ganancia, stock);
-                dgvProductos.DataSource = CProductoD.MostrarDatos();
+                DataTable dtProductos = cProducto.ObtenerDatosProductos();
+                dgvProductos.DataSource = dtProductos;
 
                 // Limpiar los campos después de guardar el producto
                 limpiarCampos();
@@ -240,8 +249,8 @@ namespace Control_Gym.Capa_de_presentacion
                     DataGridViewRow filaSeleccionada = dgvProductos.SelectedRows[0];
                     txtCodProducto.Text = filaSeleccionada.Cells["cod_producto"].Value.ToString();
                     txtCod.Text = filaSeleccionada.Cells["cod_producto"].Value.ToString();
-                    cmbProveedor.Text = filaSeleccionada.Cells["cod_proveedor"].Value.ToString();
-                    cmbTipoProducto.Text = filaSeleccionada.Cells["cod_tipo_producto"].Value.ToString();
+                    cmbProveedor.Text = filaSeleccionada.Cells["nombre_proveedor"].Value.ToString();
+                    cmbTipoProducto.Text = filaSeleccionada.Cells["nombre_tipo_producto"].Value.ToString();
                     txtNombre.Text = filaSeleccionada.Cells["nombre"].Value.ToString();
                     txtPrecioVenta.Text = filaSeleccionada.Cells["precio_venta"].Value.ToString();
                     txtCosto.Text = filaSeleccionada.Cells["precio_costo"].Value.ToString();

@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormContenedor2));
             this.BarraTitulo = new System.Windows.Forms.Panel();
+            this.roundedPictureBox1 = new Control_Gym.Capa_de_presentacion.RoundedPictureBox();
             this.iconminimizar = new System.Windows.Forms.PictureBox();
             this.iconcerrar = new System.Windows.Forms.PictureBox();
             this.iconrestaurar = new System.Windows.Forms.PictureBox();
@@ -39,20 +40,19 @@
             this.pbAdministradores = new System.Windows.Forms.PictureBox();
             this.lblVolver = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.roundedPictureBox1 = new Control_Gym.Capa_de_presentacion.RoundedPictureBox();
             this.BarraTitulo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.roundedPictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconminimizar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconcerrar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconrestaurar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconmaximizar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAdministradores)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.roundedPictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // BarraTitulo
             // 
-            this.BarraTitulo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.BarraTitulo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.BarraTitulo.Controls.Add(this.roundedPictureBox1);
             this.BarraTitulo.Controls.Add(this.iconminimizar);
             this.BarraTitulo.Controls.Add(this.iconcerrar);
@@ -65,6 +65,16 @@
             this.BarraTitulo.Size = new System.Drawing.Size(960, 51);
             this.BarraTitulo.TabIndex = 13;
             this.BarraTitulo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.BarraTitulo_MouseDown);
+            // 
+            // roundedPictureBox1
+            // 
+            this.roundedPictureBox1.CornerRadius = 20;
+            this.roundedPictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("roundedPictureBox1.Image")));
+            this.roundedPictureBox1.Location = new System.Drawing.Point(5, 2);
+            this.roundedPictureBox1.Name = "roundedPictureBox1";
+            this.roundedPictureBox1.Size = new System.Drawing.Size(169, 45);
+            this.roundedPictureBox1.TabIndex = 21;
+            this.roundedPictureBox1.TabStop = false;
             // 
             // iconminimizar
             // 
@@ -133,7 +143,7 @@
             this.lblAdministradores.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblAdministradores.AutoSize = true;
             this.lblAdministradores.Font = new System.Drawing.Font("Sitka Banner", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAdministradores.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.lblAdministradores.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.lblAdministradores.Location = new System.Drawing.Point(767, 441);
             this.lblAdministradores.Name = "lblAdministradores";
             this.lblAdministradores.Size = new System.Drawing.Size(159, 30);
@@ -158,7 +168,7 @@
             this.lblVolver.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblVolver.AutoSize = true;
             this.lblVolver.Font = new System.Drawing.Font("Sitka Banner", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblVolver.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.lblVolver.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.lblVolver.Location = new System.Drawing.Point(81, 441);
             this.lblVolver.Name = "lblVolver";
             this.lblVolver.Size = new System.Drawing.Size(68, 30);
@@ -178,16 +188,6 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
-            // roundedPictureBox1
-            // 
-            this.roundedPictureBox1.CornerRadius = 20;
-            this.roundedPictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("roundedPictureBox1.Image")));
-            this.roundedPictureBox1.Location = new System.Drawing.Point(46, 3);
-            this.roundedPictureBox1.Name = "roundedPictureBox1";
-            this.roundedPictureBox1.Size = new System.Drawing.Size(169, 45);
-            this.roundedPictureBox1.TabIndex = 21;
-            this.roundedPictureBox1.TabStop = false;
-            // 
             // FormContenedor2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -201,18 +201,19 @@
             this.Controls.Add(this.panelContenedor);
             this.Controls.Add(this.BarraTitulo);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormContenedor2";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Inicio";
             this.Load += new System.EventHandler(this.FormContenedor2_Load);
             this.BarraTitulo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.roundedPictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconminimizar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconcerrar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconrestaurar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconmaximizar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAdministradores)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.roundedPictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

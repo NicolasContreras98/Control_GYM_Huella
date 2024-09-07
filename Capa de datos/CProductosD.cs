@@ -16,39 +16,41 @@ namespace Control_Gym.Capa_de_datos
     {
         private ConexionBD conexionBD = ConexionBD.Instancia;
 
-        public List<CProducto> traerProductos()
+        public DataTable ObtenerDatosProductos()
         {
-            List<CProducto> productos = new List<CProducto>();
             try
             {
                 conexionBD.AbrirConexion();
-                string query = "select * from productos";
-                SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
-                SqlDataReader reader = comando.ExecuteReader();
-                {
-                    while (reader.Read())
-                    {
-                        CProducto producto = new CProducto
-                        {
-                            cod_producto = Convert.ToInt64(reader["cod_producto"]),
-                            cod_proveedor = Convert.ToInt32(reader["cod_proveedor"]),
-                            cod_tipo_producto = Convert.ToInt32(reader["cod_tipo_producto"]),
-                            nombre = reader["nombre"].ToString(),
-                            fecha_venc = Convert.ToDateTime(reader["fecha_venc"]),
-                            precio_costo = Convert.ToDecimal(reader["precio_costo"]),
-                            precio_venta = Convert.ToDecimal(reader["precio_venta"]),
-                            ganancia = Convert.ToDecimal(reader["ganancia"]),
-                            stock = Convert.ToInt32(reader["stock"])
-                        };
+                DataTable dataTable = new DataTable();
 
-                        productos.Add(producto);
-                    }
-                }
-                return productos;
+                string query = @"
+                       SELECT 
+                        p.cod_producto, 
+                        p.cod_proveedor, 
+                        pr.nombre AS nombre_proveedor, 
+                        p.cod_tipo_producto, 
+                        tp.nombre AS nombre_tipo_producto, 
+                        p.nombre, 
+                        p.fecha_venc, 
+                        p.precio_costo, 
+                        p.precio_venta, 
+                        p.ganancia, 
+                        p.stock
+                    FROM 
+                        dbo.productos p
+                    JOIN 
+                        dbo.Proveedores pr ON p.cod_proveedor = pr.cod_proveedor
+                    JOIN 
+                        dbo.tipos_productos tp ON p.cod_tipo_producto = tp.cod_tipo_producto;";
+
+                SqlDataAdapter adapter = new SqlDataAdapter(query, conexionBD.AbrirConexion());
+                adapter.Fill(dataTable);
+
+                return dataTable;
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Error al traer los productos");
+                MessageBox.Show("Error al traer los productos: " + ex.Message);
                 return null;
             }
             finally
@@ -56,6 +58,8 @@ namespace Control_Gym.Capa_de_datos
                 conexionBD.CerrarConexion();
             }
         }
+
+
         public void GuardarProducto(int cod_proveedor, int cod_tipo_producto, string nombre, DateTime fecha_venc, decimal precio_costo, decimal precio_venta, decimal ganancia, int stock)
         {
 

@@ -162,7 +162,7 @@ namespace Control_Gym.Capa_de_presentacion
 
                 if (MembresiaActiva)
                 {
-                    MessageBox.Show("No se puede eliminar el socio porque tiene una membresia relacionada", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("No se puede eliminar el socio porque tiene una membresía activa", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     limpiarCampos();
                     CancelarModificar();
                 }

@@ -58,7 +58,7 @@
             // btnBuscar
             // 
             this.btnBuscar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnBuscar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.btnBuscar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.btnBuscar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuscar.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -75,6 +75,7 @@
             // 
             this.txtDni.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtDni.Font = new System.Drawing.Font("Segoe UI", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDni.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.txtDni.Location = new System.Drawing.Point(12, 12);
             this.txtDni.Multiline = true;
             this.txtDni.Name = "txtDni";
@@ -89,11 +90,12 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            this.label1.Location = new System.Drawing.Point(12, 207);
+            this.label1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label1.Location = new System.Drawing.Point(12, 176);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 30);
+            this.label1.Size = new System.Drawing.Size(82, 25);
             this.label1.TabIndex = 5;
             this.label1.Text = "Inicio :";
             // 
@@ -101,10 +103,12 @@
             // 
             this.lblInicio.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblInicio.AutoSize = true;
-            this.lblInicio.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblInicio.Location = new System.Drawing.Point(92, 207);
+            this.lblInicio.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.lblInicio.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInicio.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.lblInicio.Location = new System.Drawing.Point(100, 176);
             this.lblInicio.Name = "lblInicio";
-            this.lblInicio.Size = new System.Drawing.Size(24, 30);
+            this.lblInicio.Size = new System.Drawing.Size(25, 25);
             this.lblInicio.TabIndex = 6;
             this.lblInicio.Text = "0";
             // 
@@ -112,11 +116,12 @@
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            this.label3.Location = new System.Drawing.Point(226, 207);
+            this.label3.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label3.Location = new System.Drawing.Point(341, 176);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 30);
+            this.label3.Size = new System.Drawing.Size(59, 25);
             this.label3.TabIndex = 7;
             this.label3.Text = "Fin :";
             // 
@@ -124,10 +129,12 @@
             // 
             this.lblFin.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblFin.AutoSize = true;
-            this.lblFin.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFin.Location = new System.Drawing.Point(283, 207);
+            this.lblFin.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.lblFin.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.lblFin.Location = new System.Drawing.Point(406, 176);
             this.lblFin.Name = "lblFin";
-            this.lblFin.Size = new System.Drawing.Size(24, 30);
+            this.lblFin.Size = new System.Drawing.Size(25, 25);
             this.lblFin.TabIndex = 8;
             this.lblFin.Text = "0";
             // 
@@ -135,11 +142,11 @@
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            this.label5.Location = new System.Drawing.Point(12, 249);
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label5.Location = new System.Drawing.Point(12, 273);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(159, 30);
+            this.label5.Size = new System.Drawing.Size(186, 25);
             this.label5.TabIndex = 9;
             this.label5.Text = "Dias Restantes :";
             // 
@@ -147,10 +154,11 @@
             // 
             this.lblDiasRestantes.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblDiasRestantes.AutoSize = true;
-            this.lblDiasRestantes.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDiasRestantes.Location = new System.Drawing.Point(177, 249);
+            this.lblDiasRestantes.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDiasRestantes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.lblDiasRestantes.Location = new System.Drawing.Point(204, 273);
             this.lblDiasRestantes.Name = "lblDiasRestantes";
-            this.lblDiasRestantes.Size = new System.Drawing.Size(24, 30);
+            this.lblDiasRestantes.Size = new System.Drawing.Size(25, 25);
             this.lblDiasRestantes.TabIndex = 10;
             this.lblDiasRestantes.Text = "0";
             // 
@@ -158,11 +166,11 @@
             // 
             this.lblTipoMembresia.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblTipoMembresia.AutoSize = true;
-            this.lblTipoMembresia.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTipoMembresia.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            this.lblTipoMembresia.Location = new System.Drawing.Point(12, 292);
+            this.lblTipoMembresia.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTipoMembresia.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblTipoMembresia.Location = new System.Drawing.Point(12, 319);
             this.lblTipoMembresia.Name = "lblTipoMembresia";
-            this.lblTipoMembresia.Size = new System.Drawing.Size(202, 30);
+            this.lblTipoMembresia.Size = new System.Drawing.Size(227, 25);
             this.lblTipoMembresia.TabIndex = 11;
             this.lblTipoMembresia.Text = "Tipo de Membresía :";
             // 
@@ -171,11 +179,11 @@
             this.cmbTipoMembresia.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cmbTipoMembresia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTipoMembresia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmbTipoMembresia.Font = new System.Drawing.Font("Sitka Banner", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbTipoMembresia.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbTipoMembresia.FormattingEnabled = true;
-            this.cmbTipoMembresia.Location = new System.Drawing.Point(220, 286);
+            this.cmbTipoMembresia.Location = new System.Drawing.Point(245, 316);
             this.cmbTipoMembresia.Name = "cmbTipoMembresia";
-            this.cmbTipoMembresia.Size = new System.Drawing.Size(176, 36);
+            this.cmbTipoMembresia.Size = new System.Drawing.Size(176, 33);
             this.cmbTipoMembresia.TabIndex = 2;
             this.cmbTipoMembresia.SelectedIndexChanged += new System.EventHandler(this.cmbTipoMembresia_SelectedIndexChanged);
             this.cmbTipoMembresia.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmbTipoMembresia_KeyDown);
@@ -249,11 +257,11 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            this.label2.Location = new System.Drawing.Point(12, 167);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label2.Location = new System.Drawing.Point(12, 226);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(198, 30);
+            this.label2.Size = new System.Drawing.Size(218, 25);
             this.label2.TabIndex = 18;
             this.label2.Text = "Nombre y Apellido :";
             // 
@@ -261,10 +269,11 @@
             // 
             this.lblNombreCompleto.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblNombreCompleto.AutoSize = true;
-            this.lblNombreCompleto.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNombreCompleto.Location = new System.Drawing.Point(216, 167);
+            this.lblNombreCompleto.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNombreCompleto.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.lblNombreCompleto.Location = new System.Drawing.Point(236, 226);
             this.lblNombreCompleto.Name = "lblNombreCompleto";
-            this.lblNombreCompleto.Size = new System.Drawing.Size(171, 30);
+            this.lblNombreCompleto.Size = new System.Drawing.Size(185, 25);
             this.lblNombreCompleto.TabIndex = 19;
             this.lblNombreCompleto.Text = "Nombre Apellido";
             // 

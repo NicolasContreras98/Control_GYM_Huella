@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace Control_Gym.Capa_de_datos
 {
@@ -37,7 +38,7 @@ namespace Control_Gym.Capa_de_datos
         {
             List<string> result = new List<string>();
 
-            string query = "SELECT fecha_inicio, fecha_fin  FROM Membresias WHERE dni_socio = @dni and cod_tipo_membresia = @cod_tipo_membresia";
+            string query = "SELECT fecha_inicio, fecha_fin FROM Membresias WHERE dni_socio = @dni and cod_tipo_membresia = @cod_tipo_membresia";
 
             try
             {
@@ -47,6 +48,8 @@ namespace Control_Gym.Capa_de_datos
 
                 SqlDataReader reader = comando.ExecuteReader();
 
+                CultureInfo culturaEspañola = new CultureInfo("es-ES");
+
                 while (reader.Read())
                 {
                     DateTime fecha_inicio = DateTime.Parse(reader["fecha_inicio"].ToString());
@@ -55,10 +58,13 @@ namespace Control_Gym.Capa_de_datos
                     TimeSpan diferencia = fecha_fin - fecha_actual;
                     int dias_restantes = diferencia.Days;
 
-                    result.Add(fecha_inicio.ToString("dd/MM"));
-                    result.Add(fecha_fin.ToString("dd/MM"));
-                    result.Add(dias_restantes.ToString());
+                    // Formatear las fechas con el nombre del mes
+                    string fechaInicioFormateada = fecha_inicio.ToString("dd 'de' MMMM", culturaEspañola);
+                    string fechaFinFormateada = fecha_fin.ToString("dd 'de' MMMM", culturaEspañola);
 
+                    result.Add(fechaInicioFormateada);
+                    result.Add(fechaFinFormateada);
+                    result.Add(dias_restantes.ToString());
                 }
                 reader.Close();
             }
@@ -74,6 +80,7 @@ namespace Control_Gym.Capa_de_datos
 
             return result.ToArray();
         }
+
 
         public string[] buscarPorDni(int dni)
         {
@@ -96,8 +103,8 @@ namespace Control_Gym.Capa_de_datos
                     TimeSpan diferencia = (fecha_fin - fecha_actual);
                     int dias_restantes = diferencia.Days;
 
-                    result.Add(fecha_inicio.ToString("dd/MM"));
-                    result.Add(fecha_fin.ToString("dd/MM"));
+                    result.Add(fecha_inicio.ToString("dd 'de' MMMM"));
+                    result.Add(fecha_fin.ToString("dd 'de' MMMM"));
                     result.Add(dias_restantes.ToString());
                 }
                 reader.Close();

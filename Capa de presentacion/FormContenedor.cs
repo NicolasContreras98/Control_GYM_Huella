@@ -37,9 +37,9 @@ namespace Control_Gym
         private int dni_empleado;
         private string nombre;
 
-        private Color colorMouseOver = Color.FromArgb(65, 65, 68);
-        private Color colorDefault = Color.FromArgb(0, 122, 204);
-        private Color colorSeleccionado = Color.FromArgb(45, 45, 48);
+        private Color colorMouseOver = Color.FromArgb(35, 35, 38);
+        private Color colorDefault = Color.FromArgb(80, 80, 80);
+        private Color colorSeleccionado = Color.FromArgb(192, 64, 0);
 
         private Button botonSeleccionado = null;
 
@@ -109,19 +109,7 @@ namespace Control_Gym
 
         private void btnMenu_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (MenuVertical.Width == 250)
-                {
-                    MenuVertical.Width = 50;
-                }
-                else
-                    MenuVertical.Width = 250;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cambiar el ancho del menú: " + ex.Message);
-            }
+
         }
 
         private void iconminimizar_Click(object sender, EventArgs e)
@@ -285,8 +273,8 @@ namespace Control_Gym
                 boton.BackColor = colorSeleccionado;
                 botonSeleccionado = boton;
 
-                lblDNI.Text = this.dni_empleado.ToString();
-                lblNombre.Text = this.nombre;
+                labelDNI.Text = this.dni_empleado.ToString();
+                labelNombre.Text = this.nombre;
             }
             catch (Exception ex)
             {
@@ -325,14 +313,13 @@ namespace Control_Gym
             try
             {
                 AbrirFormEnPanel(new FormSocio());
-                lblDNI.Text = this.dni_empleado.ToString();
-                lblNombre.Text = this.nombre;
+                labelDNI.Text = this.dni_empleado.ToString();
+                labelNombre.Text = this.nombre;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar el formulario de contenedor: " + ex.Message);
             }
         }
-
     }
 }

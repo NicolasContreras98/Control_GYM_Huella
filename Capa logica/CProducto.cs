@@ -12,7 +12,9 @@ namespace Control_Gym.Capa_logica
     {
         public long cod_producto { get; set; }
         public int cod_proveedor { get; set; }
+        public string nombre_proveedor { get; set; }
         public int cod_tipo_producto { get; set; }
+        public string nombre_tipo_producto { get; set; }
         public string nombre { get; set; }
         public DateTime fecha_venc { get; set; }
         public decimal precio_costo { get; set; }
@@ -43,10 +45,9 @@ namespace Control_Gym.Capa_logica
             return nombre;
         }
 
-        public List<CProducto> traerProductos()
+        public DataTable ObtenerDatosProductos()
         {
-            List<CProducto> productos = cProductosD.traerProductos();
-            return productos;
+            return cProductosD.ObtenerDatosProductos();
         }
 
         public void GuardarProducto(int cod_proveedor, int cod_tipo_producto, string nombre, DateTime fecha_venc, decimal precio_costo, decimal precio_venta, decimal ganancia, int stock)

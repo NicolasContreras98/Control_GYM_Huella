@@ -78,16 +78,6 @@ namespace Control_Gym.Capa_de_presentacion
                 DialogResult result = formDetalle.ShowDialog();
 
                 btnVerDetalle.Visible=false;
-                //if (result == DialogResult.OK)
-                //{
-                //    string dniCliente = formDetalle.DniCliente;
-                //    string nombre = formDetalle.Nombre;
-                //    string apellido = formDetalle.Apellido;
-                //    string telefono = agregarClienteForm.Telefono;
-                //    string domicilio = agregarClienteForm.Domicilio;
-                //    string email = agregarClienteForm.Email;
-
-                //}
             }
         }
 

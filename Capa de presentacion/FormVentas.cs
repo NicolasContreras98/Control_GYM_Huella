@@ -43,8 +43,12 @@ namespace Control_Gym.Capa_de_presentacion
         {
             try
             {
-                List<CProducto> productos = cProducto.traerProductos();
+                DataTable productos = cProducto.ObtenerDatosProductos();
+
                 cbCodProducto.DataSource = productos;
+                cbCodProducto.DisplayMember = "nombre"; // Nombre del campo que se mostrará en el ComboBox
+                cbCodProducto.ValueMember = "cod_producto"; // Valor del campo que se usará como valor seleccionado
+
                 btnQuitar.Visible = false;
                 btnVenta.Visible = false;
                 txtNombreProducto.Text = "";
@@ -53,11 +57,9 @@ namespace Control_Gym.Capa_de_presentacion
                 txtDniEmpleado.Text = dni_empleado.ToString();
 
                 txtStock.Text = "";
-
                 txtCodProducto.Text = "";
 
                 LoadCategories();
-              
             }
             catch (Exception ex)
             {
@@ -354,7 +356,7 @@ namespace Control_Gym.Capa_de_presentacion
                             {
                                 MessageBox.Show("Venta realizada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 btnVenta.Visible = false;
-                                List<CProducto> productos = cProducto.traerProductos();
+                                DataTable productos = cProducto.ObtenerDatosProductos();
                                 Limpiar();
                                 cbCodProducto.DataSource = productos;
                                 limpiarCampos();

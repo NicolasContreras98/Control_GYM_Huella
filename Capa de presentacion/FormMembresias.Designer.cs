@@ -48,18 +48,23 @@
             this.lblFechaInicioMembresia = new System.Windows.Forms.Label();
             this.txtCodMembresia = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dvgMembresias)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtDniMembresia
             // 
-            this.txtDniMembresia.Location = new System.Drawing.Point(185, 23);
+            this.txtDniMembresia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDniMembresia.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.txtDniMembresia.Location = new System.Drawing.Point(191, 33);
             this.txtDniMembresia.Name = "txtDniMembresia";
             this.txtDniMembresia.Size = new System.Drawing.Size(200, 26);
             this.txtDniMembresia.TabIndex = 0;
+            this.txtDniMembresia.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtDniMembresia.Click += new System.EventHandler(this.txtDniMembresia_Click);
             this.txtDniMembresia.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDniMembresia_KeyDown);
             this.txtDniMembresia.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDniMembresia_KeyPress);
@@ -68,11 +73,13 @@
             // lblDniMembresia
             // 
             this.lblDniMembresia.AutoSize = true;
-            this.lblDniMembresia.Location = new System.Drawing.Point(19, 29);
+            this.lblDniMembresia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDniMembresia.ForeColor = System.Drawing.Color.Black;
+            this.lblDniMembresia.Location = new System.Drawing.Point(135, 38);
             this.lblDniMembresia.Name = "lblDniMembresia";
-            this.lblDniMembresia.Size = new System.Drawing.Size(40, 20);
+            this.lblDniMembresia.Size = new System.Drawing.Size(50, 20);
             this.lblDniMembresia.TabIndex = 7;
-            this.lblDniMembresia.Text = "DNI";
+            this.lblDniMembresia.Text = "DNI :";
             // 
             // btnActualizarMembresia
             // 
@@ -121,7 +128,7 @@
             // 
             // btnCrearMembresia
             // 
-            this.btnCrearMembresia.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.btnCrearMembresia.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.btnCrearMembresia.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCrearMembresia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCrearMembresia.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -140,7 +147,7 @@
             this.panel1.Controls.Add(this.btnCancelarMembresia);
             this.panel1.Controls.Add(this.btnCrearMembresia);
             this.panel1.Controls.Add(this.btnActualizarMembresia);
-            this.panel1.Location = new System.Drawing.Point(586, 70);
+            this.panel1.Location = new System.Drawing.Point(530, 50);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(286, 111);
             this.panel1.TabIndex = 19;
@@ -152,11 +159,11 @@
             this.dvgMembresias.AllowUserToOrderColumns = true;
             this.dvgMembresias.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dvgMembresias.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dvgMembresias.Location = new System.Drawing.Point(12, 236);
+            this.dvgMembresias.Location = new System.Drawing.Point(6, 16);
             this.dvgMembresias.MultiSelect = false;
             this.dvgMembresias.Name = "dvgMembresias";
             this.dvgMembresias.ReadOnly = true;
-            this.dvgMembresias.Size = new System.Drawing.Size(1015, 357);
+            this.dvgMembresias.Size = new System.Drawing.Size(1024, 335);
             this.dvgMembresias.TabIndex = 111;
             this.dvgMembresias.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dvgMembresias_CellFormatting);
             this.dvgMembresias.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dvgMembresias_RowHeaderMouseClick);
@@ -173,14 +180,17 @@
             // lblDni2Membresia
             // 
             this.lblDni2Membresia.AutoSize = true;
+            this.lblDni2Membresia.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDni2Membresia.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.lblDni2Membresia.Location = new System.Drawing.Point(66, 188);
             this.lblDni2Membresia.Name = "lblDni2Membresia";
-            this.lblDni2Membresia.Size = new System.Drawing.Size(26, 13);
+            this.lblDni2Membresia.Size = new System.Drawing.Size(33, 16);
             this.lblDni2Membresia.TabIndex = 14;
             this.lblDni2Membresia.Text = "DNI";
             // 
             // groupBox2
             // 
+            this.groupBox2.BackColor = System.Drawing.Color.LightGray;
             this.groupBox2.Controls.Add(this.cbTipoMembresia);
             this.groupBox2.Controls.Add(this.lblTipoMembresia);
             this.groupBox2.Controls.Add(this.dtpFechaFin);
@@ -189,10 +199,11 @@
             this.groupBox2.Controls.Add(this.lblFechaInicioMembresia);
             this.groupBox2.Controls.Add(this.txtDniMembresia);
             this.groupBox2.Controls.Add(this.lblDniMembresia);
-            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(12, 24);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(512, 157);
+            this.groupBox2.Size = new System.Drawing.Size(512, 169);
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Datos del socio";
@@ -201,8 +212,10 @@
             // 
             this.cbTipoMembresia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbTipoMembresia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbTipoMembresia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbTipoMembresia.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.cbTipoMembresia.FormattingEnabled = true;
-            this.cbTipoMembresia.Location = new System.Drawing.Point(185, 54);
+            this.cbTipoMembresia.Location = new System.Drawing.Point(191, 64);
             this.cbTipoMembresia.Name = "cbTipoMembresia";
             this.cbTipoMembresia.Size = new System.Drawing.Size(200, 28);
             this.cbTipoMembresia.TabIndex = 1;
@@ -213,16 +226,21 @@
             // lblTipoMembresia
             // 
             this.lblTipoMembresia.AutoSize = true;
-            this.lblTipoMembresia.Location = new System.Drawing.Point(19, 62);
+            this.lblTipoMembresia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTipoMembresia.ForeColor = System.Drawing.Color.Black;
+            this.lblTipoMembresia.Location = new System.Drawing.Point(15, 69);
             this.lblTipoMembresia.Name = "lblTipoMembresia";
-            this.lblTipoMembresia.Size = new System.Drawing.Size(160, 20);
+            this.lblTipoMembresia.Size = new System.Drawing.Size(170, 20);
             this.lblTipoMembresia.TabIndex = 24;
-            this.lblTipoMembresia.Text = "Tipo de membresia";
+            this.lblTipoMembresia.Text = "Tipo de membresia :";
             // 
             // dtpFechaFin
             // 
+            this.dtpFechaFin.CalendarForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.dtpFechaFin.CalendarTitleForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.dtpFechaFin.Enabled = false;
-            this.dtpFechaFin.Location = new System.Drawing.Point(185, 120);
+            this.dtpFechaFin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpFechaFin.Location = new System.Drawing.Point(191, 128);
             this.dtpFechaFin.Name = "dtpFechaFin";
             this.dtpFechaFin.Size = new System.Drawing.Size(200, 26);
             this.dtpFechaFin.TabIndex = 33;
@@ -230,7 +248,10 @@
             // 
             // dtpFechaInicio
             // 
-            this.dtpFechaInicio.Location = new System.Drawing.Point(185, 88);
+            this.dtpFechaInicio.CalendarForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.dtpFechaInicio.CalendarTitleForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.dtpFechaInicio.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpFechaInicio.Location = new System.Drawing.Point(191, 97);
             this.dtpFechaInicio.Name = "dtpFechaInicio";
             this.dtpFechaInicio.Size = new System.Drawing.Size(200, 26);
             this.dtpFechaInicio.TabIndex = 2;
@@ -239,20 +260,24 @@
             // lblFechaFinMembresia
             // 
             this.lblFechaFinMembresia.AutoSize = true;
-            this.lblFechaFinMembresia.Location = new System.Drawing.Point(19, 123);
+            this.lblFechaFinMembresia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFechaFinMembresia.ForeColor = System.Drawing.Color.Black;
+            this.lblFechaFinMembresia.Location = new System.Drawing.Point(86, 131);
             this.lblFechaFinMembresia.Name = "lblFechaFinMembresia";
-            this.lblFechaFinMembresia.Size = new System.Drawing.Size(89, 20);
+            this.lblFechaFinMembresia.Size = new System.Drawing.Size(99, 20);
             this.lblFechaFinMembresia.TabIndex = 10;
-            this.lblFechaFinMembresia.Text = "Fecha Fin";
+            this.lblFechaFinMembresia.Text = "Fecha Fin :";
             // 
             // lblFechaInicioMembresia
             // 
             this.lblFechaInicioMembresia.AutoSize = true;
-            this.lblFechaInicioMembresia.Location = new System.Drawing.Point(19, 91);
+            this.lblFechaInicioMembresia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFechaInicioMembresia.ForeColor = System.Drawing.Color.Black;
+            this.lblFechaInicioMembresia.Location = new System.Drawing.Point(68, 100);
             this.lblFechaInicioMembresia.Name = "lblFechaInicioMembresia";
-            this.lblFechaInicioMembresia.Size = new System.Drawing.Size(107, 20);
+            this.lblFechaInicioMembresia.Size = new System.Drawing.Size(117, 20);
             this.lblFechaInicioMembresia.TabIndex = 8;
-            this.lblFechaInicioMembresia.Text = "Fecha Inicio";
+            this.lblFechaInicioMembresia.Text = "Fecha Inicio :";
             // 
             // txtCodMembresia
             // 
@@ -273,18 +298,29 @@
             this.pictureBox1.TabIndex = 112;
             this.pictureBox1.TabStop = false;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.dvgMembresias);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.groupBox1.Location = new System.Drawing.Point(2, 235);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(1036, 358);
+            this.groupBox1.TabIndex = 113;
+            this.groupBox1.TabStop = false;
+            // 
             // FormMembresias
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(1050, 605);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.txtCodMembresia);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.lblDni2Membresia);
             this.Controls.Add(this.txtBuscarDni);
-            this.Controls.Add(this.dvgMembresias);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormMembresias";
@@ -295,6 +331,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -321,5 +358,6 @@
         private System.Windows.Forms.Label lblTipoMembresia;
         private System.Windows.Forms.TextBox txtCodMembresia;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

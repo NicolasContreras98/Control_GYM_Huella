@@ -40,11 +40,13 @@
             // txtDniEmpleado
             // 
             this.txtDniEmpleado.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtDniEmpleado.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDniEmpleado.Location = new System.Drawing.Point(132, 37);
+            this.txtDniEmpleado.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDniEmpleado.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.txtDniEmpleado.Location = new System.Drawing.Point(219, 67);
             this.txtDniEmpleado.Name = "txtDniEmpleado";
-            this.txtDniEmpleado.Size = new System.Drawing.Size(129, 26);
+            this.txtDniEmpleado.Size = new System.Drawing.Size(193, 31);
             this.txtDniEmpleado.TabIndex = 1;
+            this.txtDniEmpleado.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtDniEmpleado.TextChanged += new System.EventHandler(this.txtDniEmpleado_TextChanged);
             this.txtDniEmpleado.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDniEmpleado_KeyDown);
             this.txtDniEmpleado.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDniEmpleado_KeyPress);
@@ -53,12 +55,14 @@
             // txtContraseñaEmpleado
             // 
             this.txtContraseñaEmpleado.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtContraseñaEmpleado.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtContraseñaEmpleado.Location = new System.Drawing.Point(132, 78);
+            this.txtContraseñaEmpleado.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtContraseñaEmpleado.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.txtContraseñaEmpleado.Location = new System.Drawing.Point(219, 108);
             this.txtContraseñaEmpleado.Name = "txtContraseñaEmpleado";
             this.txtContraseñaEmpleado.PasswordChar = '*';
-            this.txtContraseñaEmpleado.Size = new System.Drawing.Size(129, 26);
+            this.txtContraseñaEmpleado.Size = new System.Drawing.Size(193, 31);
             this.txtContraseñaEmpleado.TabIndex = 2;
+            this.txtContraseñaEmpleado.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtContraseñaEmpleado.TextChanged += new System.EventHandler(this.txtContraseñaEmpleado_TextChanged);
             this.txtContraseñaEmpleado.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtContraseñaEmpleado_KeyDown);
             this.txtContraseñaEmpleado.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtContraseñaEmpleado_KeyPress);
@@ -68,14 +72,14 @@
             // 
             this.btnIniciarSesion.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnIniciarSesion.AutoEllipsis = true;
-            this.btnIniciarSesion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.btnIniciarSesion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.btnIniciarSesion.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnIniciarSesion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnIniciarSesion.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnIniciarSesion.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnIniciarSesion.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnIniciarSesion.Location = new System.Drawing.Point(132, 123);
+            this.btnIniciarSesion.Location = new System.Drawing.Point(218, 155);
             this.btnIniciarSesion.Name = "btnIniciarSesion";
-            this.btnIniciarSesion.Size = new System.Drawing.Size(130, 33);
+            this.btnIniciarSesion.Size = new System.Drawing.Size(194, 48);
             this.btnIniciarSesion.TabIndex = 3;
             this.btnIniciarSesion.Text = "Iniciar Sesión";
             this.btnIniciarSesion.UseVisualStyleBackColor = false;
@@ -89,11 +93,11 @@
             this.groupBox1.Controls.Add(this.lblDni);
             this.groupBox1.Controls.Add(this.lblContraseña);
             this.groupBox1.Controls.Add(this.txtDniEmpleado);
-            this.groupBox1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            this.groupBox1.Location = new System.Drawing.Point(293, 72);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.groupBox1.Location = new System.Drawing.Point(218, 47);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(382, 190);
+            this.groupBox1.Size = new System.Drawing.Size(485, 253);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ingresa los datos";
@@ -102,26 +106,26 @@
             // 
             this.lblDni.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblDni.AutoSize = true;
-            this.lblDni.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDni.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            this.lblDni.Location = new System.Drawing.Point(19, 41);
+            this.lblDni.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDni.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblDni.Location = new System.Drawing.Point(149, 70);
             this.lblDni.Name = "lblDni";
-            this.lblDni.Size = new System.Drawing.Size(42, 18);
+            this.lblDni.Size = new System.Drawing.Size(64, 25);
             this.lblDni.TabIndex = 0;
-            this.lblDni.Text = "DNI:";
+            this.lblDni.Text = "DNI :";
             this.lblDni.Click += new System.EventHandler(this.lblDni_Click);
             // 
             // lblContraseña
             // 
             this.lblContraseña.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblContraseña.AutoSize = true;
-            this.lblContraseña.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblContraseña.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            this.lblContraseña.Location = new System.Drawing.Point(19, 82);
+            this.lblContraseña.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblContraseña.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblContraseña.Location = new System.Drawing.Point(66, 111);
             this.lblContraseña.Name = "lblContraseña";
-            this.lblContraseña.Size = new System.Drawing.Size(107, 18);
+            this.lblContraseña.Size = new System.Drawing.Size(147, 25);
             this.lblContraseña.TabIndex = 1;
-            this.lblContraseña.Text = "Contraseña:";
+            this.lblContraseña.Text = "Contraseña :";
             this.lblContraseña.Click += new System.EventHandler(this.lblContraseña_Click);
             // 
             // FormAcceso

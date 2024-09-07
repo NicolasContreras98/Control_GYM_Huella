@@ -44,7 +44,7 @@ namespace Control_Gym.Capa_de_presentacion
                 dvgMembresias.Columns[5].HeaderText = "Tipo de membresia";
                 dvgMembresias.Columns[6].HeaderText = "Precio";
                 dvgMembresias.Columns[7].HeaderText = "Dias de duración";
-                dvgMembresias.Columns[7].Width = 55;
+                dvgMembresias.Columns[7].Width = 120;
             }
             catch (Exception ex)
             {
@@ -283,7 +283,6 @@ namespace Control_Gym.Capa_de_presentacion
 
                     DataGridViewRow filaSeleccionada = dvgMembresias.SelectedRows[0];
                     txtCodMembresia.Text = filaSeleccionada.Cells["cod_membresia"].Value.ToString();
-                    cbTipoMembresia.Text = filaSeleccionada.Cells["cod_tipo_membresia"].Value.ToString();
                     cbTipoMembresia.Text = filaSeleccionada.Cells["nombre_tipo"].Value.ToString();
 
                     txtDniMembresia.Text = filaSeleccionada.Cells["dni_socio"].Value.ToString();
