@@ -1205,4 +1205,30 @@
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>25</value>
   </metadata>
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAAAAAAAEAIAAHBQAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAEAAAABAAgEAAAA9ntg7QAAAAFv
+        ck5UAc+id5oAAATBSURBVHja7dtZjJ5TGAfwmWqpGkvphCJalHQjlZDYGonlQohK7CSEqJorYok9liBE
+        bywXiK0hEWqJWINKEUuQlgQJUhRVUkub4Pbv+Wam1VbHV5mGvF9+v5Pm67RP56LP/33POe95p6sLAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADocNmkgyYGYGb6MmfYoy9TBKCZAbgv
+        m0afADQzAHOzKiuGPVbmTAFoZgB60ptxwx69GS0AFoEAAAAAAAAAAAAAAADAf+zf/KSPnwrq1OZvlt5M
+        zO7ZNWOGauya2rHZrSonZgch6Iz275kTc02ezLt5L6/m9pyXw9KzbmMHKyfkuFyceXmzKt/Oo7m0/uVe
+        ItDk5m9b7V6Qn7I0L+ahPJjH8lF+zZI8UK3eeqCxg5U75vy8nBVVuzhPVOX8+lyZVXk9F2Z7EWhm+6fl
+        4Xyft3Jupmd8tqsxLpPq+r8r3+arXNSaDgZrp+SRav3HuTz71R2jtyp763P/XF2B+aLuAyMEoGkB6M6M
+        vJRlubFm9O71Fnajc1DuyexsOfj11LxS1/7d2aPWCutWjqxp4bCKjTtA467/CTXrf5cLVs/2WX+p170m
+        FrvVxPBTbhpoc4bcEdCk9m+ZK7I8t66e5/+hckyuzc91P9hRkzspAFPzYRZm8j83tb/ygFrsvd+ukmYF
+        YFRd/z/Whm5U2wBsnkvq9n9DffqP66AA9OT5fJKD213V9fc75anaDxzq+u+sAEyr9r9Qa/r2lZNqAnij
+        FowC0FEBOLb2+fdn7EYEYHq+zvzWArBryNW/XUDzAnBS7QCub9+0qti3onLPulHpPw2YUYvDv8aeHgQ1
+        KwAn5PvclpEbFYBv8mDr2GedPz06X+SPwfF7fsvjracJNCcAR9TC7tFa4LWvnFqtfjY7r/cAaJecnLP7
+        x1m5tr7Xa9lGAJoUgPG1s3+jmtt+FzAxb2XRwInfEGuA6fW9BKBhARiTeVmaYzYiAGNzb00XJ7YeCw9R
+        sV8+EICmBWBETqm23tFqW9sngadX5byh5ngBaGYAumpWfy6f1WKuu+1ZwO5V+XVmbbhSAJobgVlZkhcy
+        6e97+PXm+O66WyzN2wPPDSMAHROAnlydHzI/0zZ4HLxFJtdaf0QGzgMuzYq8nEM2eBy8jwA0NQJjc02W
+        ZWFOXfv1zv4Vwoza3H2am9a8K7BNfb0sizN74KHwWmOPXJbv8mLrWJnmRWDrnJF3qoFP58ocXzf5g3J4
+        +nJnbfx+zjM5snVaOFi5Ve35F+XXLMjNmZOjcmD9Oj9zazP5S20Uj2+9KUQTI9BVt/qr6tpeli9rUfhZ
+        Ps83tTZ4rFo6fvWyb83LX5NySd7N8toVLKnKJfW75XXzP6fuCt3OApocgVH9z/bn1LV9S7V4Znrreu/a
+        4Hw/siaDvXNarsutub42iBPqHjLCUVDzI7D6HcDutV8PbVvrHBAAAAAAAAAAAAAAAOD/kE06aGIAetKb
+        ccMevRktAM0MwNysyophj5U5UwCaGYD7smn0CUAzAzCzWjdn2KMvUwTAIhAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOhofwJELCZl2ukYngAAAABJRU5ErkJggg==
+</value>
+  </data>
 </root>

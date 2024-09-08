@@ -35,6 +35,7 @@
             this.labelNombre = new System.Windows.Forms.Label();
             this.labelDNI = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.roundedPictureBox1 = new Control_Gym.Capa_de_presentacion.RoundedPictureBox();
             this.btnCaja = new System.Windows.Forms.Button();
             this.lblNombre = new System.Windows.Forms.Label();
             this.lblDNI = new System.Windows.Forms.Label();
@@ -51,15 +52,14 @@
             this.iconrestaurar = new System.Windows.Forms.PictureBox();
             this.iconmaximizar = new System.Windows.Forms.PictureBox();
             this.panelContenedor = new System.Windows.Forms.Panel();
-            this.roundedPictureBox1 = new Control_Gym.Capa_de_presentacion.RoundedPictureBox();
             this.MenuVertical.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.roundedPictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.BarraTitulo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconminimizar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconcerrar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconrestaurar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconmaximizar)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.roundedPictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // MenuVertical
@@ -142,6 +142,16 @@
             this.label1.Size = new System.Drawing.Size(349, 13);
             this.label1.TabIndex = 21;
             this.label1.Text = "_________________________________________________________";
+            // 
+            // roundedPictureBox1
+            // 
+            this.roundedPictureBox1.CornerRadius = 20;
+            this.roundedPictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("roundedPictureBox1.Image")));
+            this.roundedPictureBox1.Location = new System.Drawing.Point(10, 12);
+            this.roundedPictureBox1.Name = "roundedPictureBox1";
+            this.roundedPictureBox1.Size = new System.Drawing.Size(204, 69);
+            this.roundedPictureBox1.TabIndex = 20;
+            this.roundedPictureBox1.TabStop = false;
             // 
             // btnCaja
             // 
@@ -368,16 +378,6 @@
             this.panelContenedor.Size = new System.Drawing.Size(1075, 605);
             this.panelContenedor.TabIndex = 2;
             // 
-            // roundedPictureBox1
-            // 
-            this.roundedPictureBox1.CornerRadius = 20;
-            this.roundedPictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("roundedPictureBox1.Image")));
-            this.roundedPictureBox1.Location = new System.Drawing.Point(10, 12);
-            this.roundedPictureBox1.Name = "roundedPictureBox1";
-            this.roundedPictureBox1.Size = new System.Drawing.Size(204, 69);
-            this.roundedPictureBox1.TabIndex = 20;
-            this.roundedPictureBox1.TabStop = false;
-            // 
             // FormContenedor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -394,13 +394,13 @@
             this.Load += new System.EventHandler(this.FormContenedor_Load);
             this.MenuVertical.ResumeLayout(false);
             this.MenuVertical.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.roundedPictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.BarraTitulo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.iconminimizar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconcerrar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconrestaurar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconmaximizar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.roundedPictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
