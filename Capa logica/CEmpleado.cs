@@ -17,6 +17,7 @@ namespace Control_Gym.Capa_logica
         public string domicilio { get; set; }
         public string email { get; set; }
         public string contraseña { get; set; }
+        public string rol {  get; set; }
         public DateTime fecha_nac { get; set; }
 
         public CEmpleado()
@@ -25,7 +26,7 @@ namespace Control_Gym.Capa_logica
         }
 
         private CEmpleadoD cEmpleadoD = new CEmpleadoD();
-        public CEmpleado(int dni_empleado,  string nombre, string apellido, string telefono, DateTime fecha_nac, string domicilio, string email, string contraseña)
+        public CEmpleado(int dni_empleado,  string nombre, string apellido, string telefono, DateTime fecha_nac, string domicilio, string email, string contraseña, string rol)
         {
             this.dni_empleado = dni_empleado;
             this.nombre = nombre;
@@ -35,6 +36,7 @@ namespace Control_Gym.Capa_logica
             this.domicilio = domicilio;
             this.email = email;
             this.contraseña = contraseña;
+            this.rol = rol;
         }
 
         public CEmpleado(int dni_empleado)

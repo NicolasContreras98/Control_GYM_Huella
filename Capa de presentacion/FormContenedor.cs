@@ -36,6 +36,7 @@ namespace Control_Gym
         }
         private int dni_empleado;
         private string nombre;
+        private string rol;
 
         private Color colorMouseOver = Color.FromArgb(35, 35, 38);
         private Color colorDefault = Color.FromArgb(80, 80, 80);
@@ -43,12 +44,50 @@ namespace Control_Gym
 
         private Button botonSeleccionado = null;
 
+        public void SeleccionarBoton(Button boton)
+        {
+            // Restablecer el color de fondo de los demás botones
+            if (botonSeleccionado != null)
+            {
+                botonSeleccionado.BackColor = colorDefault;
+            }
 
-        public FormContenedor(int dni_empleado, string nombre)
+            // Cambiar el color de fondo del botón seleccionado
+            boton.BackColor = colorSeleccionado;
+            botonSeleccionado = boton;
+        }
+
+        public void SeleccionarBotonMembresias()
+        {
+            // Supongamos que 'btnMembresias' es el botón que queremos seleccionar
+            if (btnMembresias != null)
+            {
+                SeleccionarBoton(btnMembresias);
+            }
+        }
+
+        public FormContenedor(int dni_empleado, string nombre, string rol)
         {
             InitializeComponent();
             this.dni_empleado = dni_empleado;
             this.nombre = nombre;
+            this.rol = rol;
+
+            ConfigurarAccesoSegunRol();
+        }
+
+        private void ConfigurarAccesoSegunRol()
+        {
+            if (rol == "Empleado")
+            {
+                // Deshabilitar botones o funcionalidades para empleados
+                btnAdministracion.Enabled = false;
+                // Otros accesos restringidos
+            }
+            else if (rol == "Administrador")
+            {
+                // Administrador tiene acceso completo, no hay que deshabilitar nada
+            }
         }
 
         // Evento Click: Cambiar el color de fondo del botón seleccionado
@@ -189,7 +228,8 @@ namespace Control_Gym
         {
             try
             {
-                AbrirFormEnPanel(new FormSocio());
+                FormSocio formSocio = new FormSocio(this); // Pasar la referencia del formulario contenedor
+                AbrirFormEnPanel(formSocio);
 
                 Button boton = sender as Button;
 
@@ -208,6 +248,7 @@ namespace Control_Gym
                 MessageBox.Show("Error al abrir el formulario de socios: " + ex.Message);
             }
         }
+
         private void btnMembresias_Click(object sender, EventArgs e)
         {
             try
@@ -312,7 +353,9 @@ namespace Control_Gym
         {
             try
             {
-                AbrirFormEnPanel(new FormSocio());
+                FormSocio formSocio = new FormSocio(this); // Pasar la referencia del formulario contenedor
+                AbrirFormEnPanel(formSocio);
+                SeleccionarBoton(btnSocios);
                 labelDNI.Text = this.dni_empleado.ToString();
                 labelNombre.Text = this.nombre;
             }

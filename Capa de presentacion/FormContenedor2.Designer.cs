@@ -69,10 +69,11 @@
             // roundedPictureBox1
             // 
             this.roundedPictureBox1.CornerRadius = 20;
+            this.roundedPictureBox1.ErrorImage = ((System.Drawing.Image)(resources.GetObject("roundedPictureBox1.ErrorImage")));
             this.roundedPictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("roundedPictureBox1.Image")));
-            this.roundedPictureBox1.Location = new System.Drawing.Point(5, 2);
+            this.roundedPictureBox1.Location = new System.Drawing.Point(32, 2);
             this.roundedPictureBox1.Name = "roundedPictureBox1";
-            this.roundedPictureBox1.Size = new System.Drawing.Size(169, 45);
+            this.roundedPictureBox1.Size = new System.Drawing.Size(142, 45);
             this.roundedPictureBox1.TabIndex = 21;
             this.roundedPictureBox1.TabStop = false;
             // 

@@ -40,6 +40,7 @@
             this.txtBuscarDni = new System.Windows.Forms.TextBox();
             this.lblDni2Membresia = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnFechaHoy = new System.Windows.Forms.Button();
             this.cbTipoMembresia = new System.Windows.Forms.ComboBox();
             this.lblTipoMembresia = new System.Windows.Forms.Label();
             this.dtpFechaFin = new System.Windows.Forms.DateTimePicker();
@@ -62,7 +63,7 @@
             this.txtDniMembresia.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.txtDniMembresia.Location = new System.Drawing.Point(191, 33);
             this.txtDniMembresia.Name = "txtDniMembresia";
-            this.txtDniMembresia.Size = new System.Drawing.Size(200, 26);
+            this.txtDniMembresia.Size = new System.Drawing.Size(182, 26);
             this.txtDniMembresia.TabIndex = 0;
             this.txtDniMembresia.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtDniMembresia.Click += new System.EventHandler(this.txtDniMembresia_Click);
@@ -156,7 +157,6 @@
             // 
             this.dvgMembresias.AllowUserToAddRows = false;
             this.dvgMembresias.AllowUserToDeleteRows = false;
-            this.dvgMembresias.AllowUserToOrderColumns = true;
             this.dvgMembresias.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dvgMembresias.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dvgMembresias.Location = new System.Drawing.Point(6, 16);
@@ -191,6 +191,7 @@
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.LightGray;
+            this.groupBox2.Controls.Add(this.btnFechaHoy);
             this.groupBox2.Controls.Add(this.cbTipoMembresia);
             this.groupBox2.Controls.Add(this.lblTipoMembresia);
             this.groupBox2.Controls.Add(this.dtpFechaFin);
@@ -208,6 +209,21 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Datos del socio";
             // 
+            // btnFechaHoy
+            // 
+            this.btnFechaHoy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnFechaHoy.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnFechaHoy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFechaHoy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFechaHoy.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnFechaHoy.Location = new System.Drawing.Point(379, 96);
+            this.btnFechaHoy.Name = "btnFechaHoy";
+            this.btnFechaHoy.Size = new System.Drawing.Size(91, 26);
+            this.btnFechaHoy.TabIndex = 7;
+            this.btnFechaHoy.Text = "Fecha Hoy";
+            this.btnFechaHoy.UseVisualStyleBackColor = false;
+            this.btnFechaHoy.Click += new System.EventHandler(this.btnFechaHoy_Click);
+            // 
             // cbTipoMembresia
             // 
             this.cbTipoMembresia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -217,7 +233,7 @@
             this.cbTipoMembresia.FormattingEnabled = true;
             this.cbTipoMembresia.Location = new System.Drawing.Point(191, 64);
             this.cbTipoMembresia.Name = "cbTipoMembresia";
-            this.cbTipoMembresia.Size = new System.Drawing.Size(200, 28);
+            this.cbTipoMembresia.Size = new System.Drawing.Size(182, 28);
             this.cbTipoMembresia.TabIndex = 1;
             this.cbTipoMembresia.SelectedIndexChanged += new System.EventHandler(this.cbTipoMembresia_SelectedIndexChanged);
             this.cbTipoMembresia.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cbTipoMembresia_KeyDown);
@@ -242,7 +258,7 @@
             this.dtpFechaFin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpFechaFin.Location = new System.Drawing.Point(191, 128);
             this.dtpFechaFin.Name = "dtpFechaFin";
-            this.dtpFechaFin.Size = new System.Drawing.Size(200, 26);
+            this.dtpFechaFin.Size = new System.Drawing.Size(182, 26);
             this.dtpFechaFin.TabIndex = 33;
             this.dtpFechaFin.ValueChanged += new System.EventHandler(this.dtpFechaFin_ValueChanged);
             // 
@@ -251,9 +267,9 @@
             this.dtpFechaInicio.CalendarForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.dtpFechaInicio.CalendarTitleForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.dtpFechaInicio.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpFechaInicio.Location = new System.Drawing.Point(191, 97);
+            this.dtpFechaInicio.Location = new System.Drawing.Point(191, 96);
             this.dtpFechaInicio.Name = "dtpFechaInicio";
-            this.dtpFechaInicio.Size = new System.Drawing.Size(200, 26);
+            this.dtpFechaInicio.Size = new System.Drawing.Size(182, 26);
             this.dtpFechaInicio.TabIndex = 2;
             this.dtpFechaInicio.ValueChanged += new System.EventHandler(this.dtpFechaInicio_ValueChanged);
             // 
@@ -359,5 +375,6 @@
         private System.Windows.Forms.TextBox txtCodMembresia;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btnFechaHoy;
     }
 }

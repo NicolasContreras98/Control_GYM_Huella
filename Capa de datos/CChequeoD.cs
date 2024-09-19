@@ -55,8 +55,8 @@ namespace Control_Gym.Capa_de_datos
                     DateTime fecha_inicio = DateTime.Parse(reader["fecha_inicio"].ToString());
                     DateTime fecha_fin = DateTime.Parse(reader["fecha_fin"].ToString());
                     DateTime fecha_actual = DateTime.Now;
-                    TimeSpan diferencia = fecha_fin - fecha_actual;
-                    int dias_restantes = diferencia.Days;
+                    TimeSpan diferencia = (fecha_fin - fecha_actual);
+                    int dias_restantes = (diferencia.Days)+1;
 
                     // Formatear las fechas con el nombre del mes
                     string fechaInicioFormateada = fecha_inicio.ToString("dd 'de' MMMM", culturaEspañola);
@@ -101,7 +101,7 @@ namespace Control_Gym.Capa_de_datos
                     DateTime fecha_fin = DateTime.Parse(reader["fecha_fin"].ToString());
                     DateTime fecha_actual = DateTime.Now;
                     TimeSpan diferencia = (fecha_fin - fecha_actual);
-                    int dias_restantes = diferencia.Days;
+                    int dias_restantes = (diferencia.Days)+1;
 
                     result.Add(fecha_inicio.ToString("dd 'de' MMMM"));
                     result.Add(fecha_fin.ToString("dd 'de' MMMM"));

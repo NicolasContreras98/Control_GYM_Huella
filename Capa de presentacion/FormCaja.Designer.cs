@@ -31,6 +31,7 @@
             this.dgvVentas = new System.Windows.Forms.DataGridView();
             this.dgvCuotas = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnVerInformes = new System.Windows.Forms.Button();
             this.btnBorrarCuota = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -90,6 +91,7 @@
             // groupBox1
             // 
             this.groupBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.groupBox1.Controls.Add(this.btnVerInformes);
             this.groupBox1.Controls.Add(this.btnBorrarCuota);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.label10);
@@ -110,6 +112,21 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Membresias/Cuotas";
             // 
+            // btnVerInformes
+            // 
+            this.btnVerInformes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnVerInformes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnVerInformes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnVerInformes.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVerInformes.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnVerInformes.Location = new System.Drawing.Point(803, 191);
+            this.btnVerInformes.Name = "btnVerInformes";
+            this.btnVerInformes.Size = new System.Drawing.Size(137, 51);
+            this.btnVerInformes.TabIndex = 13;
+            this.btnVerInformes.Text = "Ver Informe";
+            this.btnVerInformes.UseVisualStyleBackColor = false;
+            this.btnVerInformes.Click += new System.EventHandler(this.btnVerInformes_Click);
+            // 
             // btnBorrarCuota
             // 
             this.btnBorrarCuota.BackColor = System.Drawing.Color.IndianRed;
@@ -117,7 +134,7 @@
             this.btnBorrarCuota.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBorrarCuota.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBorrarCuota.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnBorrarCuota.Location = new System.Drawing.Point(803, 163);
+            this.btnBorrarCuota.Location = new System.Drawing.Point(803, 155);
             this.btnBorrarCuota.Name = "btnBorrarCuota";
             this.btnBorrarCuota.Size = new System.Drawing.Size(75, 30);
             this.btnBorrarCuota.TabIndex = 9;
@@ -448,5 +465,6 @@
         private System.Windows.Forms.TextBox txtCod_cuota;
         private System.Windows.Forms.Button btnBorrarCuota;
         private System.Windows.Forms.Button btnBorrarVenta;
+        private System.Windows.Forms.Button btnVerInformes;
     }
 }

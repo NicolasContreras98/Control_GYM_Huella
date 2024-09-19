@@ -146,6 +146,29 @@ namespace Control_Gym.Capa_de_datos
             }
         }
 
+        public Dictionary<string, int> ObtenerTotalVentasPorMes()
+        {
+            Dictionary<string, int> ventasPorMes = new Dictionary<string, int>();
+
+            // Consulta SQL para obtener el total de ventas por mes
+            string query = "SELECT DATENAME(MONTH, fecha) AS Mes, SUM(total) AS TotalVentas " +
+               "FROM ventas " +
+               "GROUP BY DATENAME(MONTH, fecha), DATEPART(MONTH, fecha) " +
+               "ORDER BY DATEPART(MONTH, fecha)";
+
+
+            SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
+            SqlDataReader reader = comando.ExecuteReader();
+
+            while (reader.Read())
+            {
+                ventasPorMes.Add(reader["Mes"].ToString(), Convert.ToInt32(reader["TotalVentas"]));
+            }
+
+            conexionBD.CerrarConexion();
+            return ventasPorMes;
+        }
+
         public bool ClienteExiste(int dni)
         {
             string query = "SELECT COUNT(*) FROM clientes WHERE dni_cliente = '" + dni + "'";

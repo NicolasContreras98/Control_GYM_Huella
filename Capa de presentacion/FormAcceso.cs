@@ -41,18 +41,27 @@ namespace Control_Gym.Capa_de_presentacion
         {
             try
             {
-                if (txtDniEmpleado.Text != "" && txtContraseñaEmpleado.Text != "")
+                if (!string.IsNullOrWhiteSpace(txtDniEmpleado.Text) && !string.IsNullOrWhiteSpace(txtContraseñaEmpleado.Text))
                 {
                     CAcceso cAcc = new CAcceso(Convert.ToInt32(txtDniEmpleado.Text), txtContraseñaEmpleado.Text);
                     List<CAcceso> acceso = cAcceso.Login(cAcc);
 
-                    if (acceso.Count > 0 && acceso[0] != null)
+                    if (acceso.Count == 0)
                     {
-                        // Verificar si la licencia está activa
-                        if (VerificarLicenciaEmpleado(Convert.ToInt32(txtDniEmpleado.Text)))
-                        {
-                            FormContenedor formContenedor = new FormContenedor(acceso[0].dni_empleado, acceso[0].nombre);
+                        MessageBox.Show("Datos incorrectos.", "Error de autenticación", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        txtDniEmpleado.Text = "";
+                        txtContraseñaEmpleado.Text = "";
+                        return;
+                    }
 
+                    if (acceso[0] != null)
+                    {
+                        string rol = acceso[0].rol;
+
+                        // Pasar el rol al método VerificarLicenciaEmpleado
+                        if (VerificarLicenciaEmpleado(Convert.ToInt32(txtDniEmpleado.Text), rol))
+                        {
+                            FormContenedor formContenedor = new FormContenedor(acceso[0].dni_empleado, acceso[0].nombre, rol);
                             formContenedor.Show();
 
                             txtDniEmpleado.Text = "";
@@ -60,17 +69,10 @@ namespace Control_Gym.Capa_de_presentacion
                         }
                         else
                         {
-                            // Si la licencia ha expirado, mostrar un mensaje de error
-                            MessageBox.Show("Tu licencia ha expirado. Por favor, contacta con el administrador.", "Licencia Expirada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show("Tu licencia ha expirados.", "Error de acceso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             txtDniEmpleado.Text = "";
                             txtContraseñaEmpleado.Text = "";
                         }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Datos incorrectos.", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        txtDniEmpleado.Text = "";
-                        txtContraseñaEmpleado.Text = "";
                     }
                 }
                 else
@@ -84,13 +86,19 @@ namespace Control_Gym.Capa_de_presentacion
             }
         }
 
-        private bool VerificarLicenciaEmpleado(int dniEmpleado)
+
+        private bool VerificarLicenciaEmpleado(int dniEmpleado, string rol)
         {
+            // Si el usuario es empleado, no necesita verificación de licencia
+            if (rol == "Empleado")
+            {
+                MessageBox.Show("Iniciaste sesión como Empleado", "Acesso limitado", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                return true; // Permitir acceso sin verificar la licencia
+            }
+
             string query = "SELECT Estado FROM Licencias WHERE dni_empleado = @dni_empleado AND FechaExpiracion >= GETDATE()";
             MostrarDiasRestantesLicencia(dniEmpleado);
             bool licenciaValida = false;
-
-
 
             try
             {
@@ -122,8 +130,18 @@ namespace Control_Gym.Capa_de_presentacion
 
         private void MostrarDiasRestantesLicencia(int dniEmpleado)
         {
-            string query = "SELECT DATEDIFF(day, GETDATE(), FechaExpiracion) AS DiasRestantes FROM Licencias WHERE dni_empleado = @dni_empleado AND Estado = 'Activa' AND FechaExpiracion >= GETDATE()";
+            // Modificar la consulta para obtener también el rol del empleado
+            string query = @"
+                SELECT DATEDIFF(day, GETDATE(), Licencias.FechaExpiracion) AS DiasRestantes, 
+                       Empleados.rol
+                FROM Licencias 
+                JOIN Empleados ON Licencias.dni_empleado = Empleados.dni_empleado
+                WHERE Licencias.dni_empleado = @dni_empleado 
+                  AND Licencias.Estado = 'Activa' 
+                  AND Licencias.FechaExpiracion >= GETDATE()";
+
             int diasRestantes = 0;
+            string rol = "";
 
             try
             {
@@ -139,14 +157,21 @@ namespace Control_Gym.Capa_de_presentacion
                         {
                             // Leer los días restantes de la licencia
                             diasRestantes = reader.GetInt32(reader.GetOrdinal("DiasRestantes"));
+                            // Leer el rol del empleado
+                            rol = reader["rol"].ToString();
                         }
                     }
                 }
 
-                // Mostrar un MessageBox con el número de días restantes
+                // Mostrar el rol y los días restantes de licencia
                 if (diasRestantes > 0)
                 {
-                    MessageBox.Show($"El empleado con DNI {dniEmpleado} tiene {diasRestantes} días de licencia restantes.", "Licencia ACTIVA", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    string mensaje = $"Iniciaste sesión como {rol}. Usted tiene {diasRestantes} días de licencia restantes.";
+                    MessageBox.Show(mensaje, "Licencia ACTIVA", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                }
+                else
+                {
+                    MessageBox.Show("Tu licencia ha expirado.", "Licencia Expirada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
@@ -160,8 +185,6 @@ namespace Control_Gym.Capa_de_presentacion
                 conexionBD.CerrarConexion();
             }
         }
-
-
 
 
         private void txtDniEmpleado_KeyPress(object sender, KeyPressEventArgs e)

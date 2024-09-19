@@ -409,5 +409,10 @@ namespace Control_Gym.Capa_de_presentacion
                 conexionBD.CerrarConexion();
             }
         }
+
+        private void btnFechaHoy_Click(object sender, EventArgs e)
+        {
+            dtpFechaInicio.Value = DateTime.Now;
+        }
     }
 }

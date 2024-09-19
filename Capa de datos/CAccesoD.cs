@@ -38,15 +38,20 @@ namespace Control_Gym.Capa_de_datos
             {
                 conexionBD.CerrarConexion();
             }
-
         }
         public List<CAcceso> Login(CAcceso cAcc)
         {
-                string query = "select * from empleados where dni_empleado = '"+cAcc.dni_empleado+"' and contraseña = '"+cAcc.contraseña+"';";
-                List<CAcceso> datos = new List<CAcceso>();
-                try
+            string query = "SELECT * FROM empleados WHERE dni_empleado = @dni_empleado AND contraseña = @contraseña";
+            List<CAcceso> datos = new List<CAcceso>();
+
+            try
+            {
+                using (SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion()))
                 {
-                    SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
+                    // Utiliza parámetros para evitar inyecciones SQL
+                    comando.Parameters.AddWithValue("@dni_empleado", cAcc.dni_empleado);
+                    comando.Parameters.AddWithValue("@contraseña", cAcc.contraseña);
+
                     SqlDataReader reader = comando.ExecuteReader();
 
                     while (reader.Read())
@@ -60,29 +65,27 @@ namespace Control_Gym.Capa_de_datos
                             fecha_nac = DateTime.Parse(reader["fecha_nac"].ToString()),
                             domicilio = reader["domicilio"].ToString(),
                             email = reader["email"].ToString(),
-                            contraseña = reader["contraseña"].ToString()
+                            contraseña = reader["contraseña"].ToString(),
+                            rol = reader["rol"].ToString() // Asumiendo que tienes la columna "rol"
                         };
-                        //return acceso;
+
                         datos.Add(acceso);
                     }
-                        reader.Close();
 
-                    if (datos.Count > 1)
-                    {
-                        return datos;
-                    }
-                    else
-                    {
-                        datos.Add (null);
-                        return datos;
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Hubo un error al mostrar las membresias: " + ex);
-                    throw;
+                    reader.Close();
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hubo un error al intentar iniciar sesión: " + ex.Message);
+                throw;
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return datos;
+        }
     }
 }

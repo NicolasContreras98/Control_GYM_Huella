@@ -197,5 +197,11 @@ namespace Control_Gym.Capa_de_presentacion
                 conexionBD.CerrarConexion();
             }
         }
+
+        private void btnVerInformes_Click(object sender, EventArgs e)
+        {
+            FormInformes formInformes = new FormInformes();
+            formInformes.ShowDialog();
+        }
     }
 }

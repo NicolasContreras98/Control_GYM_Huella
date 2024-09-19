@@ -20,10 +20,12 @@ namespace Control_Gym.Capa_de_presentacion
     {
         CMembresiaD cMembresiaD = new CMembresiaD();
         CSociosD cSociosD = new CSociosD();
+        private FormContenedor formContenedor;
 
-        public FormSocio()
+        public FormSocio(FormContenedor contenedor)
         {
             InitializeComponent();
+            formContenedor = contenedor;
         }
 
         private void AbrirFormEnPanel(object Formhijo)
@@ -108,7 +110,7 @@ namespace Control_Gym.Capa_de_presentacion
 
                         limpiarCampos();
                         CancelarModificar();
-
+                        formContenedor.SeleccionarBotonMembresias();
                         ocultarElementos();
                         AbrirFormEnPanel(new FormMembresias(dni));
                     }

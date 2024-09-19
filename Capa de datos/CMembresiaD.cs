@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -338,6 +339,28 @@ namespace Control_Gym.Capa_de_datos
             {
                 conexionBD.CerrarConexion();
             }
+        }
+
+        public Dictionary<string, int> ObtenerTotalMembresiasPorMes()
+        {
+            Dictionary<string, int> membresiasPorMes = new Dictionary<string, int>();
+
+            string query = "SELECT DATENAME(MONTH, m.fecha_inicio) AS Mes, SUM(tm.precio) AS TotalMembresiasVendidas " +
+                         "FROM membresias m " +
+                         "JOIN tipos_membresias tm ON m.cod_tipo_membresia = tm.cod_tipo_membresia " +
+                         "GROUP BY DATENAME(MONTH, m.fecha_inicio), DATEPART(MONTH, m.fecha_inicio) " +
+                         "ORDER BY DATEPART(MONTH, m.fecha_inicio)";
+
+            SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
+            SqlDataReader reader = comando.ExecuteReader();
+
+            while (reader.Read())
+            {
+                membresiasPorMes.Add(reader["Mes"].ToString(), Convert.ToInt32(reader["TotalMembresiasVendidas"]));
+            }
+
+            conexionBD.CerrarConexion();
+            return membresiasPorMes;
         }
     }
 }

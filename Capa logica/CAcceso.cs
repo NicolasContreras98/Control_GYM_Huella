@@ -18,9 +18,10 @@ namespace Control_Gym.Capa_logica
         public string domicilio { get; set; }
         public string email { get; set; }
         public string contraseña { get; set; }
+        public string rol { get; set; }
 
         public CAcceso() { }
-        public CAcceso(int dni_empleado, string nombre, string apellido, string telefono, DateTime fecha_nac, string domicilio, string email, string contraseña)
+        public CAcceso(int dni_empleado, string nombre, string apellido, string telefono, DateTime fecha_nac, string domicilio, string email, string contraseña, string rol)
         {
             this.dni_empleado = dni_empleado;
             this.nombre = nombre;
@@ -30,6 +31,7 @@ namespace Control_Gym.Capa_logica
             this.domicilio = domicilio;
             this.email = email;
             this.contraseña = contraseña;
+            this.rol = rol;
         }
         public CAcceso(int dni_empleado, string contraseña)
         {

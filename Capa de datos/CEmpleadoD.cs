@@ -20,7 +20,7 @@ namespace Control_Gym.Capa_de_datos
         {
             try
             {
-                string query = "INSERT INTO Empleados(dni_empleado, nombre, apellido, telefono, fecha_nac, domicilio, email, contraseña) VALUES (@dni_empleado, @nombre, @apellido,@telefono,@fecha_nac,@domicilio,@email,@contraseña)";
+                string query = "INSERT INTO Empleados(dni_empleado, nombre, apellido, telefono, fecha_nac, domicilio, email, contraseña, rol) VALUES (@dni_empleado, @nombre, @apellido,@telefono,@fecha_nac,@domicilio,@email,@contraseña, @rol)";
 
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
                 comando.Parameters.Add(new SqlParameter("@dni_empleado", cEmpleado.dni_empleado));
@@ -31,6 +31,7 @@ namespace Control_Gym.Capa_de_datos
                 comando.Parameters.Add(new SqlParameter("@domicilio", cEmpleado.domicilio));
                 comando.Parameters.Add(new SqlParameter("@email", cEmpleado.email));
                 comando.Parameters.Add(new SqlParameter("@contraseña", cEmpleado.contraseña));
+                comando.Parameters.Add(new SqlParameter("@rol", cEmpleado.rol));
                 comando.ExecuteNonQuery();
                 MessageBox.Show("Empleado agregado correctamente.");
             }
@@ -44,7 +45,7 @@ namespace Control_Gym.Capa_de_datos
         {
             try
             {
-                string query = "UPDATE empleados SET nombre = @nombre, apellido = @apellido, telefono = @telefono, fecha_nac = @fecha_nac, domicilio = @domicilio, email = @email, contraseña = @contraseña WHERE dni_empleado = @dni_empleado";
+                string query = "UPDATE empleados SET nombre = @nombre, apellido = @apellido, telefono = @telefono, fecha_nac = @fecha_nac, domicilio = @domicilio, email = @email, contraseña = @contraseña, rol = @rol WHERE dni_empleado = @dni_empleado";
 
 
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
@@ -56,6 +57,8 @@ namespace Control_Gym.Capa_de_datos
                 comando.Parameters.Add(new SqlParameter("@domicilio", cEmpleado.domicilio));
                 comando.Parameters.Add(new SqlParameter("@email", cEmpleado.email));
                 comando.Parameters.Add(new SqlParameter("@contraseña", cEmpleado.contraseña));
+                comando.Parameters.Add(new SqlParameter("@rol", cEmpleado.rol));
+
                 comando.ExecuteNonQuery();
                 MessageBox.Show("Empleado actualizado correctamente.");
             }
@@ -67,12 +70,39 @@ namespace Control_Gym.Capa_de_datos
 
         public void EliminarEmpleado(int dni)
         {
-            string query = "delete Empleados where dni_empleado = '" + dni + "'";
+            string verificarAdminQuery = "SELECT COUNT(*) FROM Empleados WHERE rol = 'Administrador'";
+            string eliminarEmpleadoQuery = "DELETE FROM Empleados WHERE dni_empleado = @dni";
+
             try
             {
-                SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
-                comando.ExecuteNonQuery();
-                MessageBox.Show("Empleado eliminado correctamente.");
+                // Verificar cuántos administradores hay en la base de datos
+                using (SqlCommand verificarAdminCmd = new SqlCommand(verificarAdminQuery, conexionBD.AbrirConexion()))
+                {
+                    int totalAdministradores = (int)verificarAdminCmd.ExecuteScalar(); // Obtiene la cantidad de administradores
+
+                    // Verificar si el empleado que intentas eliminar es un administrador
+                    string rolEmpleadoQuery = "SELECT rol FROM Empleados WHERE dni_empleado = @dni";
+                    using (SqlCommand rolEmpleadoCmd = new SqlCommand(rolEmpleadoQuery, conexionBD.AbrirConexion()))
+                    {
+                        rolEmpleadoCmd.Parameters.AddWithValue("@dni", dni);
+                        string rolEmpleado = (string)rolEmpleadoCmd.ExecuteScalar();
+
+                        // Si el empleado es administrador y es el último administrador, no permitir la eliminación
+                        if (rolEmpleado == "Administrador" && totalAdministradores <= 1)
+                        {
+                            MessageBox.Show("No puedes eliminar este empleado porque es el último administrador del sistema.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+                }
+
+                // Si pasa la verificación, proceder con la eliminación
+                using (SqlCommand eliminarCmd = new SqlCommand(eliminarEmpleadoQuery, conexionBD.AbrirConexion()))
+                {
+                    eliminarCmd.Parameters.AddWithValue("@dni", dni);
+                    eliminarCmd.ExecuteNonQuery();
+                    MessageBox.Show("Empleado eliminado correctamente.");
+                }
             }
             catch (Exception ex)
             {
@@ -85,7 +115,12 @@ namespace Control_Gym.Capa_de_datos
                     MessageBox.Show("Error al eliminar el empleado: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
         }
+
 
         // FIN CRUD //
 
@@ -110,6 +145,7 @@ namespace Control_Gym.Capa_de_datos
                         domicilio = reader["domicilio"].ToString(),
                         email = reader["email"].ToString(),
                         contraseña = reader["contraseña"].ToString(),
+                        rol = reader["rol"].ToString()
                     };
 
                     Empleados.Add(Empleado);
@@ -149,7 +185,8 @@ namespace Control_Gym.Capa_de_datos
                         fecha_nac = DateTime.Parse(reader["Fecha de Nacimiento"].ToString()),
                         domicilio = reader["Domicilio"].ToString(),
                         email = reader["E-Mail"].ToString(),
-                        contraseña = reader["Contraseña"].ToString()
+                        contraseña = reader["Contraseña"].ToString(),
+                        rol = reader["rol"].ToString()
                     };
                     Empleados.Add(Empleado);
                 }

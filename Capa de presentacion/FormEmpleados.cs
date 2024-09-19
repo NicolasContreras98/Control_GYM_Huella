@@ -1,17 +1,9 @@
 ﻿using Control_Gym.Capa_de_datos;
 using Control_Gym.Capa_logica;
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Control_Gym.Capa_de_presentacion
 {
@@ -20,6 +12,7 @@ namespace Control_Gym.Capa_de_presentacion
         public FormEmpleados()
         {
             InitializeComponent();
+            cargarCmbRol();
         }
 
         private CEmpleado cEmpleado = new CEmpleado();
@@ -41,6 +34,7 @@ namespace Control_Gym.Capa_de_presentacion
                 dtvEmpleado.Columns[4].HeaderText = "Domicilio";
                 dtvEmpleado.Columns[5].HeaderText = "E-Mail";
                 dtvEmpleado.Columns[6].HeaderText = "Contraseña";
+                dtvEmpleado.Columns[7].HeaderText = "Rol";
             }
             catch (Exception ex)
             {
@@ -89,6 +83,7 @@ namespace Control_Gym.Capa_de_presentacion
                     txtDomicilioEmpleado.Text = filaSeleccionada.Cells["domicilio"].Value.ToString();
                     txtEmailEmpleado.Text = filaSeleccionada.Cells["email"].Value.ToString();
                     txtContraseñaEmpleado.Text = filaSeleccionada.Cells["contraseña"].Value.ToString();
+                    cmbRol.Text = filaSeleccionada.Cells["rol"].Value.ToString();
                 }
             }
             catch (Exception ex)
@@ -112,6 +107,7 @@ namespace Control_Gym.Capa_de_presentacion
             {
                 CancelarActualizarEmpleado();
                 limpiarTextBox();
+                cargarCmbRol();
             }
             catch (Exception ex)
             {
@@ -129,6 +125,16 @@ namespace Control_Gym.Capa_de_presentacion
             txtDomicilioEmpleado.Clear();
             txtEmailEmpleado.Clear();
             txtContraseñaEmpleado.Clear();
+            cmbRol.Items.Clear();
+        }
+
+        private void cargarCmbRol()
+        {
+            cmbRol.Items.Add("Empleado");
+            cmbRol.Items.Add("Administrador");
+
+            // Puedes seleccionar un valor por defecto si lo deseas
+            cmbRol.SelectedIndex = 0;
         }
 
         // CRUD //
@@ -144,7 +150,7 @@ namespace Control_Gym.Capa_de_presentacion
                     return;
                 }
 
-                if (txtNombreEmpleado.Text != "" && txtApellidoEmpleado.Text != "" && txtTelefonoEmpleado.Text != "" && txtDomicilioEmpleado.Text != "" && txtEmailEmpleado.Text != "" && txtContraseñaEmpleado.Text != "")
+                if (txtNombreEmpleado.Text != "" && txtApellidoEmpleado.Text != "" && txtTelefonoEmpleado.Text != "" && txtDomicilioEmpleado.Text != "" && txtEmailEmpleado.Text != "" && txtContraseñaEmpleado.Text != "" && cmbRol.Text != "")
                 {
                     CEmpleado cEmpleado = new CEmpleado(
                         Convert.ToInt32(mtxtDniEmpleado.Text),
@@ -154,7 +160,8 @@ namespace Control_Gym.Capa_de_presentacion
                         DateTime.Parse(dtpFechNacEmpleado.Value.ToString("yyyy/MM/dd")),
                         txtDomicilioEmpleado.Text.Trim(),
                         txtEmailEmpleado.Text.Trim(),
-                        txtContraseñaEmpleado.Text
+                        txtContraseñaEmpleado.Text,
+                        cmbRol.Text
                     );
                     CEmpleadoD cEmpleadoD = new CEmpleadoD();
                     bool existe = cEmpleadoD.DniExiste(cEmpleado.dni_empleado);
@@ -168,6 +175,7 @@ namespace Control_Gym.Capa_de_presentacion
                         cEmpleadoD.CrearEmpleado(cEmpleado);
                         CargarGrilla();
                         limpiarTextBox();
+                        cargarCmbRol();
                         CancelarActualizarEmpleado();
                     }
                 }
@@ -206,13 +214,15 @@ namespace Control_Gym.Capa_de_presentacion
                         DateTime.Parse(dtpFechNacEmpleado.Value.ToString("yyyy/MM/dd")),
                         txtDomicilioEmpleado.Text,
                         txtEmailEmpleado.Text,
-                        txtContraseñaEmpleado.Text
+                        txtContraseñaEmpleado.Text,
+                        cmbRol.Text
                     );
                     CEmpleadoD cEmpleadoD = new CEmpleadoD();
                     cEmpleadoD.EditarEmpleado(cEmpleado);
                     CargarGrilla();
                     limpiarTextBox();
                     CancelarActualizarEmpleado();
+                    cargarCmbRol();
                 }
                 else
                 {
@@ -237,6 +247,7 @@ namespace Control_Gym.Capa_de_presentacion
                     CargarGrilla();
                     limpiarTextBox();
                     CancelarActualizarEmpleado();
+                    cargarCmbRol();
                 }
             }
             catch (Exception ex)
