@@ -12,7 +12,7 @@ namespace Control_Gym.Capa_de_datos
     public class ConexionBD
     {
         private static ConexionBD instancia;
-        private string cadenaConexion = "Server=localhost\\SQLEXPRESS;Database=control_gym;Trusted_Connection=True;";
+        private string cadenaConexion = "Server=localhost\\SQLEXPRESS;Database=control_gym_huella;Trusted_Connection=True;";
 
         private SqlConnection conexion;
 

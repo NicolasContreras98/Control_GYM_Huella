@@ -14,12 +14,13 @@ namespace Control_Gym.Capa_de_datos
     {
         private ConexionBD conexionBD = ConexionBD.Instancia;
 
-        public int ContarTiposMembresia(int dni)
+        public int ContarTiposMembresia(byte[] huella)
         {
-            string query = "select COUNT(dni_socio) from membresias where dni_socio = '" + dni + "'";
+            string query = "select COUNT(huella) from membresias where huella = @huella";
             try
             {
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
+                comando.Parameters.AddWithValue("@huella", huella);
                 int resultado = (int)comando.ExecuteScalar();
                 return resultado;
             }
@@ -34,16 +35,16 @@ namespace Control_Gym.Capa_de_datos
             }
         }
 
-        public string[] buscarPorDni(int dni, int cod_tipo_membresia)
+        public string[] buscarPorHuella(byte[] huella, int cod_tipo_membresia)
         {
             List<string> result = new List<string>();
 
-            string query = "SELECT fecha_inicio, fecha_fin FROM Membresias WHERE dni_socio = @dni and cod_tipo_membresia = @cod_tipo_membresia";
+            string query = "SELECT fecha_inicio, fecha_fin FROM Membresias WHERE huella = @huella and cod_tipo_membresia = @cod_tipo_membresia";
 
             try
             {
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
-                comando.Parameters.AddWithValue("@dni", dni);
+                comando.Parameters.AddWithValue("@huella", huella);
                 comando.Parameters.AddWithValue("@cod_tipo_membresia", cod_tipo_membresia);
 
                 SqlDataReader reader = comando.ExecuteReader();
@@ -56,9 +57,8 @@ namespace Control_Gym.Capa_de_datos
                     DateTime fecha_fin = DateTime.Parse(reader["fecha_fin"].ToString());
                     DateTime fecha_actual = DateTime.Now;
                     TimeSpan diferencia = (fecha_fin - fecha_actual);
-                    int dias_restantes = (diferencia.Days)+1;
+                    int dias_restantes = (diferencia.Days) + 1;
 
-                    // Formatear las fechas con el nombre del mes
                     string fechaInicioFormateada = fecha_inicio.ToString("dd 'de' MMMM", culturaEspañola);
                     string fechaFinFormateada = fecha_fin.ToString("dd 'de' MMMM", culturaEspañola);
 
@@ -70,7 +70,7 @@ namespace Control_Gym.Capa_de_datos
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Hubo un error al buscar el DNI: " + ex);
+                MessageBox.Show("Hubo un error al buscar la huella: " + ex);
                 throw;
             }
             finally
@@ -81,17 +81,16 @@ namespace Control_Gym.Capa_de_datos
             return result.ToArray();
         }
 
-
-        public string[] buscarPorDni(int dni)
+        public string[] buscarPorHuella(byte[] huella)
         {
             List<string> result = new List<string>();
 
-            string query = "SELECT fecha_inicio, fecha_fin  FROM Membresias WHERE dni_socio = @dni";
+            string query = "SELECT fecha_inicio, fecha_fin FROM Membresias WHERE huella = @huella";
 
             try
             {
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
-                comando.Parameters.AddWithValue("@dni", dni);
+                comando.Parameters.AddWithValue("@huella", huella);
 
                 SqlDataReader reader = comando.ExecuteReader();
 
@@ -101,7 +100,7 @@ namespace Control_Gym.Capa_de_datos
                     DateTime fecha_fin = DateTime.Parse(reader["fecha_fin"].ToString());
                     DateTime fecha_actual = DateTime.Now;
                     TimeSpan diferencia = (fecha_fin - fecha_actual);
-                    int dias_restantes = (diferencia.Days)+1;
+                    int dias_restantes = (diferencia.Days) + 1;
 
                     result.Add(fecha_inicio.ToString("dd 'de' MMMM"));
                     result.Add(fecha_fin.ToString("dd 'de' MMMM"));
@@ -111,7 +110,7 @@ namespace Control_Gym.Capa_de_datos
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Hubo un error al buscar el DNI: " + ex);
+                MessageBox.Show("Hubo un error al buscar la huella: " + ex);
                 throw;
             }
             finally
@@ -122,15 +121,15 @@ namespace Control_Gym.Capa_de_datos
             return result.ToArray();
         }
 
-        public ClsSocio[] traerDatosDeSocioPorDni(int dni)
+        public ClsSocio[] traerDatosDeSocioPorHuella(byte[] huella)
         {
             ClsSocio[] array = new ClsSocio[1];
             try
             {
                 conexionBD.AbrirConexion();
-                string query = "select * from socios where dni_socio = @dni";
+                string query = "select * from socios where huella = @huella";
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
-                comando.Parameters.AddWithValue("@dni", dni);
+                comando.Parameters.AddWithValue("@huella", huella);
                 SqlDataReader reader = comando.ExecuteReader();
                 {
                     while (reader.Read())
@@ -154,5 +153,6 @@ namespace Control_Gym.Capa_de_datos
                 conexionBD.CerrarConexion();
             }
         }
+
     }
 }
