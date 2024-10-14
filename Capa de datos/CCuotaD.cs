@@ -30,7 +30,7 @@ namespace Control_Gym.Capa_de_datos
         public List<CCuota> TraerCuotas()
         {
             List<CCuota> cuotas = new List<CCuota>();
-            string query = "select c.cod_cuota, c.fecha_pago, s.idSocio, t.nombre, t.precio from cuotas c inner join membresias m on c.cod_membresia = m.cod_membresia inner join tipos_membresias t on m.cod_tipo_membresia = t.cod_tipo_membresia inner join socios s on m.idSocio = s.idSocio;";
+            string query = "select c.cod_cuota, c.fecha_pago, s.id_socio, t.nombre, t.precio from cuotas c inner join membresias m on c.cod_membresia = m.cod_membresia inner join tipos_membresias t on m.cod_tipo_membresia = t.cod_tipo_membresia inner join socios s on m.id_socio = s.id_socio;";
             try
             {
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
@@ -42,7 +42,7 @@ namespace Control_Gym.Capa_de_datos
                     {
                         cod_cuota = Convert.ToInt32(reader["cod_cuota"].ToString()),
                         fecha_pago = DateTime.Parse(reader["fecha_pago"].ToString()),
-                        idSocio = Convert.ToInt32(reader["idSocio"].ToString()), // Usando idSocio en lugar de dni_socio
+                        idSocio = Convert.ToInt32(reader["id_socio"].ToString()), // CAMBIO id_socio en lugar de dni_socio
                         nombre_membresia = reader["nombre"].ToString(),
                         precio = Convert.ToDecimal(reader["precio"].ToString())
                     };

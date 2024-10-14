@@ -12,6 +12,7 @@ namespace Control_Gym.Capa_logica
     {
         public int cod_membresia { get; set; }
         public int cod_tipo_membresia { get; set; }
+        public int id_socio { get; set; } //agrego id_socio
         public int dni_socio { get; set; }
         public DateTime fecha_inicio { get; set; }
         public DateTime fecha_fin { get; set; }
@@ -22,27 +23,30 @@ namespace Control_Gym.Capa_logica
         
         }
         private CMembresiaD cMembresiaD = new CMembresiaD();
-        public CMembresia(int cod_tipo_membresia, int dni_socio, DateTime fecha_inicio, DateTime fecha_fin)
+        public CMembresia(int cod_tipo_membresia, int dni_socio,int id_socio, DateTime fecha_inicio, DateTime fecha_fin)
         {
             this.cod_membresia = cod_membresia;
             this.cod_tipo_membresia = cod_tipo_membresia;
             this.dni_socio = dni_socio;
+            this.id_socio = id_socio;
             this.fecha_inicio = fecha_inicio;
             this.fecha_fin = fecha_fin;
         }
-        public CMembresia(int cod_membresia, int cod_tipo_membresia, int dni_socio, DateTime fecha_inicio, DateTime fecha_fin)
+        public CMembresia(int cod_membresia, int cod_tipo_membresia, int dni_socio,int id_socio, DateTime fecha_inicio, DateTime fecha_fin)
         {
             this.cod_membresia = cod_membresia;
             this.cod_tipo_membresia = cod_tipo_membresia;
             this.dni_socio = dni_socio;
+            this.id_socio = id_socio;
             this.fecha_inicio = fecha_inicio;
             this.fecha_fin = fecha_fin;
         }
-        public CMembresia(int cod_membresia, int cod_tipo_membresia, int dni_socio, DateTime fecha_inicio, DateTime fecha_fin, string nombre_tipo, decimal precio_tipo, int cantidad_dias)
+        public CMembresia(int cod_membresia, int cod_tipo_membresia, int dni_socio,int id_socio, DateTime fecha_inicio, DateTime fecha_fin, string nombre_tipo, decimal precio_tipo, int cantidad_dias)
         {
             this.cod_membresia = cod_membresia;
             this.cod_tipo_membresia = cod_tipo_membresia;
             this.dni_socio = dni_socio;
+            this.id_socio = id_socio;
             this.fecha_inicio = fecha_inicio;
             this.fecha_fin = fecha_fin;
             this.nombre_tipo = nombre_tipo;

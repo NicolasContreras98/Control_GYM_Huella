@@ -17,15 +17,15 @@ namespace Control_Gym.Capa_de_datos
         private ConexionBD conexionBD = ConexionBD.Instancia;
         private CCuotaD cCuotaD = new CCuotaD();
 
-        public bool TieneTipoMembresia(int dni, int cod_tipo)
+        public bool TieneTipoMembresia(int id_socio, int cod_tipo)
         {
-            string query = "select COUNT(cod_membresia) from membresias where dni_socio = @dni_socio and cod_tipo_membresia = @cod_tipo_membresia;";
+            string query = "select COUNT(cod_membresia) from membresias where id_socio = @id_socio and cod_tipo_membresia = @cod_tipo_membresia;";
 
             try
             {
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
 
-                comando.Parameters.Add(new SqlParameter("@dni_socio", dni));
+                comando.Parameters.Add(new SqlParameter("@id_socio", id_socio));
                 comando.Parameters.Add(new SqlParameter("@cod_tipo_membresia", cod_tipo));
 
                 int resultado = (int)comando.ExecuteScalar();
@@ -48,14 +48,14 @@ namespace Control_Gym.Capa_de_datos
 
         public int CrearMembresia(CMembresia cMembresia)
         {
-            string query = "INSERT INTO membresias(cod_tipo_membresia, dni_socio, fecha_inicio, fecha_fin) VALUES (@cod_tipo_membresia, @dni_socio, @fecha_inicio, @fecha_fin); SELECT SCOPE_IDENTITY();";
+            string query = "INSERT INTO membresias(cod_tipo_membresia, id_socio, fecha_inicio, fecha_fin) VALUES (@cod_tipo_membresia, @id_socio, @fecha_inicio, @fecha_fin); SELECT SCOPE_IDENTITY();";
 
             try
             {
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
 
                 comando.Parameters.Add(new SqlParameter("@cod_tipo_membresia", cMembresia.cod_tipo_membresia));
-                comando.Parameters.Add(new SqlParameter("@dni_socio", cMembresia.dni_socio));
+                comando.Parameters.Add(new SqlParameter("@id_socio", cMembresia.id_socio));
                 comando.Parameters.Add(new SqlParameter("@fecha_inicio", cMembresia.fecha_inicio));
                 comando.Parameters.Add(new SqlParameter("@fecha_fin", cMembresia.fecha_fin));
 
@@ -134,7 +134,7 @@ namespace Control_Gym.Capa_de_datos
         public List<CMembresia> TraerMembresias()
         {
             List<CMembresia> membresias = new List<CMembresia>();
-            string query = "select * from membresias inner join tipos_membresias on membresias.cod_tipo_membresia = tipos_membresias.cod_tipo_membresia";
+            string query = "select m.cod_membresia,m.cod_tipo_membresia, s.dni_socio, s.id_socio, m.fecha_inicio, m.fecha_fin, t.nombre, t.precio, t.cantidad_dias from membresias m left join tipos_membresias t on m.cod_tipo_membresia = t.cod_tipo_membresia left join socios s on m.id_socio = s.id_socio;";
             try
             {
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
@@ -145,8 +145,9 @@ namespace Control_Gym.Capa_de_datos
                     CMembresia membresia = new CMembresia
                     {
                         cod_membresia = Convert.ToInt32(reader["cod_membresia"].ToString()),
-                        cod_tipo_membresia = Convert.ToInt32(reader["cod_tipo_membresia"].ToString()),
+                        cod_tipo_membresia = Convert.ToInt32(reader["cod_tipo_membresia"].ToString()),                        
                         dni_socio = Convert.ToInt32(reader["dni_socio"].ToString()),
+                        id_socio = Convert.ToInt32(reader["id_socio"].ToString()),
                         fecha_inicio = DateTime.Parse(reader["fecha_inicio"].ToString()),
                         fecha_fin = DateTime.Parse(reader["fecha_fin"].ToString()),
                         nombre_tipo = reader["nombre"].ToString(),
@@ -209,14 +210,14 @@ namespace Control_Gym.Capa_de_datos
 
         public void EditarMembresia(CMembresia cMembresia)
         {
-            string query = "UPDATE membresias SET cod_tipo_membresia = @cod_tipo_membresia, dni_socio = @dni_socio, fecha_inicio = @fecha_inicio, fecha_fin = @fecha_fin WHERE cod_membresia = @cod_membresia";
+            string query = "UPDATE membresias SET cod_tipo_membresia = @cod_tipo_membresia,  fecha_inicio = @fecha_inicio, fecha_fin = @fecha_fin WHERE cod_membresia = @cod_membresia";
 
             try
             {
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
 
                 comando.Parameters.Add(new SqlParameter("@cod_tipo_membresia", cMembresia.cod_tipo_membresia));
-                comando.Parameters.Add(new SqlParameter("@dni_socio", cMembresia.dni_socio));
+                //comando.Parameters.Add(new SqlParameter("@id_socio", cMembresia.id_socio));
                 comando.Parameters.Add(new SqlParameter("@fecha_inicio", cMembresia.fecha_inicio));
                 comando.Parameters.Add(new SqlParameter("@fecha_fin", cMembresia.fecha_fin));
                 comando.Parameters.Add(new SqlParameter("@cod_membresia", cMembresia.cod_membresia));

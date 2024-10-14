@@ -4,13 +4,20 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlTypes;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Control_Gym.Capa_de_datos;
 using Control_Gym.Capa_logica;
+using libzkfpcsharp;
+using Sample;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
 
 
@@ -21,6 +28,9 @@ namespace Control_Gym.Capa_de_presentacion
         CMembresiaD cMembresiaD = new CMembresiaD();
         CSociosD cSociosD = new CSociosD();
         private FormContenedor formContenedor;
+
+        private ClsHuella cHuella = new ClsHuella();
+
 
         public FormSocio(FormContenedor contenedor)
         {
@@ -72,11 +82,13 @@ namespace Control_Gym.Capa_de_presentacion
             btnCancelar.Visible = false;
             btnBorrar.Visible = false;
             btnModificar.Visible = false;
+            btnRegistrarHuella.Visible = false;
+            btnCancelarRegHuella.Visible = false;
         }
 
         private void dtpFechaNacimiento_ValueChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -105,14 +117,14 @@ namespace Control_Gym.Capa_de_presentacion
 
                     else
                     {
-                        oClsSocio.GuardarSocio(dni, nombre, apellido, fechaNacimiento, telefono, domicilio, email);
+                        int idSocio = oClsSocio.GuardarSocio(dni, nombre, apellido, fechaNacimiento, telefono, domicilio, email);
                         dgvSocios.DataSource = oClsSocio.CargarDatos();
+
+                        MessageBox.Show("Socio registrado correctamente. Ahora registre las huellas.");
 
                         limpiarCampos();
                         CancelarModificar();
-                        formContenedor.SeleccionarBotonMembresias();
-                        ocultarElementos();
-                        AbrirFormEnPanel(new FormMembresias(dni));
+
                     }
                 }
                 else
@@ -131,6 +143,7 @@ namespace Control_Gym.Capa_de_presentacion
             try
             {
                 ClsSocio clsSocio = new ClsSocio();
+                int id_socio = Convert.ToInt32(txtIdSocio.Text); //AGREGO id_socio 
                 int dni = Convert.ToInt32(txtDniSocio.Text);
                 string nombre = txtNombreSocio.Text;
                 string apellido = txtApellidoSocio.Text;
@@ -138,9 +151,9 @@ namespace Control_Gym.Capa_de_presentacion
                 string telefono = txtTelefonoSocio.Text;
                 string domicilio = txtDomicilio.Text;
                 string email = txtEmail.Text;
-                
+
                 ClsSocio oclsSocio = new ClsSocio();
-                oclsSocio.ModificarSocio(dni, nombre, apellido, fechaNacimiento, telefono, domicilio, email);
+                oclsSocio.ModificarSocio(id_socio, nombre, apellido, fechaNacimiento, telefono, domicilio, email); //SACO dni PARA QUE VERIFIQUE POR id_socio
                 dgvSocios.DataSource = clsSocio.CargarDatos();
 
                 limpiarCampos();
@@ -187,17 +200,23 @@ namespace Control_Gym.Capa_de_presentacion
         {
             try
             {
+
+
                 OcultarAdvertencia();
                 ClsSocio clsSocio = new ClsSocio();
 
                 dgvSocios.DataSource = clsSocio.CargarDatos();
-                dgvSocios.Columns[0].HeaderText = "DNI";
-                dgvSocios.Columns[1].HeaderText = "Nombre";
-                dgvSocios.Columns[2].HeaderText = "Apellido";
-                dgvSocios.Columns[3].HeaderText = "Teléfono";
-                dgvSocios.Columns[4].HeaderText = "Fecha de Nacimiento";
-                dgvSocios.Columns[5].HeaderText = "Domicilio";
-                dgvSocios.Columns[6].HeaderText = "E-mail";
+                //dgvSocios.Columns[0].HeaderText = "ID";
+                dgvSocios.Columns[0].Visible = false;
+                dgvSocios.Columns[1].HeaderText = "DNI";
+                dgvSocios.Columns[2].HeaderText = "Nombre";
+                dgvSocios.Columns[3].HeaderText = "Apellido";
+                dgvSocios.Columns[4].HeaderText = "Teléfono";
+                dgvSocios.Columns[5].HeaderText = "Fecha de Nacimiento";
+                dgvSocios.Columns[6].HeaderText = "Domicilio";
+                dgvSocios.Columns[7].HeaderText = "E-mail";
+                btnRegistrarHuella.Visible = false;
+                btnResetearHuella.Visible = false;
 
                 CancelarModificar();
             }
@@ -209,20 +228,35 @@ namespace Control_Gym.Capa_de_presentacion
 
         private void dgvSocios_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            txtIdSocio.Text = dgvSocios.SelectedCells[0].Value.ToString(); //AGREGO id_socio DEL INPUT INVISIBLE PARA QUE SE HAGAN
+                                                                           //LAS CONDICIONES POR ESTE CAMPO EN LUGAR DEL DNI (POR EJ. EN EL WHERE DEL BORRAR)
+            if (cSociosD.VerificarSiYaTieneHuella(Convert.ToInt32(txtIdSocio.Text)))
+            {
+                btnResetearHuella.Visible = true;
+                btnRegistrarHuella.Visible = false;
+            }
+            else
+            {
+                btnRegistrarHuella.Visible = true; // No tiene huella entonces muestra el boton para registrar.
+                btnResetearHuella.Visible = false;
+            }
             btnGuardar.Visible = false;
             btnCancelar.Visible = true;
             btnBorrar.Visible = true;
             btnModificar.Visible = true;
-            
-            txtDniSocio.Text = dgvSocios.SelectedCells[0].Value.ToString();
-            txtNombreSocio.Text = dgvSocios.SelectedCells[1].Value.ToString();
-            txtApellidoSocio.Text = dgvSocios.SelectedCells[2].Value.ToString();
-            txtTelefonoSocio.Text = dgvSocios.SelectedCells[3].Value.ToString();
-            dtpFechaNacimiento.Text = dgvSocios.SelectedCells[4].Value.ToString();
-            txtDomicilio.Text = dgvSocios.SelectedCells[5].Value.ToString();
-            txtEmail.Text = dgvSocios.SelectedCells[6].Value.ToString();
+            btnCancelarRegHuella.Visible = false;
+
+
+            txtDniSocio.Text = dgvSocios.SelectedCells[1].Value.ToString();
+            txtNombreSocio.Text = dgvSocios.SelectedCells[2].Value.ToString();
+            txtApellidoSocio.Text = dgvSocios.SelectedCells[3].Value.ToString();
+            txtTelefonoSocio.Text = dgvSocios.SelectedCells[4].Value.ToString();
+            dtpFechaNacimiento.Text = dgvSocios.SelectedCells[5].Value.ToString();
+            txtDomicilio.Text = dgvSocios.SelectedCells[6].Value.ToString();
+            txtEmail.Text = dgvSocios.SelectedCells[7].Value.ToString();
 
             txtDniSocio.ReadOnly = true;
+            Program.idSocioSeleccionado = Convert.ToInt32(txtIdSocio.Text);
         }
 
         private void btnBuscarSocio_Click(object sender, EventArgs e)
@@ -447,6 +481,123 @@ namespace Control_Gym.Capa_de_presentacion
         private void txtDniSocio_Leave(object sender, EventArgs e)
         {
             OcultarAdvertencia();
+        }
+
+        private void dgvSocios_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void btnRegistrarHuella_Click(object sender, EventArgs e)
+        {
+            Program.isRegistering = true;
+            if (Program.isRegistering)
+            {
+                btnModificar.Visible = false;
+                btnGuardar.Visible = false;
+                btnCancelar.Visible = false;
+                btnRegistrarHuella.Enabled = false;
+                btnCancelarRegHuella.Visible = true;
+                dgvSocios.Enabled = false;
+                btnBorrar.Visible = false;
+                textRes.Text = $"Por favor, presiona el mismo dedo {Program.REGISTER_FINGER_COUNT} veces";
+            }
+        }
+
+        private void FormSocio_Activated(object sender, EventArgs e)
+        {
+            Program.isRegistering = true;
+            Program.isIdentifying = false;
+        }
+
+        private void FormSocio_Deactivate(object sender, EventArgs e)
+        {
+            Program.isRegistering = false;
+            Program.isIdentifying = true;
+        }
+
+        public void ActualizarHuella(Bitmap huellaBitmap)
+        {
+            if (picHuella.InvokeRequired)
+            {
+                picHuella.Invoke((MethodInvoker)delegate
+                {
+                    picHuella.Image = huellaBitmap;
+                });
+            }
+            else
+            {
+                picHuella.Image = huellaBitmap;
+            }
+        }
+
+        private void btnCancelarRegHuella_Click(object sender, EventArgs e)
+        {
+            textRes.Text = "";
+            Program.isRegistering = false;
+            btnRegistrarHuella.Enabled = true;
+            btnResetearHuella.Visible = false;
+            btnCancelarRegHuella.Visible = false;
+            dgvSocios.Enabled = true;
+            btnModificar.Visible = true;
+            btnGuardar.Visible = true;
+            btnCancelar.Visible = true;
+            btnBorrar.Visible = true;
+            picHuella.Image = null;
+            // Reiniciar el contador de registros
+            Program.RegisterCount = 0;
+
+            // Reinicializar el array RegTmps
+            if (Program.RegTmps != null)
+            {
+                Program.RegTmps = new byte[Program.REGISTER_FINGER_COUNT][];
+
+                for (int i = 0; i < Program.REGISTER_FINGER_COUNT; i++)
+                {
+                    // Asignao un nuevo arreglo de bytes de tamaño 2048 a cada índice para que no quede null
+                    Program.RegTmps[i] = new byte[2048];
+                }
+            }
+
+            // Reinicializar el array de la huella capturada
+            Program.CapTmp = new byte[2048];
+
+            MessageBox.Show("Registro de huella digital cancelado.");
+
+            Program.isIdentifying = true;
+        }
+
+        private void btnResetearHuella_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("¿Está seguro que desea resetear la huella?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                if (ResetearHuella(Convert.ToInt32(txtIdSocio.Text)))
+                {
+                    btnRegistrarHuella.Visible = true; // No tiene huella entonces muestra el boton para registrar.
+                    btnResetearHuella.Visible = false;
+
+                    MessageBox.Show("La huella ha sido reseteada exitosamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Error al resetear las huellas");
+                }
+            }
+            else if (result == DialogResult.No)
+            {
+
+                MessageBox.Show("La operación ha sido cancelada.", "Cancelación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+        private bool ResetearHuella(int id_socio)
+        {
+            if(id_socio > 0)
+            {
+                return cHuella.ResetearHuella(id_socio);
+            }
+            return false;
         }
     }
 }

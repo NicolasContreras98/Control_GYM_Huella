@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormChequeo));
-            this.btnBuscar = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.lblInicio = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -48,6 +47,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lblNombreCompleto = new System.Windows.Forms.Label();
             this.picFPImg = new System.Windows.Forms.PictureBox();
+            this.lblFeedBack = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarning)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbNeutro)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbNo)).BeginInit();
@@ -55,21 +55,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbYes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picFPImg)).BeginInit();
             this.SuspendLayout();
-            // 
-            // btnBuscar
-            // 
-            this.btnBuscar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnBuscar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.btnBuscar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBuscar.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBuscar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnBuscar.Location = new System.Drawing.Point(415, 231);
-            this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(87, 38);
-            this.btnBuscar.TabIndex = 1;
-            this.btnBuscar.Text = "BUSCAR";
-            this.btnBuscar.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
@@ -170,6 +155,7 @@
             this.cmbTipoMembresia.Name = "cmbTipoMembresia";
             this.cmbTipoMembresia.Size = new System.Drawing.Size(125, 28);
             this.cmbTipoMembresia.TabIndex = 2;
+            this.cmbTipoMembresia.SelectedIndexChanged += new System.EventHandler(this.cmbTipoMembresia_SelectedIndexChanged);
             // 
             // timer1
             // 
@@ -264,8 +250,17 @@
             this.picFPImg.Location = new System.Drawing.Point(348, 9);
             this.picFPImg.Name = "picFPImg";
             this.picFPImg.Size = new System.Drawing.Size(208, 216);
+            this.picFPImg.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picFPImg.TabIndex = 20;
             this.picFPImg.TabStop = false;
+            // 
+            // lblFeedBack
+            // 
+            this.lblFeedBack.AutoSize = true;
+            this.lblFeedBack.Location = new System.Drawing.Point(223, 258);
+            this.lblFeedBack.Name = "lblFeedBack";
+            this.lblFeedBack.Size = new System.Drawing.Size(0, 35);
+            this.lblFeedBack.TabIndex = 21;
             // 
             // FormChequeo
             // 
@@ -273,6 +268,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(960, 377);
+            this.Controls.Add(this.lblFeedBack);
             this.Controls.Add(this.picFPImg);
             this.Controls.Add(this.lblNombreCompleto);
             this.Controls.Add(this.label2);
@@ -284,7 +280,6 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lblInicio);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.pbNeutro);
             this.Controls.Add(this.pbNo);
             this.Controls.Add(this.pbYes);
@@ -297,6 +292,8 @@
             this.Name = "FormChequeo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormChequeo";
+            this.Activated += new System.EventHandler(this.FormChequeo_Activated);
+            this.Deactivate += new System.EventHandler(this.FormChequeo_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormChequeo_FormClosing);
             this.Load += new System.EventHandler(this.FormChequeo_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbWarning)).EndInit();
@@ -311,8 +308,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.PictureBox pbYes;
         private System.Windows.Forms.PictureBox pbNo;
         private System.Windows.Forms.PictureBox pbNeutro;
@@ -330,5 +325,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblNombreCompleto;
         private System.Windows.Forms.PictureBox picFPImg;
+        private System.Windows.Forms.Label lblFeedBack;
     }
 }

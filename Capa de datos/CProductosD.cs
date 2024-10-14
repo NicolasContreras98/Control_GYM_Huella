@@ -63,16 +63,16 @@ namespace Control_Gym.Capa_de_datos
         public void GuardarProducto(int cod_proveedor, int cod_tipo_producto, string nombre, DateTime fecha_venc, decimal precio_costo, decimal precio_venta, decimal ganancia, int stock)
         {
 
-            string query = "INSERT INTO productos(cod_proveedor, cod_tipo_producto, nombre, fecha_venc,  precio_costo, precio_venta, ganancia, stock)VALUES(@codigoproveedor, @codigotipoproducto, @nombre, @fechavencimiento, @preciocosto, @precioventa, @ganancia, @stock)";
+            string query = "INSERT INTO productos(cod_proveedor, cod_tipo_producto, nombre, fecha_venc,  precio_costo, precio_venta, ganancia, stock)VALUES(@cod_proveedor, @cod_tipo_producto, @nombre, @fecha_venc, @precio_costo, @precio_venta, @ganancia, @stock)";
             try
             {
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
-                comando.Parameters.AddWithValue("@codigoproveedor", cod_proveedor);
-                comando.Parameters.AddWithValue("@codigotipoproducto", cod_tipo_producto);
+                comando.Parameters.AddWithValue("@cod_proveedor", cod_proveedor);
+                comando.Parameters.AddWithValue("@cod_tipo_producto", cod_tipo_producto);
                 comando.Parameters.AddWithValue("@nombre", nombre);
-                comando.Parameters.AddWithValue("@fechavencimiento", fecha_venc);
-                comando.Parameters.AddWithValue("@preciocosto", precio_costo);
-                comando.Parameters.AddWithValue("@precioventa", precio_venta);
+                comando.Parameters.AddWithValue("@fecha_venc", fecha_venc);
+                comando.Parameters.AddWithValue("@precio_costo", precio_costo);
+                comando.Parameters.AddWithValue("@precio_venta", precio_venta);
                 comando.Parameters.AddWithValue("@ganancia", ganancia);
                 comando.Parameters.AddWithValue("@stock", stock);
 

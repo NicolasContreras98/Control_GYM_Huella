@@ -43,15 +43,14 @@ namespace Control_Gym.Capa_de_datos
             }
         }
 
-        public List<CTipoMembresia> traerTiposDelSocio(int dni)
+        public List<CTipoMembresia> traerTiposDelSocio(int id_socio )
         {
             List<CTipoMembresia> tipos_membresias = new List<CTipoMembresia>();
             try
             {
-                conexionBD.AbrirConexion();
-                string query = "SELECT tipos_membresias.* FROM membresias INNER JOIN tipos_membresias ON membresias.cod_tipo_membresia = tipos_membresias.cod_tipo_membresia WHERE membresias.dni_socio = @dni";
+                string query = "SELECT tipos_membresias.* FROM membresias INNER JOIN tipos_membresias ON membresias.cod_tipo_membresia = tipos_membresias.cod_tipo_membresia WHERE membresias.id_socio = @id_socio";
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
-                comando.Parameters.AddWithValue("@dni", dni);
+                comando.Parameters.AddWithValue("@id_socio", id_socio);
                 SqlDataReader reader = comando.ExecuteReader();
                 {
                     while (reader.Read())
@@ -65,6 +64,7 @@ namespace Control_Gym.Capa_de_datos
                         tipos_membresias.Add(tipoMembresia);
                     }
                 }
+                reader.Close();
                 return tipos_membresias;
             }
             catch

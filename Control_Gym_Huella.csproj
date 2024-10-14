@@ -39,8 +39,11 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AxInterop.ZKFPEngXControl">
+      <HintPath>C:\Users\Tomas\Downloads\AxInterop.ZKFPEngXControl.dll</HintPath>
+    </Reference>
     <Reference Include="libzkfpcsharp">
-      <HintPath>..\..\..\..\Users\Usuario\Downloads\ZKFingerSDK_Windows_Standard\ZKFinger Standard SDK 5.3.0.33\C#\lib\x64\libzkfpcsharp.dll</HintPath>
+      <HintPath>..\PruebaDetectorHuella\ZKFingerSDK_Windows_Standard\ZKFingerSDK_Windows_Standard\ZKFinger Standard SDK 5.3.0.33\C#\lib\x64\libzkfpcsharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -63,6 +66,7 @@
     <Compile Include="Capa de datos\CDetalleVentaD.cs" />
     <Compile Include="Capa de datos\CEmpleadoD.cs" />
     <Compile Include="Capa de datos\CFTipoMembresiaD.cs" />
+    <Compile Include="Capa de datos\CHuellaD.cs" />
     <Compile Include="Capa de datos\CMembresiaD.cs" />
     <Compile Include="Capa de datos\ConexionBD.cs" />
     <Compile Include="Capa de datos\CProductosD.cs" />
@@ -181,6 +185,7 @@
     <Compile Include="Capa logica\CCuota.cs" />
     <Compile Include="Capa logica\CDetalleVenta.cs" />
     <Compile Include="Capa logica\CEmpleado.cs" />
+    <Compile Include="Capa logica\ClsHuella.cs" />
     <Compile Include="Capa logica\ClsProvedores.cs" />
     <Compile Include="Capa logica\ClsSocio.cs" />
     <Compile Include="Capa logica\ClsTipoMembresia.cs" />

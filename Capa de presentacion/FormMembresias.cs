@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Net;
 using System.Windows.Forms;
 using Control_Gym.Capa_de_datos;
 using Control_Gym.Capa_logica;
@@ -25,7 +26,7 @@ namespace Control_Gym.Capa_de_presentacion
         }
         private CTipoMembresia cTipoMembresia = new CTipoMembresia();
         private CMembresia cMembresia = new CMembresia();
-
+        private CSociosD cSociosD = new CSociosD();
         private void CargarGrilla()
         {
             try
@@ -37,14 +38,15 @@ namespace Control_Gym.Capa_de_presentacion
                 dvgMembresias.DataSource = membresias;
                 dvgMembresias.Columns[0].HeaderText = "ID";
                 dvgMembresias.Columns[0].Width = 55;
-                dvgMembresias.Columns[1].Visible = false;
-                dvgMembresias.Columns[2].HeaderText = "Dni del socio";
-                dvgMembresias.Columns[3].HeaderText = "Fecha de inicio";
-                dvgMembresias.Columns[4].HeaderText = "Fecha de fin";
-                dvgMembresias.Columns[5].HeaderText = "Tipo de membresia";
-                dvgMembresias.Columns[6].HeaderText = "Precio";
-                dvgMembresias.Columns[7].HeaderText = "Dias de duración";
-                dvgMembresias.Columns[7].Width = 120;
+                dvgMembresias.Columns[1].Visible = false; //cod_tipo_membresia
+                dvgMembresias.Columns[2].Visible = false; //id_socio
+                dvgMembresias.Columns[3].HeaderText = "Dni del socio";
+                dvgMembresias.Columns[4].HeaderText = "Fecha de inicio";
+                dvgMembresias.Columns[5].HeaderText = "Fecha de fin";
+                dvgMembresias.Columns[6].HeaderText = "Tipo de membresia";
+                dvgMembresias.Columns[7].HeaderText = "Precio";
+                dvgMembresias.Columns[8].HeaderText = "Dias de duración";
+                dvgMembresias.Columns[8].Width = 120;
             }
             catch (Exception ex)
             {
@@ -94,36 +96,44 @@ namespace Control_Gym.Capa_de_presentacion
             {
                 if (txtDniMembresia.Text != "" && cbTipoMembresia.Text != "")
                 {
-                    CMembresia cMembresia = new CMembresia(Convert.ToInt32(cTipoMembresia.cod_tipo_membresia), Convert.ToInt32(txtDniMembresia.Text), DateTime.Parse(dtpFechaInicio.Value.ToString("yyyy/MM/dd")), DateTime.Parse(dtpFechaFin.Value.ToString("yyyy/MM/dd")));
+                    int cod_tipo_membresia = cbTipoMembresia.SelectedIndex + 1;
+                    int dni = Convert.ToInt32(txtDniMembresia.Text);
+                    ClsSocio socio = cSociosD.TraerIdSocioPorDni(dni);                                        
+
+                    CMembresia cMembresia = new CMembresia(Convert.ToInt32(cTipoMembresia.cod_tipo_membresia), Convert.ToInt32(txtDniMembresia.Text), socio.Id_socio, DateTime.Parse(dtpFechaInicio.Value.ToString("yyyy/MM/dd")), DateTime.Parse(dtpFechaFin.Value.ToString("yyyy/MM/dd")));
                     CMembresiaD cMembresiaD = new CMembresiaD();
 
                     bool existe = cMembresiaD.SocioExiste(cMembresia.dni_socio);
-
-                    int cod_tipo_membresia = cbTipoMembresia.SelectedIndex+1;
-                    int dni = Convert.ToInt32(txtDniMembresia.Text);
-
-                    bool TieneTipoMembresia = cMembresiaD.TieneTipoMembresia(dni, cod_tipo_membresia);
-
-                    if (existe)
-                    { 
-                        if (!TieneTipoMembresia)
-                        {
-                            cMembresia.CrearMembresia(cMembresia);
-                            LimpiarCampos();
-                            CargarGrilla();
-                            MessageBox.Show("Membresía creada correctamente");
+                    //ClsSocio socio = cSociosD.TraerIdSocioPorDni(dni);
+                    if (socio != null)
+                    {
+                        bool TieneTipoMembresia = cMembresiaD.TieneTipoMembresia(socio.Id_socio, cod_tipo_membresia);
+                        if (existe)
+                        { 
+                            if (!TieneTipoMembresia)
+                            {
+                                cMembresia.CrearMembresia(cMembresia);
+                                LimpiarCampos();
+                                CargarGrilla();
+                                MessageBox.Show("Membresía creada correctamente");
+                            }
+                            else
+                            {
+                                MessageBox.Show("El socio ya tiene cargado una membresia de ese tipo.", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                LimpiarCampos();
+                            }
                         }
                         else
                         {
-                            MessageBox.Show("El socio ya tiene cargado una membresia de ese tipo.", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            MessageBox.Show("El socio con el DNI especificado no existe en la base de datos.", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             LimpiarCampos();
                         }
                     }
                     else
                     {
-                        MessageBox.Show("El socio con el DNI especificado no existe en la base de datos.", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        LimpiarCampos();
+                        MessageBox.Show("No existe un socio con ese DNI.");
                     }
+
                 }
                 else
                 {
@@ -201,7 +211,7 @@ namespace Control_Gym.Capa_de_presentacion
 
         private void dvgMembresias_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.RowIndex >= 0 && e.ColumnIndex == 4)
+            if (e.RowIndex >= 0 && e.ColumnIndex == 5) //Se cambia de 4 a 5
             {
                 DateTime fechaFin = (DateTime)dvgMembresias.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
                 DateTime hoy = DateTime.Now;
@@ -229,7 +239,10 @@ namespace Control_Gym.Capa_de_presentacion
             {
                 if (txtDniMembresia.Text != "")
                 {
-                    CMembresia cMembresiaG = new CMembresia(Convert.ToInt32(txtCodMembresia.Text), cTipoMembresia.cod_tipo_membresia, Convert.ToInt32(txtDniMembresia.Text), DateTime.Parse(dtpFechaInicio.Value.ToString("yyyy/MM/dd")), DateTime.Parse(dtpFechaFin.Value.ToString("yyyy/MM/dd")));
+                    int dni = Convert.ToInt32(txtDniMembresia.Text);
+                    ClsSocio socio = cSociosD.TraerIdSocioPorDni(dni);
+
+                    CMembresia cMembresiaG = new CMembresia(Convert.ToInt32(txtCodMembresia.Text), cTipoMembresia.cod_tipo_membresia, dni,socio.Id_socio, DateTime.Parse(dtpFechaInicio.Value.ToString("yyyy/MM/dd")), DateTime.Parse(dtpFechaFin.Value.ToString("yyyy/MM/dd")));
                     CMembresiaD cMembresiaD = new CMembresiaD();
                     bool existe = cMembresiaD.SocioExiste(cMembresiaG.dni_socio);
                     if (existe)

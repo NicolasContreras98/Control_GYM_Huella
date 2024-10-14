@@ -1,4 +1,5 @@
-﻿using System;
+﻿using libzkfpcsharp;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -40,7 +41,7 @@ namespace Control_Gym.Capa_de_presentacion
         private void FormContenedor2_Load(object sender, EventArgs e)
         {
             try
-            {
+            {                
                 AbrirFormEnPanel(new FormChequeo());
                 pictureBox1.Visible = false;
                 lblVolver.Visible = false;
@@ -51,11 +52,6 @@ namespace Control_Gym.Capa_de_presentacion
             }
         }
 
-        [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
-        private extern static void ReleaseCapture();
-
-        [DllImport("user32.DLL", EntryPoint = "SendMessage")]
-        private extern static void SendMessage(System.IntPtr hwnd, int wmsg, int wparam, int lparam);
 
         private void iconcerrar_Click(object sender, EventArgs e)
         {
@@ -113,8 +109,8 @@ namespace Control_Gym.Capa_de_presentacion
         {
             try
             {
-                ReleaseCapture();
-                SendMessage(this.Handle, 0x112, 0xf012, 0);
+                //ReleaseCapture();
+                //SendMessage(this.Handle, 0x112, 0xf012, 0);
             }
             catch (Exception ex)
             {
@@ -137,12 +133,24 @@ namespace Control_Gym.Capa_de_presentacion
                 MessageBox.Show("Error al abrir el formulario de acceso: " + ex.Message);
             }
         }
-
+        private FormChequeo ObtenerFormChequeo()
+        {
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form is FormChequeo)
+                {
+                    return (FormChequeo)form; // Devuelve la instancia de FormSocio si está abierta
+                }
+            }
+            return null;
+        }
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             try
             {
-                AbrirFormEnPanel(new FormChequeo());
+                //AbrirFormEnPanel(new FormChequeo());
+                FormChequeo formChequeo = ObtenerFormChequeo();
+                AbrirFormEnPanel(formChequeo);
                 pictureBox1.Visible = false;
                 lblVolver.Visible = false;
                 pbAdministradores.Visible = true;

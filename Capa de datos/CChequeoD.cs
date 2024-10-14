@@ -81,16 +81,61 @@ namespace Control_Gym.Capa_de_datos
             return result.ToArray();
         }
 
+        //public string[] buscarPorDni(int dni, int cod_tipo_membresia)
+        //{
+        //    List<string> result = new List<string>();
+
+        //    string query = "SELECT fecha_inicio, fecha_fin  FROM Membresias WHERE dni_socio = @dni and cod_tipo_membresia = @cod_tipo_membresia";
+
+        //    try
+        //    {
+        //        SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
+        //        comando.Parameters.AddWithValue("@dni", dni);
+        //        comando.Parameters.AddWithValue("@cod_tipo_membresia", cod_tipo_membresia);
+
+        //        SqlDataReader reader = comando.ExecuteReader();
+
+        //        while (reader.Read())
+        //        {
+        //            DateTime fecha_inicio = DateTime.Parse(reader["fecha_inicio"].ToString());
+        //            DateTime fecha_fin = DateTime.Parse(reader["fecha_fin"].ToString());
+        //            DateTime fecha_actual = DateTime.Now;
+        //            TimeSpan diferencia = fecha_fin - fecha_actual;
+        //            int dias_restantes = diferencia.Days;
+
+        //            result.Add(fecha_inicio.ToString("dd/MM"));
+        //            result.Add(fecha_fin.ToString("dd/MM"));
+        //            result.Add(dias_restantes.ToString());
+
+        //        }
+        //        reader.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Hubo un error al buscar el DNI: " + ex);
+        //        throw;
+        //    }
+        //    finally
+        //    {
+        //        conexionBD.CerrarConexion();
+        //    }
+
+        //    return result.ToArray();
+        //}
+
         public string[] buscarPorHuella(byte[] huella)
         {
             List<string> result = new List<string>();
 
-            string query = "SELECT fecha_inicio, fecha_fin FROM Membresias WHERE huella = @huella";
+            //string query = "SELECT fecha_inicio, fecha_fin FROM Membresias WHERE huella = @huella";
+            string query = "SELECT fecha_inicio, fecha_fin FROM socios s INNER JOIN membresias m ON s.id_socio = m.id_socio INNER JOIN huellas_digitales h ON s.id_socio = h.id_socio WHERE CONVERT(VARCHAR(MAX), h.huella, 1) = @huellaBase64;";
 
             try
             {
+                //string huellaBase64 = Convert.ToBase64String(huella);
+
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
-                comando.Parameters.AddWithValue("@huella", huella);
+                comando.Parameters.AddWithValue("@huellaBase64", huella);
 
                 SqlDataReader reader = comando.ExecuteReader();
 
@@ -102,8 +147,8 @@ namespace Control_Gym.Capa_de_datos
                     TimeSpan diferencia = (fecha_fin - fecha_actual);
                     int dias_restantes = (diferencia.Days) + 1;
 
-                    result.Add(fecha_inicio.ToString("dd 'de' MMMM"));
-                    result.Add(fecha_fin.ToString("dd 'de' MMMM"));
+                    result.Add(fecha_inicio.ToString("dd/MM"));
+                    result.Add(fecha_fin.ToString("dd/MM"));
                     result.Add(dias_restantes.ToString());
                 }
                 reader.Close();
@@ -153,6 +198,86 @@ namespace Control_Gym.Capa_de_datos
                 conexionBD.CerrarConexion();
             }
         }
+
+        public string[] BuscarPorIdSocio(int id_socio)
+        {
+            List<string> result = new List<string>();
+
+            string query = "SELECT fecha_inicio, fecha_fin  FROM Membresias WHERE id_socio = @id_socio";
+
+            try
+            {
+                SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
+                comando.Parameters.AddWithValue("@id_socio", id_socio);
+
+                SqlDataReader reader = comando.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    DateTime fecha_inicio = DateTime.Parse(reader["fecha_inicio"].ToString());
+                    DateTime fecha_fin = DateTime.Parse(reader["fecha_fin"].ToString());
+                    DateTime fecha_actual = DateTime.Now;
+                    TimeSpan diferencia = (fecha_fin - fecha_actual);
+                    int dias_restantes = diferencia.Days;
+
+                    result.Add(fecha_inicio.ToString("dd/MM"));
+                    result.Add(fecha_fin.ToString("dd/MM"));
+                    result.Add(dias_restantes.ToString());
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hubo un error al buscar el socio: " + ex);
+                throw;
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return result.ToArray();
+        }
+
+        //public string[] BuscarPorIdSocio(int idSocio)
+        //{
+        //    ClsHuella[] huella = new ClsHuella[1];
+
+        //    string query = @"
+        //    SELECT s.nombre, s.apellido, m.fecha_inicio, m.fecha_fin, 
+        //           DATEDIFF(day, GETDATE(), m.fecha_fin) AS dias_restantes
+        //    FROM socios s
+        //    JOIN membresias m ON s.id_socio = m.id_socio
+        //    WHERE s.id_socio = @id_socio AND m.fecha_fin >= GETDATE()";
+
+        //    SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
+
+        //    comando.Parameters.AddWithValue("@id_socio", idSocio);
+        //    SqlDataReader reader = comando.ExecuteReader();
+
+        //    if (reader.Read())
+        //    {
+        //        string nombre = reader["nombre"].ToString();
+        //        string apellido = reader["apellido"].ToString();
+        //        DateTime fecha_inicio = DateTime.Parse(reader["fecha_inicio"].ToString());
+        //        DateTime fecha_fin = DateTime.Parse(reader["fecha_fin"].ToString());
+        //        int dias_restantes = Convert.ToInt32(reader["dias_restantes"].ToString());
+
+        //        //resultado = new string[]
+        //        //        {
+        //        //        reader["nombre"].ToString(),
+        //        //        reader["apellido"].ToString(),
+        //        //        reader["fecha_inicio"].ToString(),
+        //        //        reader["fecha_fin"].ToString(),
+        //        //        reader["dias_restantes"].ToString()
+        //        //        };
+        //        //    }
+
+        //    }
+
+        //    return resultado;
+        //}
+
 
     }
 }
