@@ -9,7 +9,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Sample;
 using System.Collections.Generic;
-using AxZKFPEngXControl;
+//using AxZKFPEngXControl;
 using System.Text.RegularExpressions;
 
 namespace Control_Gym.Capa_de_presentacion
@@ -32,7 +32,8 @@ namespace Control_Gym.Capa_de_presentacion
         private int fid = Program.idSocioSeleccionado;
         private int mfpWidth = 0;
         private int mfpHeight = 0;
-        private Thread captureThread = null;
+        private Thread captureThread = null; 
+        Random random = new Random();
 
         [DllImport("user32.dll", EntryPoint = "SendMessageA")]
         public static extern int SendMessage(IntPtr hwnd, int wMsg, IntPtr wParam, IntPtr lParam);
@@ -149,6 +150,9 @@ namespace Control_Gym.Capa_de_presentacion
                 if (Program.isRegistering)
                 {
                     HandleRegistration();
+                }else if (Program.isModifiying)
+                {
+                    HandleModification();
                 }
                 else
                 {
@@ -193,74 +197,233 @@ namespace Control_Gym.Capa_de_presentacion
             return null; 
         }
 
-        private void HandleRegistration()
+        private void HandleModification()
         {
-            FormSocio formSocio = ObtenerFormSocio();
-
-            if (formSocio != null) // Verificar si se encontró la instancia
+            try
             {
-                if (formSocio.picHuella != null)
+                FormSocio formSocio = ObtenerFormSocio();
+
+                if (formSocio != null) // Verificar si se encontró la instancia
                 {
-                    DisplayFingerPrintImage(formSocio.picHuella); // Mostrar la huella en el PictureBox de FormSocio
+                    if (formSocio.picHuella != null)
+                    {
+                        DisplayFingerPrintImage(formSocio.picHuella); // Mostrar la huella en el PictureBox de FormSocio
+                    }
+                    else
+                    {
+                        MessageBox.Show("El PictureBox picHuella no está inicializado.");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("El PictureBox picHuella no está inicializado.");
+                    MessageBox.Show("FormSocio no está abierto.");
                 }
-            }
-            else
-            {
-                MessageBox.Show("FormSocio no está abierto.");
-            }
 
-            int score = 0;
-            int ret = Program.fpInstance.Identify(Program.CapTmp, ref fid, ref  score);
-            
-            if (zkfp.ZKFP_ERR_OK == ret)
-            {
-                Program.fpInstance.DelRegTemplate(fid);
-            }
+                if (Program.RegisterCount == 0)
+                {
+                    fid = random.Next(1, 100000);
+                }
 
-            if (Program.RegTmps == null)
-            {
-                Program.RegTmps = new byte[Program.REGISTER_FINGER_COUNT][];
-            }
+                int score = 0;
+                int ret = Program.fpInstance.Identify(Program.CapTmp, ref fid, ref score);
 
-            if (Program.RegisterCount > 0 && Program.fpInstance.Match(Program.CapTmp, Program.RegTmps[Program.RegisterCount - 1]) <= 0)
-            {
-                MessageBox.Show("Por favor, use el mismo dedo " + Program.REGISTER_FINGER_COUNT + " veces para el registro.");
-                return;
-            }
-
-            Array.Copy(Program.CapTmp, Program.RegTmps[Program.RegisterCount], cbCapTmp);
-            Program.RegisterCount++;
-            formSocio.textRes.Text = $"Por favor, presiona el mismo dedo {Program.REGISTER_FINGER_COUNT - Program.RegisterCount} veces más";
-
-            if (Program.RegisterCount >= Program.REGISTER_FINGER_COUNT)
-            {
-                FinalizeRegistration();
-            }
-        }
-        
-        private void FinalizeRegistration()
-        {
-            FormSocio formSocio = ObtenerFormSocio();
-
-            Program.RegisterCount = 0;
-            
-            int ret = Program.fpInstance.GenerateRegTemplate(Program.RegTmps[0], Program.RegTmps[1], Program.RegTmps[2], RegTmp, ref regTempLen);
-
-            // Verifica si la plantilla se generó correctamente
-            if (zkfp.ZKFP_ERR_OK == ret)
-            {
-                // Intentar agregar la plantilla
-                fid = Program.idSocioSeleccionado; // este fid tiene que ser único 
-                ret = Program.fpInstance.AddRegTemplate(fid, RegTmp);
                 if (zkfp.ZKFP_ERR_OK == ret)
                 {
-                    if(Program.idSocioSeleccionado > 0)
+                    Program.fpInstance.DelRegTemplate(fid);
+                }
+
+                if (Program.RegTmps == null)
+                {
+                    Program.RegTmps = new byte[Program.REGISTER_FINGER_COUNT][];
+                }
+
+                if (Program.RegisterCount > 0 && Program.fpInstance.Match(Program.CapTmp, Program.RegTmps[Program.RegisterCount - 1]) <= 0)
+                {
+                    MessageBox.Show("Por favor, use el mismo dedo " + Program.REGISTER_FINGER_COUNT + " veces para el registro.");
+                    return;
+                }
+
+                Array.Copy(Program.CapTmp, Program.RegTmps[Program.RegisterCount], cbCapTmp);
+                Program.RegisterCount++;
+                formSocio.textRes.Text = $"Por favor, presiona el mismo dedo {Program.REGISTER_FINGER_COUNT - Program.RegisterCount} veces más";
+
+                if (Program.RegisterCount >= Program.REGISTER_FINGER_COUNT)
+                {
+                    FinalizeModification();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error en HandleModification: {ex.Message}");
+            }
+        }
+
+        /* FALTA ARREGLAR EL CASO CUANDO QUEDA SELECCIONADO UN SOCIO PERO QUIERO REGISTRAR UNO NUEVO (ACTUALMENTE
+         INSERTA UNA HUELLA AL SELECCIONADO EN LUGAR DEL NUEVO), SE SOLUCIONARIA AL CAMBIAR DE ESTADO LAS VARIABLES
+        ISMODIFIYING Y ISREGISTERING EN EL ROWHEADER Y EN EL EVENTO DE CHANGE DEL INPUT DE DNI RESPECTIVAMENTE.
+        HACER QUE EL BOTON REGISTRAR HUELLA POR DEFECTO SEA INVISIBLE Y SE VEA SOLO EN EL ROWHEADER Y AL ESCRIBIR EL DNI
+         CHEQUEAR TODO DE NUEVO!!!!         
+        */
+
+        private void FinalizeModification()
+        {
+            try
+            {
+                FormSocio formSocio = ObtenerFormSocio();
+
+                Program.RegisterCount = 0;
+
+                int ret = Program.fpInstance.GenerateRegTemplate(Program.RegTmps[0], Program.RegTmps[1], Program.RegTmps[2], RegTmp, ref regTempLen);
+
+                // Verifica si la plantilla se generó correctamente
+                if (zkfp.ZKFP_ERR_OK == ret)
+                {
+                    // Intentar agregar la plantilla
+                    fid = random.Next(1, 100000); // este fid tiene que ser único 
+                    ret = Program.fpInstance.AddRegTemplate(fid, RegTmp);
+                    if (zkfp.ZKFP_ERR_OK == ret)
                     {
-                        if(cHuellaD.GuardarHuella(Program.idSocioSeleccionado, RegTmp))
+                        if (cHuellaD.GuardarHuella(Program.idSocioSeleccionado, RegTmp) && Program.isModifiying)
+                        {
+                            MessageBox.Show("Huella digital modificada correctamente.");
+                            formSocio.textRes.Text = "";
+                            formSocio.btnCancelarRegHuella.Visible = false;
+                            formSocio.btnRegistrarHuella.Visible = false;
+                            formSocio.btnRegistrarHuella.Enabled = true;
+                            formSocio.btnBorrarHuella.Visible = false;
+                            formSocio.btnGuardar.Visible = false;
+                            formSocio.btnModificar.Visible = false;
+                            formSocio.btnBorrar.Visible = false;
+                            formSocio.btnCancelar.Visible = false;
+                            formSocio.dgvSocios.Enabled = true;
+                            formSocio.picHuella.Image = null;
+                            Program.isRegistering = false;
+                            Program.isIdentifying = true;
+                            Program.isModifiying = false;
+
+                            Program.HuellaTemplate = RegTmp;
+                            Program.idSocioSeleccionado = -1;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Error en FinalizeModification: No se pudo agregar la plantilla. Código de error: {ret}");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show($"Error en FinalizeModification: No se pudo generar la plantilla de huella digital. Código de error: {ret}");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error en FinalizeModification: {ex.Message}");
+            }
+        }
+
+
+        private void HandleRegistration()
+        {
+            try
+            {
+                FormSocio formSocio = ObtenerFormSocio();
+
+                if (formSocio != null) // Verificar si se encontró la instancia
+                {
+                    if (formSocio.picHuella != null)
+                    {
+                        DisplayFingerPrintImage(formSocio.picHuella); // Mostrar la huella en el PictureBox de FormSocio
+                    }
+                    else
+                    {
+                        MessageBox.Show("El PictureBox picHuella no está inicializado.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("FormSocio no está abierto.");
+                }
+
+                if (Program.RegisterCount == 0)
+                {
+                    fid = random.Next(1, 100000);
+                }
+
+                int score = 0;
+                int ret = Program.fpInstance.Identify(Program.CapTmp, ref fid, ref score);
+
+                if (zkfp.ZKFP_ERR_OK == ret)
+                {
+                    Program.fpInstance.DelRegTemplate(fid);
+                }
+
+                if (Program.RegTmps == null)
+                {
+                    Program.RegTmps = new byte[Program.REGISTER_FINGER_COUNT][];
+                }
+
+                if (Program.RegisterCount > 0 && Program.fpInstance.Match(Program.CapTmp, Program.RegTmps[Program.RegisterCount - 1]) <= 0)
+                {
+                    MessageBox.Show("Por favor, use el mismo dedo " + Program.REGISTER_FINGER_COUNT + " veces para el registro.");
+                    return;
+                }
+
+                Array.Copy(Program.CapTmp, Program.RegTmps[Program.RegisterCount], cbCapTmp);
+                Program.RegisterCount++;
+                formSocio.textRes.Text = $"Por favor, presiona el mismo dedo {Program.REGISTER_FINGER_COUNT - Program.RegisterCount} veces más";
+
+                if (Program.RegisterCount >= Program.REGISTER_FINGER_COUNT)
+                {
+                    FinalizeRegistration();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error en HandleRegistration: {ex.Message}");
+            }
+        }
+
+
+        private void FinalizeRegistration()
+        {
+            try
+            {
+                FormSocio formSocio = ObtenerFormSocio();
+
+                Program.RegisterCount = 0;
+
+                int ret = Program.fpInstance.GenerateRegTemplate(Program.RegTmps[0], Program.RegTmps[1], Program.RegTmps[2], RegTmp, ref regTempLen);
+
+                // Verifica si la plantilla se generó correctamente
+                if (zkfp.ZKFP_ERR_OK == ret)
+                {
+                    // Intentar agregar la plantilla
+                    fid = random.Next(1, 100000); // este fid tiene que ser único 
+                    ret = Program.fpInstance.AddRegTemplate(fid, RegTmp);
+                    if (zkfp.ZKFP_ERR_OK == ret)
+                    {
+                        if (Program.idSocioSeleccionado > 0 && Program.isModifiying)
+                        {
+                            if (cHuellaD.GuardarHuella(Program.idSocioSeleccionado, RegTmp) && Program.isRegistering)
+                            {
+                                MessageBox.Show("Huella digital registrada correctamente.");
+                                formSocio.textRes.Text = "";
+                                formSocio.btnCancelarRegHuella.Visible = false;
+                                formSocio.btnRegistrarHuella.Visible = false;
+                                formSocio.btnRegistrarHuella.Enabled = true;
+                                formSocio.dgvSocios.Enabled = true;
+                                formSocio.picHuella.Image = null;
+                                formSocio.btnGuardar.Enabled = true;
+                                formSocio.btnGuardar.Visible = true;
+                                Program.isRegistering = false;
+                                Program.isIdentifying = true;
+
+                                Program.HuellaTemplate = RegTmp;
+
+                                Program.idSocioSeleccionado = -1;
+                            }
+                        }
+                        else
                         {
                             MessageBox.Show("Huella digital registrada correctamente.");
                             formSocio.textRes.Text = "";
@@ -271,110 +434,124 @@ namespace Control_Gym.Capa_de_presentacion
                             formSocio.picHuella.Image = null;
                             Program.isRegistering = false;
                             Program.isIdentifying = true;
-                        } 
+                            Program.HuellaTemplate = RegTmp;
+                            formSocio.btnGuardar.Enabled = true;
+                            formSocio.btnGuardar.Visible = true;
+                        }
                     }
-                    else { MessageBox.Show("Primero selecciona el usuario!");}
+                    else
+                    {
+                        MessageBox.Show($"Error al agregar la plantilla en FinalizeRegistration. Código de error: {ret}");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show($"Error al agregar la plantilla. Código de error: {ret}");
+                    MessageBox.Show($"Error al generar la plantilla de huella digital en FinalizeRegistration. Código de error: {ret}");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show($"Error al generar la plantilla de huella digital. Código de error: {ret}");
+                MessageBox.Show($"Ocurrió un error en FinalizeRegistration: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
         int idSocioEncontrado = -1;
         private void HandleVerification()
         {
-            List<(int id_socio, byte[] huella)> huellasDB = cHuellaD.ObtenerHuellasDesdeDB();
-
-            bool verificacionExitosa = false;
-
-            // Recorrer todas las huellas almacenadas y compararlas con la huella capturada
-            foreach (var (idSocio, huellaGuardada) in huellasDB)
+            try
             {
-                int ret = Program.fpInstance.Match(Program.CapTmp, huellaGuardada);
+                List<(int id_socio, byte[] huella)> huellasDB = cHuellaD.ObtenerHuellasDesdeDB();
+                bool verificacionExitosa = false;
 
-                if (ret > 0) // Coincidencia encontrada
+                // Recorrer todas las huellas almacenadas y compararlas con la huella capturada
+                foreach (var (idSocio, huellaGuardada) in huellasDB)
                 {
-                    verificacionExitosa = true;
-                    idSocioEncontrado = idSocio;
-                    break;
+                    int ret = Program.fpInstance.Match(Program.CapTmp, huellaGuardada);
+
+                    if (ret > 0) // Coincidencia encontrada
+                    {
+                        verificacionExitosa = true;
+                        idSocioEncontrado = idSocio;
+                        break;
+                    }
                 }
-            }
 
-            if (verificacionExitosa)
-            {
-                timer1.Stop();
-                timer1.Start();
-                lblFeedBack.Text = "";
-                lblTipoMembresia.Visible = true;
-                cmbTipoMembresia.Visible = true;
-
-                ClsSocio[] socioEncontrado = cSociosD.ObtenerDatosSocio(idSocioEncontrado);
-                lblNombreCompleto.Text = $"{socioEncontrado[0].Nombre} {socioEncontrado[0].Apellido}";
-
-                lblInicio.Text = socioEncontrado[0].Fecha_Inicio.HasValue
-                    ? socioEncontrado[0].Fecha_Inicio.Value.ToString("dd/MM")
-                    : "";
-
-                lblFin.Text = socioEncontrado[0].Fecha_Fin.HasValue
-                    ? socioEncontrado[0].Fecha_Fin.Value.ToString("dd/MM")
-                    : "";
-
-                DateTime fecha_actual = DateTime.Today;
-
-                if (socioEncontrado[0].Fecha_Fin != null && socioEncontrado[0].Fecha_Inicio != null)
+                if (verificacionExitosa)
                 {
-                    DateTime fecha_fin = socioEncontrado[0].Fecha_Fin.HasValue ? socioEncontrado[0].Fecha_Fin.Value : DateTime.Now;
-                    TimeSpan diferencia = fecha_fin - fecha_actual;
-                    int dias_restantes = diferencia.Days;
+                    timer1.Stop();
+                    timer1.Start();
+                    lblFeedBack.Text = "";
+                    lblTipoMembresia.Visible = true;
+                    cmbTipoMembresia.Visible = true;
 
-                    lblDiasRestantes.Text = dias_restantes.ToString();
-                    if (socioEncontrado[0].Tipos_membresias != null)
+                    ClsSocio[] socioEncontrado = cSociosD.ObtenerDatosSocio(idSocioEncontrado);
+                    lblNombreCompleto.Text = $"{socioEncontrado[0].Nombre} {socioEncontrado[0].Apellido}";
+
+                    lblInicio.Text = socioEncontrado[0].Fecha_Inicio.HasValue
+                        ? socioEncontrado[0].Fecha_Inicio.Value.ToString("dd/MM")
+                        : "";
+
+                    lblFin.Text = socioEncontrado[0].Fecha_Fin.HasValue
+                        ? socioEncontrado[0].Fecha_Fin.Value.ToString("dd/MM")
+                        : "";
+
+                    DateTime fecha_actual = DateTime.Today;
+
+                    if (socioEncontrado[0].Fecha_Fin != null && socioEncontrado[0].Fecha_Inicio != null)
                     {
-                        cmbTipoMembresia.DataSource = socioEncontrado[0].Tipos_membresias;
-                        
-                    }
-                    if (Convert.ToInt32(dias_restantes) <= 5 && Convert.ToInt32(dias_restantes) >= 1)
-                    {
-                        pbNeutro.Visible = false;
-                        pbYes.Visible = false;
-                        pbNo.Visible = false;
-                        pbWarning.Visible = true;
-                    }
-                    else if (Convert.ToInt32(dias_restantes) > 5)
-                    {
-                        pbNeutro.Visible = false;
-                        pbYes.Visible = true;
-                        pbNo.Visible = false;
-                        pbWarning.Visible = false;
+                        DateTime fecha_fin = socioEncontrado[0].Fecha_Fin.HasValue ? socioEncontrado[0].Fecha_Fin.Value : DateTime.Now;
+                        TimeSpan diferencia = fecha_fin - fecha_actual;
+                        int dias_restantes = diferencia.Days;
+
+                        lblDiasRestantes.Text = dias_restantes.ToString();
+                        if (socioEncontrado[0].Tipos_membresias != null)
+                        {
+                            cmbTipoMembresia.DataSource = socioEncontrado[0].Tipos_membresias;
+                        }
+                        if (dias_restantes <= 5 && dias_restantes >= 1)
+                        {
+                            pbNeutro.Visible = false;
+                            pbYes.Visible = false;
+                            pbNo.Visible = false;
+                            pbWarning.Visible = true;
+                        }
+                        else if (dias_restantes > 5)
+                        {
+                            pbNeutro.Visible = false;
+                            pbYes.Visible = true;
+                            pbNo.Visible = false;
+                            pbWarning.Visible = false;
+                        }
+                        else
+                        {
+                            pbNeutro.Visible = false;
+                            pbYes.Visible = false;
+                            pbWarning.Visible = false;
+                            pbNo.Visible = true;
+                        }
                     }
                     else
-                    {                       
+                    {
                         pbNeutro.Visible = false;
                         pbYes.Visible = false;
                         pbWarning.Visible = false;
                         pbNo.Visible = true;
+                        lblDiasRestantes.Text = "";
+                        lblFeedBack.Text = "No tiene ninguna membresía activa.";
                     }
                 }
                 else
                 {
-                    pbNeutro.Visible = false;
-                    pbYes.Visible = false;
-                    pbWarning.Visible = false;
-                    pbNo.Visible = true;
-                    lblDiasRestantes.Text = "";
-                    lblFeedBack.Text = "No tiene ninguna membresia";
+                    MessageBox.Show("No se pudo verificar la huella digital. Asegúrese de que está usando un dedo registrado.", "Verificación fallida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Verificación fallida.");
+                MessageBox.Show($"Ocurrió un error inesperado en la función HandleVerification: {ex.Message}", "Error en HandleVerification", MessageBoxButtons.OK, MessageBoxIcon.Error); MessageBox.Show($"Ocurrió un error inesperado durante la verificación de la huella digital: {ex.Message}. Por favor, intente de nuevo o contacte a soporte técnico si el problema persiste.", "Error de verificación", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void DisconnectDevice()
         {
@@ -409,12 +586,14 @@ namespace Control_Gym.Capa_de_presentacion
         private void FormChequeo_Activated(object sender, EventArgs e)
         {
             Program.isRegistering = false;
+            Program.isModifiying = false;
             Program.isIdentifying = true;
         }
 
         private void FormChequeo_Deactivate(object sender, EventArgs e)
         {
-            Program.isRegistering = true;
+            Program.isRegistering = false;
+            Program.isModifiying = false;
             Program.isIdentifying = false;
         }
 

@@ -53,7 +53,6 @@
             this.lblDni = new System.Windows.Forms.Label();
             this.panelContenedor = new System.Windows.Forms.Panel();
             this.btnCancelarRegHuella = new System.Windows.Forms.Button();
-            this.btnRegistrarHuella = new System.Windows.Forms.Button();
             this.textRes = new System.Windows.Forms.Label();
             this.picHuella = new System.Windows.Forms.PictureBox();
             this.txtIdSocio = new System.Windows.Forms.TextBox();
@@ -62,7 +61,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblDni2Membresia = new System.Windows.Forms.Label();
-            this.btnResetearHuella = new System.Windows.Forms.Button();
+            this.btnRegistrarHuella = new System.Windows.Forms.Button();
+            this.btnBorrarHuella = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSocios)).BeginInit();
             this.panelContenedor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picHuella)).BeginInit();
@@ -81,7 +81,6 @@
             this.dgvSocios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSocios.Size = new System.Drawing.Size(745, 511);
             this.dgvSocios.TabIndex = 50;
-            this.dgvSocios.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSocios_CellContentClick);
             this.dgvSocios.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSocios_RowHeaderMouseClick);
             // 
             // txtDniSocio
@@ -308,7 +307,6 @@
             this.dtpFechaNacimiento.Name = "dtpFechaNacimiento";
             this.dtpFechaNacimiento.Size = new System.Drawing.Size(156, 22);
             this.dtpFechaNacimiento.TabIndex = 4;
-            this.dtpFechaNacimiento.ValueChanged += new System.EventHandler(this.dtpFechaNacimiento_ValueChanged);
             // 
             // lblDni
             // 
@@ -324,9 +322,7 @@
             // panelContenedor
             // 
             this.panelContenedor.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panelContenedor.Controls.Add(this.btnResetearHuella);
             this.panelContenedor.Controls.Add(this.btnCancelarRegHuella);
-            this.panelContenedor.Controls.Add(this.btnRegistrarHuella);
             this.panelContenedor.Controls.Add(this.textRes);
             this.panelContenedor.Controls.Add(this.picHuella);
             this.panelContenedor.Controls.Add(this.txtIdSocio);
@@ -346,14 +342,16 @@
             this.panelContenedor.Controls.Add(this.btnBorrar);
             this.panelContenedor.Controls.Add(this.lblNombre);
             this.panelContenedor.Controls.Add(this.txtBuscarSocio);
-            this.panelContenedor.Controls.Add(this.btnGuardar);
-            this.panelContenedor.Controls.Add(this.btnModificar);
             this.panelContenedor.Controls.Add(this.txtTelefonoSocio);
             this.panelContenedor.Controls.Add(this.txtEmail);
             this.panelContenedor.Controls.Add(this.txtDniSocio);
             this.panelContenedor.Controls.Add(this.txtDomicilio);
             this.panelContenedor.Controls.Add(this.txtNombreSocio);
             this.panelContenedor.Controls.Add(this.txtApellidoSocio);
+            this.panelContenedor.Controls.Add(this.btnModificar);
+            this.panelContenedor.Controls.Add(this.btnRegistrarHuella);
+            this.panelContenedor.Controls.Add(this.btnGuardar);
+            this.panelContenedor.Controls.Add(this.btnBorrarHuella);
             this.panelContenedor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelContenedor.Location = new System.Drawing.Point(0, 0);
             this.panelContenedor.Name = "panelContenedor";
@@ -362,24 +360,18 @@
             // 
             // btnCancelarRegHuella
             // 
+            this.btnCancelarRegHuella.BackColor = System.Drawing.Color.Gray;
+            this.btnCancelarRegHuella.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancelarRegHuella.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelarRegHuella.ForeColor = System.Drawing.SystemColors.Control;
             this.btnCancelarRegHuella.Location = new System.Drawing.Point(15, 419);
             this.btnCancelarRegHuella.Name = "btnCancelarRegHuella";
             this.btnCancelarRegHuella.Size = new System.Drawing.Size(73, 39);
             this.btnCancelarRegHuella.TabIndex = 57;
             this.btnCancelarRegHuella.Text = "Cancelar";
-            this.btnCancelarRegHuella.UseVisualStyleBackColor = true;
+            this.btnCancelarRegHuella.UseVisualStyleBackColor = false;
             this.btnCancelarRegHuella.Visible = false;
             this.btnCancelarRegHuella.Click += new System.EventHandler(this.btnCancelarRegHuella_Click);
-            // 
-            // btnRegistrarHuella
-            // 
-            this.btnRegistrarHuella.Location = new System.Drawing.Point(15, 355);
-            this.btnRegistrarHuella.Name = "btnRegistrarHuella";
-            this.btnRegistrarHuella.Size = new System.Drawing.Size(73, 39);
-            this.btnRegistrarHuella.TabIndex = 56;
-            this.btnRegistrarHuella.Text = "Registrar huella";
-            this.btnRegistrarHuella.UseVisualStyleBackColor = true;
-            this.btnRegistrarHuella.Click += new System.EventHandler(this.btnRegistrarHuella_Click);
             // 
             // textRes
             // 
@@ -391,9 +383,10 @@
             // 
             // picHuella
             // 
+            this.picHuella.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.picHuella.Location = new System.Drawing.Point(125, 315);
             this.picHuella.Name = "picHuella";
-            this.picHuella.Size = new System.Drawing.Size(156, 194);
+            this.picHuella.Size = new System.Drawing.Size(156, 190);
             this.picHuella.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picHuella.TabIndex = 53;
             this.picHuella.TabStop = false;
@@ -462,15 +455,33 @@
             this.lblDni2Membresia.TabIndex = 23;
             this.lblDni2Membresia.Text = "DNI";
             // 
-            // btnResetearHuella
+            // btnRegistrarHuella
             // 
-            this.btnResetearHuella.Location = new System.Drawing.Point(15, 355);
-            this.btnResetearHuella.Name = "btnResetearHuella";
-            this.btnResetearHuella.Size = new System.Drawing.Size(73, 39);
-            this.btnResetearHuella.TabIndex = 58;
-            this.btnResetearHuella.Text = "Resetear huella";
-            this.btnResetearHuella.UseVisualStyleBackColor = true;
-            this.btnResetearHuella.Click += new System.EventHandler(this.btnResetearHuella_Click);
+            this.btnRegistrarHuella.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnRegistrarHuella.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRegistrarHuella.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRegistrarHuella.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnRegistrarHuella.Location = new System.Drawing.Point(15, 355);
+            this.btnRegistrarHuella.Name = "btnRegistrarHuella";
+            this.btnRegistrarHuella.Size = new System.Drawing.Size(73, 48);
+            this.btnRegistrarHuella.TabIndex = 56;
+            this.btnRegistrarHuella.Text = "Registrar Huella";
+            this.btnRegistrarHuella.UseVisualStyleBackColor = false;
+            this.btnRegistrarHuella.Click += new System.EventHandler(this.btnRegistrarHuella_Click);
+            // 
+            // btnBorrarHuella
+            // 
+            this.btnBorrarHuella.BackColor = System.Drawing.Color.IndianRed;
+            this.btnBorrarHuella.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBorrarHuella.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBorrarHuella.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnBorrarHuella.Location = new System.Drawing.Point(15, 355);
+            this.btnBorrarHuella.Name = "btnBorrarHuella";
+            this.btnBorrarHuella.Size = new System.Drawing.Size(73, 48);
+            this.btnBorrarHuella.TabIndex = 59;
+            this.btnBorrarHuella.Text = "Borrar Huella";
+            this.btnBorrarHuella.UseVisualStyleBackColor = false;
+            this.btnBorrarHuella.Click += new System.EventHandler(this.btnBorrarHuella_Click);
             // 
             // FormSocio
             // 
@@ -510,10 +521,6 @@
         private System.Windows.Forms.Label lblFechaNacimiento;
         private System.Windows.Forms.Label lblDomicilio;
         private System.Windows.Forms.Label lblEmail;
-        private System.Windows.Forms.Button btnGuardar;
-        private System.Windows.Forms.Button btnModificar;
-        private System.Windows.Forms.Button btnBorrar;
-        private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.TextBox txtBuscarSocio;
         private System.Windows.Forms.DateTimePicker dtpFechaNacimiento;
@@ -530,6 +537,10 @@
         public System.Windows.Forms.Button btnRegistrarHuella;
         public System.Windows.Forms.Button btnCancelarRegHuella;
         public System.Windows.Forms.DataGridView dgvSocios;
-        public System.Windows.Forms.Button btnResetearHuella;
+        public System.Windows.Forms.Button btnGuardar;
+        public System.Windows.Forms.Button btnModificar;
+        public System.Windows.Forms.Button btnBorrar;
+        public System.Windows.Forms.Button btnCancelar;
+        public System.Windows.Forms.Button btnBorrarHuella;
     }
 }

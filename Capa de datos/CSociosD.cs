@@ -137,14 +137,15 @@ namespace Control_Gym.Capa_de_datos
             }
         }
 
-        public int GuardarSocio(int dni, string nombre, string apellido, DateTime fechaNacimiento, string telefono, string domicilio, string email)
+        public void GuardarSocio(int dni, string nombre, string apellido, DateTime fechaNacimiento, string telefono, string domicilio, string email, byte[] huella)
         {
-            int idSocio = 0;
-            string query = "INSERT INTO socios(dni_socio,nombre,apellido,fecha_nac,telefono,domicilio,email)VALUES(@dni, @nombre, @apellido, @fechaNacimiento, @telefono, @domicilio, @email); SELECT SCOPE_IDENTITY();";
+            string procedimiento = "sp_GuardarSocioConHuella";  // Nombre del procedimiento almacenado
             try
             {
-                SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
+                SqlCommand comando = new SqlCommand(procedimiento, conexionBD.AbrirConexion());
+                comando.CommandType = CommandType.StoredProcedure;
 
+                // Parámetros para el procedimiento almacenado
                 comando.Parameters.AddWithValue("@dni", dni);
                 comando.Parameters.AddWithValue("@nombre", nombre);
                 comando.Parameters.AddWithValue("@apellido", apellido);
@@ -152,22 +153,19 @@ namespace Control_Gym.Capa_de_datos
                 comando.Parameters.AddWithValue("@telefono", telefono);
                 comando.Parameters.AddWithValue("@domicilio", domicilio);
                 comando.Parameters.AddWithValue("@email", email);
-
-                idSocio = Convert.ToInt32(comando.ExecuteScalar()); // Retorna el id del socio recién registrado
-                
-                MessageBox.Show("Nuevo socio adherido");
-                return idSocio;
+                comando.Parameters.AddWithValue("@huella", huella);  // Pasar la huella como parámetro
+                comando.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al añadir un nuevo socio: " + ex.Message);
-                return idSocio;
             }
             finally
             {
                 conexionBD.CerrarConexion();
             }
         }
+
         public void ModificarSocio(int id_socio, string nombre, string apellido, DateTime fechaNacimiento, string telefono, string domicilio, string email)
         {
             string query = "UPDATE socios SET nombre = @nombre, apellido = @apellido, fecha_nac = @fechaNacimiento, telefono = @telefono, domicilio = @domicilio, email = @email WHERE id_socio = @id_socio";
@@ -243,6 +241,7 @@ namespace Control_Gym.Capa_de_datos
                 conexionBD.CerrarConexion();
             }
         }
+
         public ClsSocio TraerIdSocioPorDni(int dni)
         {
             ClsSocio socio = null;
@@ -304,7 +303,7 @@ namespace Control_Gym.Capa_de_datos
 
         public bool MembresiaActiva(int dni)
         {
-            string query = "SELECT COUNT(*) FROM membresias WHERE dni_socio = '" + dni + "'";
+            string query = "SELECT COUNT(*) FROM membresias WHERE id_socio = '" + dni + "'";
             try
             {
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
@@ -318,9 +317,9 @@ namespace Control_Gym.Capa_de_datos
                     return true;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Error al verificar si el socio existe.");
+                MessageBox.Show("Error al verificar si el socio tiene membresia activa: "+ ex.Message);
                 return false;
             }
             finally

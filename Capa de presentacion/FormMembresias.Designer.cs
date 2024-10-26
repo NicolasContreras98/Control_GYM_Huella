@@ -93,7 +93,7 @@
             this.btnActualizarMembresia.Name = "btnActualizarMembresia";
             this.btnActualizarMembresia.Size = new System.Drawing.Size(75, 30);
             this.btnActualizarMembresia.TabIndex = 6;
-            this.btnActualizarMembresia.Text = "Modificar";
+            this.btnActualizarMembresia.Text = "Actualizar";
             this.btnActualizarMembresia.UseVisualStyleBackColor = false;
             this.btnActualizarMembresia.Click += new System.EventHandler(this.btnActualizarMembresia_Click);
             // 
@@ -146,9 +146,9 @@
             // 
             this.panel1.Controls.Add(this.btnEliminarMembresia);
             this.panel1.Controls.Add(this.btnCancelarMembresia);
-            this.panel1.Controls.Add(this.btnCrearMembresia);
             this.panel1.Controls.Add(this.btnActualizarMembresia);
-            this.panel1.Location = new System.Drawing.Point(530, 50);
+            this.panel1.Controls.Add(this.btnCrearMembresia);
+            this.panel1.Location = new System.Drawing.Point(530, 55);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(286, 111);
             this.panel1.TabIndex = 19;

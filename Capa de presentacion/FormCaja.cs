@@ -186,7 +186,6 @@ namespace Control_Gym.Capa_de_presentacion
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
                 comando.Parameters.AddWithValue("@codCuota", codCuota);
                 comando.ExecuteNonQuery();
-                MessageBox.Show("Se ha eliminado la cuota con código: " + codCuota.ToString());
             }
             catch (Exception ex)
             {

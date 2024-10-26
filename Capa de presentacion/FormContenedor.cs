@@ -38,7 +38,6 @@ namespace Control_Gym
         private string nombre;
         private string rol;
 
-        private Color colorMouseOver = Color.FromArgb(35, 35, 38);
         private Color colorDefault = Color.FromArgb(80, 80, 80);
         private Color colorSeleccionado = Color.FromArgb(192, 64, 0);
 
@@ -59,12 +58,21 @@ namespace Control_Gym
 
         public void SeleccionarBotonMembresias()
         {
-            // Supongamos que 'btnMembresias' es el botón que queremos seleccionar
-            if (btnMembresias != null)
+            if (btnMembresias != null) // Asumiendo que 'botonMembresias' es el botón de membresías
             {
-                SeleccionarBoton(btnMembresias);
+                // Restablecer el color de fondo de los demás botones
+                if (botonSeleccionado != null)
+                {
+                    botonSeleccionado.BackColor = colorDefault;
+                }
+
+                // Cambiar el color de fondo del botón de membresías
+                btnMembresias.BackColor = colorSeleccionado;
+                botonSeleccionado = btnMembresias;
             }
         }
+
+
 
         public FormContenedor(int dni_empleado, string nombre, string rol)
         {
@@ -90,44 +98,6 @@ namespace Control_Gym
             }
         }
 
-        // Evento Click: Cambiar el color de fondo del botón seleccionado
-        private void boton_Click(object sender, EventArgs e)
-        {
-            Button boton = sender as Button;
-
-            // Restablecer el color de fondo de los demás botones
-            if (botonSeleccionado != null)
-            {
-                botonSeleccionado.BackColor = colorDefault;
-            }
-
-            // Cambiar el color de fondo del botón seleccionado
-            boton.BackColor = colorSeleccionado;
-            botonSeleccionado = boton;
-        }
-
-        // Evento MouseEnter: Cambiar el color de fondo cuando el ratón entra en el botón
-        private void boton_MouseEnter(object sender, EventArgs e)
-        {
-            Button boton = sender as Button;
-            if (boton != botonSeleccionado) // Solo cambiar el color si el botón no está seleccionado
-            {
-                boton.BackColor = colorMouseOver;
-            }
-        }
-
-        // Evento MouseLeave: Restaurar el color de fondo original cuando el ratón sale del botón
-        private void boton_MouseLeave(object sender, EventArgs e)
-        {
-            Button boton = sender as Button;
-            if (boton != botonSeleccionado) // Solo restaurar el color si el botón no está seleccionado
-            {
-                boton.BackColor = colorDefault;
-            }
-        }
-
-        //
-
         [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
         private extern static void ReleaseCapture();
         [DllImport("user32.DLL", EntryPoint = "SendMessage")]
@@ -144,11 +114,6 @@ namespace Control_Gym
             {
                 MessageBox.Show("Error al mover la ventana: " + ex.Message);
             }
-        }
-
-        private void btnMenu_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void iconminimizar_Click(object sender, EventArgs e)
@@ -203,7 +168,7 @@ namespace Control_Gym
             }
         }
 
-        private void AbrirFormEnPanel(object Formhijo)
+        public void AbrirFormEnPanel(object Formhijo)
         {
             try
             {

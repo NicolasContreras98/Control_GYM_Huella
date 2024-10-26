@@ -15,15 +15,17 @@ namespace Control_Gym.Capa_de_presentacion
 
         private int dni_socio;
 
-        public FormMembresias()
-        {
-            InitializeComponent();
-        }
         public FormMembresias(int dni_socio)
         {
             InitializeComponent();
             this.dni_socio = dni_socio;
         }
+
+        public FormMembresias()
+        {
+            InitializeComponent();
+        }
+
         private CTipoMembresia cTipoMembresia = new CTipoMembresia();
         private CMembresia cMembresia = new CMembresia();
         private CSociosD cSociosD = new CSociosD();

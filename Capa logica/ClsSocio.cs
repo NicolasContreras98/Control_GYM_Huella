@@ -68,10 +68,10 @@ namespace Control_Gym.Capa_logica
             this.Apellido = apellido;
         }
 
-        public int GuardarSocio(int dni, string nombre, string apellido, DateTime fechaNacimiento, string telefono, string domicilio, string email)
+        public void GuardarSocio(int dni, string nombre, string apellido, DateTime fechaNacimiento, string telefono, string domicilio, string email, byte[] huella)
         { 
             CSociosD CSociosD = new CSociosD();
-            return CSociosD.GuardarSocio(dni, nombre, apellido, fechaNacimiento, telefono, domicilio, email);
+            CSociosD.GuardarSocio(dni, nombre, apellido, fechaNacimiento, telefono, domicilio, email, huella);
         }
         public void ModificarSocio(int id_socio, string nombre, string apellido, DateTime fechaNacimiento, string telefono, string domicilio, string email)
         {
