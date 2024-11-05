@@ -41,16 +41,17 @@ namespace Control_Gym.Capa_de_datos
 
         public ClsSocio[] ObtenerDatosSocio(int idSocio)
         {
-            string query = "SELECT s.nombre, s.apellido,s.dni_socio, m.cod_tipo_membresia, m.fecha_inicio, m.fecha_fin FROM socios s LEFT JOIN membresias m on s.id_socio = m.id_socio WHERE s.id_socio = @id_socio";
-            string queryCount = "select COUNT(id_socio) from membresias where id_socio = @id_socio";
+            string query = "SELECT s.nombre, s.apellido, s.dni_socio, m.cod_tipo_membresia, m.fecha_inicio, m.fecha_fin FROM socios s LEFT JOIN membresias m on s.id_socio = m.id_socio WHERE s.id_socio = @id_socio";
+            string queryCount = "SELECT COUNT(id_socio) FROM membresias WHERE id_socio = @id_socio";
             ClsSocio[] socioEncontrado = new ClsSocio[1];
+
             try
-            {                
+            {
                 string nombre = null;
                 string apellido = null;
                 int dni = 0;
-                DateTime? fecha_inicio = null;
-                DateTime? fecha_fin = null;
+                string fecha_inicio_formateada = null;
+                string fecha_fin_formateada = null;
                 List<CTipoMembresia> tipos_membresias = new List<CTipoMembresia>();
 
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
@@ -62,20 +63,28 @@ namespace Control_Gym.Capa_de_datos
 
                 SqlDataReader reader = comando.ExecuteReader();
                 if (reader.Read())
-                {                    
+                {
                     nombre = reader["nombre"].ToString();
                     apellido = reader["apellido"].ToString();
                     dni = Convert.ToInt32(reader["dni_socio"].ToString());
-                    fecha_inicio = reader["fecha_inicio"] != DBNull.Value ? DateTime.Parse(reader["fecha_inicio"].ToString()) : (DateTime?)null;
-                    fecha_fin = reader["fecha_fin"] != DBNull.Value ? DateTime.Parse(reader["fecha_fin"].ToString()) : (DateTime?)null;                    
+
+                    // Formateo de las fechas
+                    DateTime? fecha_inicio = reader["fecha_inicio"] != DBNull.Value ? DateTime.Parse(reader["fecha_inicio"].ToString()) : (DateTime?)null;
+                    DateTime? fecha_fin = reader["fecha_fin"] != DBNull.Value ? DateTime.Parse(reader["fecha_fin"].ToString()) : (DateTime?)null;
+
+                    fecha_inicio_formateada = fecha_inicio.HasValue ? fecha_inicio.Value.ToString("dd 'de' MMMM") : null;
+                    fecha_fin_formateada = fecha_fin.HasValue ? fecha_fin.Value.ToString("dd 'de' MMMM") : null;
                 }
                 reader.Close();
-                if(count > 0)
+
+                if (count > 0)
                 {
                     CTipoMembresiaD tipoMembresia = new CTipoMembresiaD();
-                    tipos_membresias = tipoMembresia.traerTiposDelSocio(idSocio);                    
+                    tipos_membresias = tipoMembresia.traerTiposDelSocio(idSocio);
                 }
-                ClsSocio socio = new ClsSocio(idSocio, dni, nombre, apellido, fecha_inicio, fecha_fin, tipos_membresias);
+
+                // Modificar la clase ClsSocio para aceptar las fechas formateadas como string o adaptar si ya lo permite
+                ClsSocio socio = new ClsSocio(idSocio, dni, nombre, apellido, fecha_inicio_formateada, fecha_fin_formateada, tipos_membresias);
                 socioEncontrado.SetValue(socio, 0);
                 return socioEncontrado;
             }
@@ -87,29 +96,26 @@ namespace Control_Gym.Capa_de_datos
             finally
             {
                 conexionBD.CerrarConexion();
-            }            
+            }
         }
+
 
         public ClsSocio[] ObtenerDatosSocio(int idSocio, int cod_tipo_membresia)
         {
-            string query = "SELECT s.nombre, s.apellido,s.dni_socio, m.cod_tipo_membresia, m.fecha_inicio, m.fecha_fin FROM socios s LEFT JOIN membresias m on s.id_socio = m.id_socio WHERE s.id_socio = @id_socio and m.cod_tipo_membresia = @cod_tipo_membresia";
-            string queryCount = "select COUNT(id_socio) from membresias where id_socio = @id_socio";
+            string query = "SELECT s.nombre, s.apellido, s.dni_socio, m.cod_tipo_membresia, m.fecha_inicio, m.fecha_fin FROM socios s LEFT JOIN membresias m ON s.id_socio = m.id_socio WHERE s.id_socio = @id_socio AND m.cod_tipo_membresia = @cod_tipo_membresia";
             ClsSocio[] socioEncontrado = new ClsSocio[1];
             try
             {
                 string nombre = null;
                 string apellido = null;
                 int dni = 0;
-                DateTime? fecha_inicio = null;
-                DateTime? fecha_fin = null;
+                string fecha_inicio = null;
+                string fecha_fin = null;
 
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
-                SqlCommand comandoCount = new SqlCommand(queryCount, conexionBD.AbrirConexion());
 
                 comando.Parameters.AddWithValue("@id_socio", idSocio);
                 comando.Parameters.AddWithValue("@cod_tipo_membresia", cod_tipo_membresia);
-                comandoCount.Parameters.AddWithValue("@id_socio", idSocio);
-                int count = (int)comandoCount.ExecuteScalar();
 
                 SqlDataReader reader = comando.ExecuteReader();
                 if (reader.Read())
@@ -117,13 +123,13 @@ namespace Control_Gym.Capa_de_datos
                     nombre = reader["nombre"].ToString();
                     apellido = reader["apellido"].ToString();
                     dni = Convert.ToInt32(reader["dni_socio"].ToString());
-                    fecha_inicio = reader["fecha_inicio"] != DBNull.Value ? DateTime.Parse(reader["fecha_inicio"].ToString()) : (DateTime?)null;
-                    fecha_fin = reader["fecha_fin"] != DBNull.Value ? DateTime.Parse(reader["fecha_fin"].ToString()) : (DateTime?)null;
+                    fecha_inicio = reader["fecha_inicio"] != DBNull.Value ? DateTime.Parse(reader["fecha_inicio"].ToString()).ToString("dd 'de' MMMM") : null;
+                    fecha_fin = reader["fecha_fin"] != DBNull.Value ? DateTime.Parse(reader["fecha_fin"].ToString()).ToString("dd 'de' MMMM") : null;
                 }
                 reader.Close();
-                
+
                 ClsSocio socio = new ClsSocio(idSocio, dni, nombre, apellido, fecha_inicio, fecha_fin);
-                socioEncontrado.SetValue(socio, 0);
+                socioEncontrado[0] = socio;
                 return socioEncontrado;
             }
             catch (Exception ex)
@@ -136,6 +142,7 @@ namespace Control_Gym.Capa_de_datos
                 conexionBD.CerrarConexion();
             }
         }
+
 
         public void GuardarSocio(int dni, string nombre, string apellido, DateTime fechaNacimiento, string telefono, string domicilio, string email, byte[] huella)
         {
@@ -231,6 +238,8 @@ namespace Control_Gym.Capa_de_datos
                 comando.Parameters.AddWithValue("@id_socio", id_socio);
                 comando.ExecuteNonQuery();
                 MessageBox.Show("Eliminaste los datos del socio "+ name);
+                Program.isModifiying = false;
+                Program.idSocioSeleccionado = -1;
             }
             catch (Exception ex)
             {

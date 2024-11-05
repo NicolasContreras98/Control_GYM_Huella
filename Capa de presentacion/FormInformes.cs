@@ -24,6 +24,7 @@ namespace Control_Gym.Capa_de_presentacion
             InitializeComponent();
             CargarGraficoVentas();
             CargarGraficoMembresias();
+            MostrarCantidadSociosConMembresia();
         }
 
         private void CargarGraficoVentas()
@@ -83,6 +84,12 @@ namespace Control_Gym.Capa_de_presentacion
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void MostrarCantidadSociosConMembresia()
+        {
+            int cantidadSocios = cMembresiaD.ObtenerCantidadSociosConMembresia();
+            lblCantidadSocios.Text = $"{cantidadSocios}"; // Muestra en el Label
         }
     }
 }

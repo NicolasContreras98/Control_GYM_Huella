@@ -170,6 +170,11 @@ namespace Control_Gym.Capa_de_presentacion
                 e.SuppressKeyPress = true;
             }
         }
+
+        private void dgvTipoProducto_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
 

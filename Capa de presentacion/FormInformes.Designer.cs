@@ -39,6 +39,8 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.chartVentas = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chartMembresias = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblCantidadSocios = new System.Windows.Forms.Label();
             this.BarraTitulo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartVentas)).BeginInit();
@@ -101,11 +103,33 @@
             this.chartMembresias.TabIndex = 16;
             this.chartMembresias.Text = "chart1";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(500, 52);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(153, 25);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "Cant. Socios:";
+            // 
+            // lblCantidadSocios
+            // 
+            this.lblCantidadSocios.AutoSize = true;
+            this.lblCantidadSocios.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCantidadSocios.Location = new System.Drawing.Point(659, 52);
+            this.lblCantidadSocios.Name = "lblCantidadSocios";
+            this.lblCantidadSocios.Size = new System.Drawing.Size(103, 25);
+            this.lblCantidadSocios.TabIndex = 18;
+            this.lblCantidadSocios.Text = "_______";
+            // 
             // FormInformes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(904, 480);
+            this.Controls.Add(this.lblCantidadSocios);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.chartMembresias);
             this.Controls.Add(this.chartVentas);
             this.Controls.Add(this.BarraTitulo);
@@ -118,6 +142,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.chartVentas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartMembresias)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -127,5 +152,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartVentas;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartMembresias;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblCantidadSocios;
     }
 }

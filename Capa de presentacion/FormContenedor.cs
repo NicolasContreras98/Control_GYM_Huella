@@ -1,42 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using Control_Gym.Capa_de_presentacion;
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using Control_Gym.Capa_de_presentacion;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace Control_Gym
 {
     public partial class FormContenedor : Form
     {
-        public FormContenedor()
-        {
-            InitializeComponent();
+        private readonly int dni_empleado;
+        private readonly string nombre;
+        private readonly string rol;
 
-            string relativePath = @"Iconos\control-gym-logo.png";
-            string absolutePath = Path.Combine(Application.StartupPath, relativePath);
-
-            RoundedPictureBox roundedPictureBox = new RoundedPictureBox
-            {
-                CornerRadius = 80, // Establece el radio de las esquinas
-                Image = Image.FromFile(absolutePath),
-                SizeMode = PictureBoxSizeMode.StretchImage,
-                Width = 200,
-                Height = 200,
-                Location = new Point(5, 5)
-            };
-
-            this.Controls.Add(roundedPictureBox);
-        }
-        private int dni_empleado;
-        private string nombre;
-        private string rol;
+        private FormChequeo formChequeo;
+        private FormSocio formSocio;
+        private FormMembresias formMembresias;
+        private FormVentas formVentas;
+        private FormCaja formCaja;
+        private FormAdministracion formAdministracion;
 
         private Color colorDefault = Color.FromArgb(80, 80, 80);
         private Color colorSeleccionado = Color.FromArgb(192, 64, 0);
@@ -72,8 +54,6 @@ namespace Control_Gym
             }
         }
 
-
-
         public FormContenedor(int dni_empleado, string nombre, string rol)
         {
             InitializeComponent();
@@ -84,12 +64,33 @@ namespace Control_Gym
             ConfigurarAccesoSegunRol();
         }
 
+        public FormContenedor()
+        {
+            InitializeComponent();
+
+            string relativePath = @"Iconos\control-gym-logo.png";
+            string absolutePath = Path.Combine(Application.StartupPath, relativePath);
+
+            RoundedPictureBox roundedPictureBox = new RoundedPictureBox
+            {
+                CornerRadius = 80, // Establece el radio de las esquinas
+                Image = Image.FromFile(absolutePath),
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                Width = 200,
+                Height = 200,
+                Location = new Point(5, 5)
+            };
+
+            this.Controls.Add(roundedPictureBox);
+        }
+
         private void ConfigurarAccesoSegunRol()
         {
             if (rol == "Empleado")
             {
                 // Deshabilitar botones o funcionalidades para empleados
                 btnAdministracion.Enabled = false;
+                btnCaja.Enabled = false;
                 // Otros accesos restringidos
             }
             else if (rol == "Administrador")
@@ -160,7 +161,12 @@ namespace Control_Gym
         {
             try
             {
-                Close();
+                var result = MessageBox.Show("¿Está seguro de que desea salir del programa?", "Confirmación de salida", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    Close();
+                }
             }
             catch (Exception ex)
             {
@@ -168,18 +174,29 @@ namespace Control_Gym
             }
         }
 
-        public void AbrirFormEnPanel(object Formhijo)
+
+        public void AbrirFormEnPanel(Form formHijo)
         {
             try
             {
-                if (this.panelContenedor.Controls.Count > 0)
-                    this.panelContenedor.Controls.RemoveAt(0);
-                Form fh = Formhijo as Form;
-                fh.TopLevel = false;
-                fh.Dock = DockStyle.Fill;
-                this.panelContenedor.Controls.Add(fh);
-                this.panelContenedor.Tag = fh;
-                fh.Show();
+                // Ocultar todos los formularios actualmente en el panel
+                foreach (Control control in panelContenedor.Controls)
+                {
+                    if (control is Form formActual)
+                    {
+                        formActual.Hide();
+                    }
+                }
+
+                // Verificar si el formulario ya está en el panel y mostrarlo
+                if (!panelContenedor.Controls.Contains(formHijo))
+                {
+                    formHijo.TopLevel = false;
+                    formHijo.Dock = DockStyle.Fill;
+                    panelContenedor.Controls.Add(formHijo);
+                }
+
+                formHijo.Show();
             }
             catch (Exception ex)
             {
@@ -187,26 +204,45 @@ namespace Control_Gym
             }
         }
 
-        //
+        public void AbrirFormMembresias(int dni)
+        {
+            FormMembresias formMembresias = new FormMembresias(dni);
+            AbrirFormEnPanel(formMembresias);
+        }
+
+        private void btnVerificacion_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (formChequeo == null || formChequeo.IsDisposed)
+                {
+                    formChequeo = new FormChequeo(this);
+                }
+
+                AbrirFormEnPanel(formChequeo);
+
+                Button boton = sender as Button;
+                CambiarColorBotonSeleccionado(boton);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al abrir el formulario de socios: " + ex.Message);
+            }
+        }
 
         private void btnSocios_Click(object sender, EventArgs e)
         {
             try
             {
-                FormSocio formSocio = new FormSocio(this); // Pasar la referencia del formulario contenedor
+                if (formSocio == null || formSocio.IsDisposed)
+                {
+                    formSocio = new FormSocio();
+                }
+
                 AbrirFormEnPanel(formSocio);
 
                 Button boton = sender as Button;
-
-                // Restablecer el color de fondo de los demás botones
-                if (botonSeleccionado != null)
-                {
-                    botonSeleccionado.BackColor = colorDefault;
-                }
-
-                // Cambiar el color de fondo del botón seleccionado
-                boton.BackColor = colorSeleccionado;
-                botonSeleccionado = boton;
+                CambiarColorBotonSeleccionado(boton);
             }
             catch (Exception ex)
             {
@@ -218,19 +254,15 @@ namespace Control_Gym
         {
             try
             {
-                AbrirFormEnPanel(new FormMembresias());
-
-                Button boton = sender as Button;
-
-                // Restablecer el color de fondo de los demás botones
-                if (botonSeleccionado != null)
+                if (formMembresias == null || formMembresias.IsDisposed)
                 {
-                    botonSeleccionado.BackColor = colorDefault;
+                    formMembresias = new FormMembresias();
                 }
 
-                // Cambiar el color de fondo del botón seleccionado
-                boton.BackColor = colorSeleccionado;
-                botonSeleccionado = boton;
+                AbrirFormEnPanel(formMembresias);
+
+                Button boton = sender as Button;
+                CambiarColorBotonSeleccionado(boton);
             }
             catch (Exception ex)
             {
@@ -242,42 +274,35 @@ namespace Control_Gym
         {
             try
             {
-                AbrirFormEnPanel(new FormVentas(dni_empleado, nombre));
-
-                Button boton = sender as Button;
-
-                // Restablecer el color de fondo de los demás botones
-                if (botonSeleccionado != null)
+                if (formVentas == null || formVentas.IsDisposed)
                 {
-                    botonSeleccionado.BackColor = colorDefault;
+                    formVentas = new FormVentas(dni_empleado, nombre);
                 }
 
-                // Cambiar el color de fondo del botón seleccionado
-                boton.BackColor = colorSeleccionado;
-                botonSeleccionado = boton;
+                AbrirFormEnPanel(formVentas);
+
+                Button boton = sender as Button;
+                CambiarColorBotonSeleccionado(boton);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al abrir el formulario de ventas: " + ex.Message);
             }
         }
+
         private void btnCaja_Click(object sender, EventArgs e)
         {
             try
             {
-                AbrirFormEnPanel(new FormCaja());
-
-                Button boton = sender as Button;
-
-                // Restablecer el color de fondo de los demás botones
-                if (botonSeleccionado != null)
+                if (formCaja == null || formCaja.IsDisposed)
                 {
-                    botonSeleccionado.BackColor = colorDefault;
+                    formCaja = new FormCaja();
                 }
 
-                // Cambiar el color de fondo del botón seleccionado
-                boton.BackColor = colorSeleccionado;
-                botonSeleccionado = boton;
+                AbrirFormEnPanel(formCaja);
+
+                Button boton = sender as Button;
+                CambiarColorBotonSeleccionado(boton);
 
                 labelDNI.Text = this.dni_empleado.ToString();
                 labelNombre.Text = this.nombre;
@@ -292,19 +317,15 @@ namespace Control_Gym
         {
             try
             {
-                AbrirFormEnPanel(new FormAdministracion());
-
-                Button boton = sender as Button;
-
-                // Restablecer el color de fondo de los demás botones
-                if (botonSeleccionado != null)
+                if (formAdministracion == null || formAdministracion.IsDisposed)
                 {
-                    botonSeleccionado.BackColor = colorDefault;
+                    formAdministracion = new FormAdministracion();
                 }
 
-                // Cambiar el color de fondo del botón seleccionado
-                boton.BackColor = colorSeleccionado;
-                botonSeleccionado = boton;
+                AbrirFormEnPanel(formAdministracion);
+
+                Button boton = sender as Button;
+                CambiarColorBotonSeleccionado(boton);
             }
             catch (Exception ex)
             {
@@ -312,15 +333,27 @@ namespace Control_Gym
             }
         }
 
+        // Método para cambiar el color de fondo del botón seleccionado
+        private void CambiarColorBotonSeleccionado(Button boton)
+        {
+            // Restablecer el color de fondo de los demás botones
+            if (botonSeleccionado != null)
+            {
+                botonSeleccionado.BackColor = colorDefault;
+            }
 
+            // Cambiar el color de fondo del botón seleccionado
+            boton.BackColor = colorSeleccionado;
+            botonSeleccionado = boton;
+        }
 
         private void FormContenedor_Load(object sender, EventArgs e)
         {
             try
             {
-                FormSocio formSocio = new FormSocio(this); // Pasar la referencia del formulario contenedor
-                AbrirFormEnPanel(formSocio);
-                SeleccionarBoton(btnSocios);
+                FormChequeo formChequeo = new FormChequeo(this); // Pasar la referencia del formulario contenedor
+                AbrirFormEnPanel(formChequeo);
+                SeleccionarBoton(btnVerificacion);
                 labelDNI.Text = this.dni_empleado.ToString();
                 labelNombre.Text = this.nombre;
             }

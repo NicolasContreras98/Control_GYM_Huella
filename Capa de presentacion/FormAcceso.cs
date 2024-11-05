@@ -2,14 +2,7 @@
 using Control_Gym.Capa_logica;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Control_Gym.Capa_de_presentacion
@@ -61,15 +54,18 @@ namespace Control_Gym.Capa_de_presentacion
                         // Pasar el rol al método VerificarLicenciaEmpleado
                         if (VerificarLicenciaEmpleado(Convert.ToInt32(txtDniEmpleado.Text), rol))
                         {
-                            FormContenedor formContenedor = new FormContenedor(acceso[0].dni_empleado, acceso[0].nombre, rol);
-                            formContenedor.Show();
+                            this.Hide(); // Oculta el formulario de inicio de sesión
 
+                            FormContenedor formContenedor = new FormContenedor(acceso[0].dni_empleado, acceso[0].nombre, rol);
+                            formContenedor.ShowDialog(); // Muestra FormContenedor como un cuadro de diálogo modal
+
+                            this.Show(); // Vuelve a mostrar el formulario de inicio de sesión cuando FormContenedor se cierre
                             txtDniEmpleado.Text = "";
                             txtContraseñaEmpleado.Text = "";
                         }
                         else
                         {
-                            MessageBox.Show("Tu licencia ha expirados.", "Error de acceso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show("Tu licencia ha expirado.", "Error de acceso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             txtDniEmpleado.Text = "";
                             txtContraseñaEmpleado.Text = "";
                         }
@@ -85,7 +81,6 @@ namespace Control_Gym.Capa_de_presentacion
                 MessageBox.Show("Error al iniciar sesión: " + ex.Message);
             }
         }
-
 
         private bool VerificarLicenciaEmpleado(int dniEmpleado, string rol)
         {
@@ -186,7 +181,6 @@ namespace Control_Gym.Capa_de_presentacion
             }
         }
 
-
         private void txtDniEmpleado_KeyPress(object sender, KeyPressEventArgs e)
         {
             try
@@ -268,24 +262,62 @@ namespace Control_Gym.Capa_de_presentacion
             }
         }
 
-        private void txtContraseñaEmpleado_TextChanged(object sender, EventArgs e)
+        private void iconcerrar_Click(object sender, EventArgs e)
         {
+            try
+            {
+                var result = MessageBox.Show("¿Está seguro de que desea salir del programa?", "Confirmación de salida", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
+                if (result == DialogResult.Yes)
+                {
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cerrar la ventana: " + ex.Message);
+            }
         }
 
-        private void txtDniEmpleado_TextChanged(object sender, EventArgs e)
-        {
 
+        private void iconrestaurar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.WindowState = FormWindowState.Normal;
+                iconrestaurar.Visible = false;
+                iconmaximizar.Visible = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al restaurar la ventana: " + ex.Message);
+            }
         }
 
-        private void lblDni_Click(object sender, EventArgs e)
+        private void iconminimizar_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                this.WindowState = FormWindowState.Minimized;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al minimizar la ventana: " + ex.Message);
+            }
         }
 
-        private void lblContraseña_Click(object sender, EventArgs e)
+        private void iconmaximizar_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                this.WindowState = FormWindowState.Maximized;
+                iconrestaurar.Visible = true;
+                iconmaximizar.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al maximizar la ventana: " + ex.Message);
+            }
         }
     }
 }

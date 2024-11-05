@@ -48,22 +48,25 @@
             this.lblNombreCompleto = new System.Windows.Forms.Label();
             this.picFPImg = new System.Windows.Forms.PictureBox();
             this.lblFeedBack = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblAviso = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbWarning)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbNeutro)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbNo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbYes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picFPImg)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label1.BackColor = System.Drawing.Color.LightGray;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label1.Location = new System.Drawing.Point(11, 42);
+            this.label1.Location = new System.Drawing.Point(14, 49);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(54, 20);
             this.label1.TabIndex = 5;
@@ -73,10 +76,10 @@
             // 
             this.lblInicio.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblInicio.AutoSize = true;
-            this.lblInicio.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.lblInicio.BackColor = System.Drawing.Color.LightGray;
             this.lblInicio.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblInicio.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.lblInicio.Location = new System.Drawing.Point(71, 42);
+            this.lblInicio.Location = new System.Drawing.Point(74, 49);
             this.lblInicio.Name = "lblInicio";
             this.lblInicio.Size = new System.Drawing.Size(18, 20);
             this.lblInicio.TabIndex = 6;
@@ -86,10 +89,10 @@
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label3.BackColor = System.Drawing.Color.LightGray;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label3.Location = new System.Drawing.Point(11, 75);
+            this.label3.Location = new System.Drawing.Point(14, 82);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(39, 20);
             this.label3.TabIndex = 7;
@@ -99,10 +102,10 @@
             // 
             this.lblFin.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblFin.AutoSize = true;
-            this.lblFin.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.lblFin.BackColor = System.Drawing.Color.LightGray;
             this.lblFin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.lblFin.Location = new System.Drawing.Point(56, 75);
+            this.lblFin.Location = new System.Drawing.Point(59, 82);
             this.lblFin.Name = "lblFin";
             this.lblFin.Size = new System.Drawing.Size(18, 20);
             this.lblFin.TabIndex = 8;
@@ -112,9 +115,10 @@
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.LightGray;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label5.Location = new System.Drawing.Point(11, 108);
+            this.label5.Location = new System.Drawing.Point(14, 115);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(127, 20);
             this.label5.TabIndex = 9;
@@ -124,9 +128,10 @@
             // 
             this.lblDiasRestantes.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblDiasRestantes.AutoSize = true;
+            this.lblDiasRestantes.BackColor = System.Drawing.Color.LightGray;
             this.lblDiasRestantes.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDiasRestantes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.lblDiasRestantes.Location = new System.Drawing.Point(144, 108);
+            this.lblDiasRestantes.Location = new System.Drawing.Point(147, 115);
             this.lblDiasRestantes.Name = "lblDiasRestantes";
             this.lblDiasRestantes.Size = new System.Drawing.Size(18, 20);
             this.lblDiasRestantes.TabIndex = 10;
@@ -136,9 +141,10 @@
             // 
             this.lblTipoMembresia.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblTipoMembresia.AutoSize = true;
+            this.lblTipoMembresia.BackColor = System.Drawing.Color.LightGray;
             this.lblTipoMembresia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTipoMembresia.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblTipoMembresia.Location = new System.Drawing.Point(11, 141);
+            this.lblTipoMembresia.Location = new System.Drawing.Point(14, 148);
             this.lblTipoMembresia.Name = "lblTipoMembresia";
             this.lblTipoMembresia.Size = new System.Drawing.Size(151, 20);
             this.lblTipoMembresia.TabIndex = 11;
@@ -151,7 +157,7 @@
             this.cmbTipoMembresia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbTipoMembresia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbTipoMembresia.FormattingEnabled = true;
-            this.cmbTipoMembresia.Location = new System.Drawing.Point(168, 138);
+            this.cmbTipoMembresia.Location = new System.Drawing.Point(171, 145);
             this.cmbTipoMembresia.Name = "cmbTipoMembresia";
             this.cmbTipoMembresia.Size = new System.Drawing.Size(125, 28);
             this.cmbTipoMembresia.TabIndex = 2;
@@ -167,9 +173,9 @@
             this.pbWarning.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pbWarning.BackColor = System.Drawing.Color.Transparent;
             this.pbWarning.Image = ((System.Drawing.Image)(resources.GetObject("pbWarning.Image")));
-            this.pbWarning.Location = new System.Drawing.Point(673, 39);
+            this.pbWarning.Location = new System.Drawing.Point(295, 280);
             this.pbWarning.Name = "pbWarning";
-            this.pbWarning.Size = new System.Drawing.Size(230, 230);
+            this.pbWarning.Size = new System.Drawing.Size(230, 239);
             this.pbWarning.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbWarning.TabIndex = 17;
             this.pbWarning.TabStop = false;
@@ -179,9 +185,9 @@
             this.pbNeutro.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pbNeutro.BackColor = System.Drawing.Color.Transparent;
             this.pbNeutro.Image = ((System.Drawing.Image)(resources.GetObject("pbNeutro.Image")));
-            this.pbNeutro.Location = new System.Drawing.Point(673, 39);
+            this.pbNeutro.Location = new System.Drawing.Point(295, 282);
             this.pbNeutro.Name = "pbNeutro";
-            this.pbNeutro.Size = new System.Drawing.Size(230, 230);
+            this.pbNeutro.Size = new System.Drawing.Size(230, 239);
             this.pbNeutro.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbNeutro.TabIndex = 4;
             this.pbNeutro.TabStop = false;
@@ -191,9 +197,9 @@
             this.pbNo.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pbNo.BackColor = System.Drawing.Color.Transparent;
             this.pbNo.Image = ((System.Drawing.Image)(resources.GetObject("pbNo.Image")));
-            this.pbNo.Location = new System.Drawing.Point(673, 39);
+            this.pbNo.Location = new System.Drawing.Point(295, 282);
             this.pbNo.Name = "pbNo";
-            this.pbNo.Size = new System.Drawing.Size(230, 230);
+            this.pbNo.Size = new System.Drawing.Size(230, 239);
             this.pbNo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbNo.TabIndex = 3;
             this.pbNo.TabStop = false;
@@ -202,9 +208,9 @@
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(599, -33);
+            this.pictureBox1.Location = new System.Drawing.Point(223, 222);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(372, 376);
+            this.pictureBox1.Size = new System.Drawing.Size(372, 360);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 16;
             this.pictureBox1.TabStop = false;
@@ -214,9 +220,9 @@
             this.pbYes.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pbYes.BackColor = System.Drawing.Color.Transparent;
             this.pbYes.Image = ((System.Drawing.Image)(resources.GetObject("pbYes.Image")));
-            this.pbYes.Location = new System.Drawing.Point(673, 39);
+            this.pbYes.Location = new System.Drawing.Point(295, 282);
             this.pbYes.Name = "pbYes";
-            this.pbYes.Size = new System.Drawing.Size(230, 230);
+            this.pbYes.Size = new System.Drawing.Size(230, 239);
             this.pbYes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbYes.TabIndex = 2;
             this.pbYes.TabStop = false;
@@ -225,9 +231,10 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.LightGray;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label2.Location = new System.Drawing.Point(11, 9);
+            this.label2.Location = new System.Drawing.Point(14, 16);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(144, 20);
             this.label2.TabIndex = 18;
@@ -237,9 +244,10 @@
             // 
             this.lblNombreCompleto.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblNombreCompleto.AutoSize = true;
+            this.lblNombreCompleto.BackColor = System.Drawing.Color.LightGray;
             this.lblNombreCompleto.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNombreCompleto.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.lblNombreCompleto.Location = new System.Drawing.Point(161, 9);
+            this.lblNombreCompleto.Location = new System.Drawing.Point(164, 16);
             this.lblNombreCompleto.Name = "lblNombreCompleto";
             this.lblNombreCompleto.Size = new System.Drawing.Size(125, 20);
             this.lblNombreCompleto.TabIndex = 19;
@@ -247,9 +255,10 @@
             // 
             // picFPImg
             // 
-            this.picFPImg.Location = new System.Drawing.Point(348, 9);
+            this.picFPImg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picFPImg.Location = new System.Drawing.Point(444, 3);
             this.picFPImg.Name = "picFPImg";
-            this.picFPImg.Size = new System.Drawing.Size(208, 216);
+            this.picFPImg.Size = new System.Drawing.Size(208, 211);
             this.picFPImg.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picFPImg.TabIndex = 20;
             this.picFPImg.TabStop = false;
@@ -257,34 +266,57 @@
             // lblFeedBack
             // 
             this.lblFeedBack.AutoSize = true;
-            this.lblFeedBack.Location = new System.Drawing.Point(223, 258);
+            this.lblFeedBack.Location = new System.Drawing.Point(300, 331);
             this.lblFeedBack.Name = "lblFeedBack";
             this.lblFeedBack.Size = new System.Drawing.Size(0, 35);
             this.lblFeedBack.TabIndex = 21;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.BackColor = System.Drawing.Color.LightGray;
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.lblInicio);
+            this.groupBox1.Controls.Add(this.lblNombreCompleto);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.lblFin);
+            this.groupBox1.Controls.Add(this.cmbTipoMembresia);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.lblTipoMembresia);
+            this.groupBox1.Controls.Add(this.lblDiasRestantes);
+            this.groupBox1.Location = new System.Drawing.Point(2, 2);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(401, 214);
+            this.groupBox1.TabIndex = 22;
+            this.groupBox1.TabStop = false;
+            // 
+            // lblAviso
+            // 
+            this.lblAviso.AutoSize = true;
+            this.lblAviso.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.lblAviso.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAviso.ForeColor = System.Drawing.Color.Firebrick;
+            this.lblAviso.Location = new System.Drawing.Point(203, 225);
+            this.lblAviso.Name = "lblAviso";
+            this.lblAviso.Size = new System.Drawing.Size(432, 29);
+            this.lblAviso.TabIndex = 23;
+            this.lblAviso.Text = "No existe un socio con esa huella !!!";
             // 
             // FormChequeo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 35F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(960, 377);
+            this.ClientSize = new System.Drawing.Size(818, 555);
+            this.Controls.Add(this.lblAviso);
             this.Controls.Add(this.lblFeedBack);
             this.Controls.Add(this.picFPImg);
-            this.Controls.Add(this.lblNombreCompleto);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.cmbTipoMembresia);
-            this.Controls.Add(this.lblTipoMembresia);
-            this.Controls.Add(this.lblDiasRestantes);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.lblFin);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.lblInicio);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.pbNeutro);
             this.Controls.Add(this.pbNo);
             this.Controls.Add(this.pbYes);
             this.Controls.Add(this.pbWarning);
             this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Sitka Banner", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -302,6 +334,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbYes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picFPImg)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -326,5 +360,7 @@
         private System.Windows.Forms.Label lblNombreCompleto;
         private System.Windows.Forms.PictureBox picFPImg;
         private System.Windows.Forms.Label lblFeedBack;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label lblAviso;
     }
 }

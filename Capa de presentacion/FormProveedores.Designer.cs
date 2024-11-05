@@ -56,10 +56,10 @@
             this.dgvProveedores.AllowUserToDeleteRows = false;
             this.dgvProveedores.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.dgvProveedores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvProveedores.Location = new System.Drawing.Point(6, 14);
+            this.dgvProveedores.Location = new System.Drawing.Point(0, 0);
             this.dgvProveedores.Name = "dgvProveedores";
             this.dgvProveedores.ReadOnly = true;
-            this.dgvProveedores.Size = new System.Drawing.Size(627, 388);
+            this.dgvProveedores.Size = new System.Drawing.Size(555, 418);
             this.dgvProveedores.TabIndex = 0;
             this.dgvProveedores.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvProveedores_RowHeaderMouseClick);
             // 
@@ -68,7 +68,7 @@
             this.txtCodigo.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtCodigo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCodigo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.txtCodigo.Location = new System.Drawing.Point(747, 15);
+            this.txtCodigo.Location = new System.Drawing.Point(650, 40);
             this.txtCodigo.Name = "txtCodigo";
             this.txtCodigo.Size = new System.Drawing.Size(156, 22);
             this.txtCodigo.TabIndex = 0;
@@ -82,7 +82,7 @@
             this.txtNombre.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNombre.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.txtNombre.Location = new System.Drawing.Point(747, 62);
+            this.txtNombre.Location = new System.Drawing.Point(650, 87);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(156, 22);
             this.txtNombre.TabIndex = 1;
@@ -95,7 +95,7 @@
             this.txtCuit.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtCuit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCuit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.txtCuit.Location = new System.Drawing.Point(747, 109);
+            this.txtCuit.Location = new System.Drawing.Point(650, 134);
             this.txtCuit.Name = "txtCuit";
             this.txtCuit.Size = new System.Drawing.Size(156, 22);
             this.txtCuit.TabIndex = 2;
@@ -109,7 +109,7 @@
             this.txtTelefono.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtTelefono.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTelefono.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.txtTelefono.Location = new System.Drawing.Point(747, 156);
+            this.txtTelefono.Location = new System.Drawing.Point(650, 181);
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.Size = new System.Drawing.Size(156, 22);
             this.txtTelefono.TabIndex = 3;
@@ -123,7 +123,7 @@
             this.txtDireccion.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtDireccion.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDireccion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.txtDireccion.Location = new System.Drawing.Point(747, 203);
+            this.txtDireccion.Location = new System.Drawing.Point(650, 228);
             this.txtDireccion.Name = "txtDireccion";
             this.txtDireccion.Size = new System.Drawing.Size(156, 22);
             this.txtDireccion.TabIndex = 4;
@@ -136,7 +136,7 @@
             this.txtEmail.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtEmail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.txtEmail.Location = new System.Drawing.Point(747, 250);
+            this.txtEmail.Location = new System.Drawing.Point(650, 275);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(156, 22);
             this.txtEmail.TabIndex = 5;
@@ -150,7 +150,7 @@
             this.lblCod.AutoSize = true;
             this.lblCod.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCod.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblCod.Location = new System.Drawing.Point(676, 18);
+            this.lblCod.Location = new System.Drawing.Point(579, 43);
             this.lblCod.Name = "lblCod";
             this.lblCod.Size = new System.Drawing.Size(65, 16);
             this.lblCod.TabIndex = 8;
@@ -163,7 +163,7 @@
             this.lblNombre.AutoSize = true;
             this.lblNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNombre.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblNombre.Location = new System.Drawing.Point(671, 65);
+            this.lblNombre.Location = new System.Drawing.Point(574, 90);
             this.lblNombre.Name = "lblNombre";
             this.lblNombre.Size = new System.Drawing.Size(70, 16);
             this.lblNombre.TabIndex = 9;
@@ -175,7 +175,7 @@
             this.lblCuit.AutoSize = true;
             this.lblCuit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCuit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblCuit.Location = new System.Drawing.Point(700, 112);
+            this.lblCuit.Location = new System.Drawing.Point(603, 137);
             this.lblCuit.Name = "lblCuit";
             this.lblCuit.Size = new System.Drawing.Size(41, 16);
             this.lblCuit.TabIndex = 10;
@@ -187,7 +187,7 @@
             this.lblTelefono.AutoSize = true;
             this.lblTelefono.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTelefono.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblTelefono.Location = new System.Drawing.Point(664, 159);
+            this.lblTelefono.Location = new System.Drawing.Point(567, 184);
             this.lblTelefono.Name = "lblTelefono";
             this.lblTelefono.Size = new System.Drawing.Size(77, 16);
             this.lblTelefono.TabIndex = 11;
@@ -199,7 +199,7 @@
             this.lblDireccion.AutoSize = true;
             this.lblDireccion.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDireccion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblDireccion.Location = new System.Drawing.Point(660, 206);
+            this.lblDireccion.Location = new System.Drawing.Point(563, 231);
             this.lblDireccion.Name = "lblDireccion";
             this.lblDireccion.Size = new System.Drawing.Size(81, 16);
             this.lblDireccion.TabIndex = 12;
@@ -211,7 +211,7 @@
             this.lblEmail.AutoSize = true;
             this.lblEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEmail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblEmail.Location = new System.Drawing.Point(687, 253);
+            this.lblEmail.Location = new System.Drawing.Point(590, 278);
             this.lblEmail.Name = "lblEmail";
             this.lblEmail.Size = new System.Drawing.Size(54, 16);
             this.lblEmail.TabIndex = 13;
@@ -225,7 +225,7 @@
             this.btnAgregar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAgregar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAgregar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnAgregar.Location = new System.Drawing.Point(747, 284);
+            this.btnAgregar.Location = new System.Drawing.Point(650, 309);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(75, 30);
             this.btnAgregar.TabIndex = 6;
@@ -241,7 +241,7 @@
             this.btnModificar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnModificar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnModificar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnModificar.Location = new System.Drawing.Point(747, 284);
+            this.btnModificar.Location = new System.Drawing.Point(650, 309);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(75, 30);
             this.btnModificar.TabIndex = 9;
@@ -257,7 +257,7 @@
             this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEliminar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnEliminar.Location = new System.Drawing.Point(828, 284);
+            this.btnEliminar.Location = new System.Drawing.Point(731, 309);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(75, 30);
             this.btnEliminar.TabIndex = 7;
@@ -273,7 +273,7 @@
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnCancelar.Location = new System.Drawing.Point(747, 320);
+            this.btnCancelar.Location = new System.Drawing.Point(650, 345);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 30);
             this.btnCancelar.TabIndex = 8;
@@ -284,10 +284,10 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.dgvProveedores);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(2, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(638, 407);
+            this.groupBox1.Size = new System.Drawing.Size(555, 420);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             // 
@@ -296,7 +296,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(974, 448);
+            this.ClientSize = new System.Drawing.Size(818, 425);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnEliminar);

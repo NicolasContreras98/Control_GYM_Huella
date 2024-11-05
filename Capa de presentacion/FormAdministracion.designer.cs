@@ -82,9 +82,9 @@
             this.panel1.Controls.Add(this.pictureBox2);
             this.panel1.Controls.Add(this.panelTiposMembresia);
             this.panel1.ForeColor = System.Drawing.Color.SeaGreen;
-            this.panel1.Location = new System.Drawing.Point(232, 12);
+            this.panel1.Location = new System.Drawing.Point(179, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(180, 127);
+            this.panel1.Size = new System.Drawing.Size(150, 120);
             this.panel1.TabIndex = 30;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
@@ -99,7 +99,7 @@
             this.btnTiposMembresia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTiposMembresia.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTiposMembresia.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnTiposMembresia.Location = new System.Drawing.Point(45, 103);
+            this.btnTiposMembresia.Location = new System.Drawing.Point(30, 96);
             this.btnTiposMembresia.Name = "btnTiposMembresia";
             this.btnTiposMembresia.Size = new System.Drawing.Size(80, 23);
             this.btnTiposMembresia.TabIndex = 2;
@@ -111,7 +111,7 @@
             // 
             this.pictureBox2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(45, 30);
+            this.pictureBox2.Location = new System.Drawing.Point(30, 30);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(80, 80);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -123,7 +123,7 @@
             this.panelTiposMembresia.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.panelTiposMembresia.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.panelTiposMembresia.Controls.Add(this.labelTiposMembresia);
-            this.panelTiposMembresia.Location = new System.Drawing.Point(0, 0);
+            this.panelTiposMembresia.Location = new System.Drawing.Point(-15, 0);
             this.panelTiposMembresia.Name = "panelTiposMembresia";
             this.panelTiposMembresia.Size = new System.Drawing.Size(178, 30);
             this.panelTiposMembresia.TabIndex = 0;
@@ -161,9 +161,9 @@
             this.panel11.Controls.Add(this.btnProveedores);
             this.panel11.Controls.Add(this.pictureBox6);
             this.panel11.Controls.Add(this.panelProveedores);
-            this.panel11.Location = new System.Drawing.Point(628, 12);
+            this.panel11.Location = new System.Drawing.Point(493, 3);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(180, 127);
+            this.panel11.Size = new System.Drawing.Size(150, 120);
             this.panel11.TabIndex = 35;
             this.panel11.Paint += new System.Windows.Forms.PaintEventHandler(this.panel11_Paint);
             // 
@@ -178,7 +178,7 @@
             this.btnProveedores.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnProveedores.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnProveedores.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnProveedores.Location = new System.Drawing.Point(49, 103);
+            this.btnProveedores.Location = new System.Drawing.Point(34, 96);
             this.btnProveedores.Name = "btnProveedores";
             this.btnProveedores.Size = new System.Drawing.Size(80, 23);
             this.btnProveedores.TabIndex = 4;
@@ -190,7 +190,7 @@
             // 
             this.pictureBox6.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
-            this.pictureBox6.Location = new System.Drawing.Point(49, 30);
+            this.pictureBox6.Location = new System.Drawing.Point(34, 30);
             this.pictureBox6.Name = "pictureBox6";
             this.pictureBox6.Size = new System.Drawing.Size(80, 80);
             this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -202,7 +202,7 @@
             this.panelProveedores.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.panelProveedores.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.panelProveedores.Controls.Add(this.labelProveedores);
-            this.panelProveedores.Location = new System.Drawing.Point(0, 0);
+            this.panelProveedores.Location = new System.Drawing.Point(-15, 0);
             this.panelProveedores.Name = "panelProveedores";
             this.panelProveedores.Size = new System.Drawing.Size(178, 30);
             this.panelProveedores.TabIndex = 0;
@@ -228,9 +228,9 @@
             this.panel9.Controls.Add(this.btnEmpleados);
             this.panel9.Controls.Add(this.pictureBox1);
             this.panel9.Controls.Add(this.panelEmpleados);
-            this.panel9.Location = new System.Drawing.Point(31, 12);
+            this.panel9.Location = new System.Drawing.Point(21, 3);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(180, 127);
+            this.panel9.Size = new System.Drawing.Size(150, 120);
             this.panel9.TabIndex = 36;
             this.panel9.Paint += new System.Windows.Forms.PaintEventHandler(this.panel9_Paint);
             // 
@@ -245,7 +245,7 @@
             this.btnEmpleados.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEmpleados.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEmpleados.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnEmpleados.Location = new System.Drawing.Point(43, 103);
+            this.btnEmpleados.Location = new System.Drawing.Point(28, 96);
             this.btnEmpleados.Name = "btnEmpleados";
             this.btnEmpleados.Size = new System.Drawing.Size(80, 23);
             this.btnEmpleados.TabIndex = 1;
@@ -257,7 +257,7 @@
             // 
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(43, 30);
+            this.pictureBox1.Location = new System.Drawing.Point(28, 30);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(80, 80);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -271,7 +271,7 @@
             this.panelEmpleados.Controls.Add(this.label3);
             this.panelEmpleados.Controls.Add(this.label4);
             this.panelEmpleados.Controls.Add(this.labelEmpleados);
-            this.panelEmpleados.Location = new System.Drawing.Point(0, 0);
+            this.panelEmpleados.Location = new System.Drawing.Point(-15, 0);
             this.panelEmpleados.Name = "panelEmpleados";
             this.panelEmpleados.Size = new System.Drawing.Size(178, 30);
             this.panelEmpleados.TabIndex = 0;
@@ -314,7 +314,7 @@
             // 
             this.pictureBox3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(48, 30);
+            this.pictureBox3.Location = new System.Drawing.Point(33, 30);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(80, 80);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -326,7 +326,7 @@
             this.panelProductos.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.panelProductos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.panelProductos.Controls.Add(this.labelProductos);
-            this.panelProductos.Location = new System.Drawing.Point(0, 0);
+            this.panelProductos.Location = new System.Drawing.Point(-15, 0);
             this.panelProductos.Name = "panelProductos";
             this.panelProductos.Size = new System.Drawing.Size(178, 30);
             this.panelProductos.TabIndex = 0;
@@ -338,9 +338,9 @@
             this.panel5.Controls.Add(this.btnProductos);
             this.panel5.Controls.Add(this.pictureBox3);
             this.panel5.Controls.Add(this.panelProductos);
-            this.panel5.Location = new System.Drawing.Point(827, 12);
+            this.panel5.Location = new System.Drawing.Point(649, 4);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(180, 127);
+            this.panel5.Size = new System.Drawing.Size(150, 120);
             this.panel5.TabIndex = 32;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
@@ -355,7 +355,7 @@
             this.btnProductos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnProductos.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnProductos.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnProductos.Location = new System.Drawing.Point(48, 103);
+            this.btnProductos.Location = new System.Drawing.Point(33, 96);
             this.btnProductos.Name = "btnProductos";
             this.btnProductos.Size = new System.Drawing.Size(80, 23);
             this.btnProductos.TabIndex = 5;
@@ -366,9 +366,9 @@
             // panelContenedor
             // 
             this.panelContenedor.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.panelContenedor.Location = new System.Drawing.Point(33, 161);
+            this.panelContenedor.Location = new System.Drawing.Point(0, 130);
             this.panelContenedor.Name = "panelContenedor";
-            this.panelContenedor.Size = new System.Drawing.Size(974, 443);
+            this.panelContenedor.Size = new System.Drawing.Size(818, 425);
             this.panelContenedor.TabIndex = 38;
             // 
             // panel3
@@ -379,9 +379,9 @@
             this.panel3.Controls.Add(this.pictureBox4);
             this.panel3.Controls.Add(this.panelTiposProducto);
             this.panel3.ForeColor = System.Drawing.Color.SeaGreen;
-            this.panel3.Location = new System.Drawing.Point(431, 12);
+            this.panel3.Location = new System.Drawing.Point(337, 4);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(180, 127);
+            this.panel3.Size = new System.Drawing.Size(150, 120);
             this.panel3.TabIndex = 42;
             this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
@@ -396,7 +396,7 @@
             this.btnTiposProducto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTiposProducto.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTiposProducto.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnTiposProducto.Location = new System.Drawing.Point(45, 103);
+            this.btnTiposProducto.Location = new System.Drawing.Point(30, 96);
             this.btnTiposProducto.Name = "btnTiposProducto";
             this.btnTiposProducto.Size = new System.Drawing.Size(80, 23);
             this.btnTiposProducto.TabIndex = 3;
@@ -408,7 +408,7 @@
             // 
             this.pictureBox4.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(45, 30);
+            this.pictureBox4.Location = new System.Drawing.Point(30, 30);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(80, 80);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -420,7 +420,7 @@
             this.panelTiposProducto.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.panelTiposProducto.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.panelTiposProducto.Controls.Add(this.labelTiposProducto);
-            this.panelTiposProducto.Location = new System.Drawing.Point(0, 0);
+            this.panelTiposProducto.Location = new System.Drawing.Point(-15, 0);
             this.panelTiposProducto.Name = "panelTiposProducto";
             this.panelTiposProducto.Size = new System.Drawing.Size(178, 30);
             this.panelTiposProducto.TabIndex = 0;
@@ -443,7 +443,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(1050, 605);
+            this.ClientSize = new System.Drawing.Size(818, 555);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panelContenedor);
             this.Controls.Add(this.panel1);

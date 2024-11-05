@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,23 +64,17 @@ namespace Control_Gym.Capa_logica
             cMembresiaD.CrearMembresia(cMembresia);
         }
 
-        public List<CMembresia> TraerMembresias()
+        public DataTable TraerMembresias()
         {
-            List<CMembresia> membresias = cMembresiaD.TraerMembresias();
-            cMembresiaD.TraerMembresias();
-            return membresias;
+            // Llamamos al método en la capa de datos que devuelve un DataTable
+            DataTable tablaMembresias = cMembresiaD.TraerMembresias();
+            return tablaMembresias;
         }
+
 
         public void EditarMembresia(CMembresia cMembresia)
         {
             cMembresiaD.EditarMembresia(cMembresia);
-        }
-
-        public List<CMembresia> CargarGrilla()
-        {
-            List<CMembresia> membresias = cMembresiaD.CargarGrilla();
-            cMembresiaD.CargarGrilla();
-            return membresias;
         }
 
         public void EliminarMembresia(int id)

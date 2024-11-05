@@ -299,6 +299,25 @@ namespace Control_Gym.Capa_de_presentacion
             {
                 bool existeSocio = cVentaD.ClienteExiste(Convert.ToInt32(txtDniCliente.Text));
                 bool existeEmpleado = cEmpleadoD.DniExiste(Convert.ToInt32(txtDniEmpleado.Text));
+
+                if (!existeSocio)
+                {
+                    MessageBox.Show("El Cliente no está registrado en la base de datos. Se abrirá el formulario para registrarlo.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    FormAgregarCliente agregarClienteForm = new FormAgregarCliente(txtDniCliente.Text);
+                    DialogResult result = agregarClienteForm.ShowDialog();
+
+                    if (result == DialogResult.OK)
+                    {
+                        // Aquí se podría actualizar la información del cliente si es necesario.
+                        existeSocio = true;  // Cliente ya registrado.
+                    }
+                    else
+                    {
+                        return; // Si no se registra el cliente, se cancela la venta.
+                    }
+                }
+
                 if (existeSocio && existeEmpleado)
                 {
                     int dni_Cliente, dniEmpleado;
@@ -312,6 +331,7 @@ namespace Control_Gym.Capa_de_presentacion
                             MessageBox.Show("El descuento puede ser de 0% a 100%.", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             return;
                         }
+
                         List<CDetalleVenta> detallesVenta = new List<CDetalleVenta>();
                         decimal subtotal = 0;
 
@@ -348,6 +368,7 @@ namespace Control_Gym.Capa_de_presentacion
                         {
                             decimal total = CalcularTodosSubtotales();
                             bool ventaExitosa = cVenta.RealizarVenta(dni_Cliente, dniEmpleado, descuento, total, detallesVenta);
+
                             if (!ventaExitosa)
                             {
                                 MessageBox.Show("No hay suficiente stock disponible para completar la venta.", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -365,29 +386,11 @@ namespace Control_Gym.Capa_de_presentacion
                         else
                         {
                             MessageBox.Show("Agrega productos al carrito!", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        }                  
+                        }
                     }
                     else
                     {
                         MessageBox.Show("Por favor, ingresa valores numéricos válidos en los campos de DNI.", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    }
-                }
-                else if(!existeSocio)
-                {
-                    MessageBox.Show("El Cliente no está registrado en la base de datos, Regístrelo por favor", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-
-                    FormAgregarCliente agregarClienteForm = new FormAgregarCliente(txtDniCliente.Text);
-
-                    DialogResult result = agregarClienteForm.ShowDialog();
-                    if (result == DialogResult.OK)
-                    {
-                        string dniCliente = agregarClienteForm.DniCliente;
-                        string nombre = agregarClienteForm.Nombre;
-                        string apellido = agregarClienteForm.Apellido;
-                        string telefono = agregarClienteForm.Telefono;
-                        string domicilio = agregarClienteForm.Domicilio;
-                        string email = agregarClienteForm.Email;
                     }
                 }
                 else
@@ -399,8 +402,8 @@ namespace Control_Gym.Capa_de_presentacion
             {
                 MessageBox.Show("Error: " + ex.Message, "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-
         }
+
 
         public void Limpiar()
         {
@@ -760,5 +763,9 @@ namespace Control_Gym.Capa_de_presentacion
             }
         }
 
+        private void groupBox3_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }

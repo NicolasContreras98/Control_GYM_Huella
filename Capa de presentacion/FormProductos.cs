@@ -474,6 +474,11 @@ namespace Control_Gym.Capa_de_presentacion
                 e.Handled = true;
             }
         }
+
+        private void lblFechaVencimiento_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

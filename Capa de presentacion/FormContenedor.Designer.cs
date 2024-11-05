@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormContenedor));
             this.MenuVertical = new System.Windows.Forms.Panel();
+            this.btnVerificacion = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.labelNombre = new System.Windows.Forms.Label();
@@ -65,6 +66,7 @@
             // MenuVertical
             // 
             this.MenuVertical.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.MenuVertical.Controls.Add(this.btnVerificacion);
             this.MenuVertical.Controls.Add(this.label2);
             this.MenuVertical.Controls.Add(this.label3);
             this.MenuVertical.Controls.Add(this.labelNombre);
@@ -84,8 +86,27 @@
             this.MenuVertical.Dock = System.Windows.Forms.DockStyle.Left;
             this.MenuVertical.Location = new System.Drawing.Point(0, 0);
             this.MenuVertical.Name = "MenuVertical";
-            this.MenuVertical.Size = new System.Drawing.Size(225, 650);
+            this.MenuVertical.Size = new System.Drawing.Size(206, 600);
             this.MenuVertical.TabIndex = 0;
+            // 
+            // btnVerificacion
+            // 
+            this.btnVerificacion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.btnVerificacion.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnVerificacion.FlatAppearance.BorderSize = 0;
+            this.btnVerificacion.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(38)))));
+            this.btnVerificacion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnVerificacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVerificacion.ForeColor = System.Drawing.Color.White;
+            this.btnVerificacion.Image = ((System.Drawing.Image)(resources.GetObject("btnVerificacion.Image")));
+            this.btnVerificacion.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnVerificacion.Location = new System.Drawing.Point(-6, 133);
+            this.btnVerificacion.Name = "btnVerificacion";
+            this.btnVerificacion.Size = new System.Drawing.Size(233, 54);
+            this.btnVerificacion.TabIndex = 26;
+            this.btnVerificacion.Text = "  VERIFICACION";
+            this.btnVerificacion.UseVisualStyleBackColor = false;
+            this.btnVerificacion.Click += new System.EventHandler(this.btnVerificacion_Click);
             // 
             // label2
             // 
@@ -93,7 +114,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(219, 611);
+            this.label2.Location = new System.Drawing.Point(219, 561);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(0, 17);
             this.label2.TabIndex = 25;
@@ -104,7 +125,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(219, 594);
+            this.label3.Location = new System.Drawing.Point(219, 544);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(0, 17);
             this.label3.TabIndex = 24;
@@ -115,7 +136,7 @@
             this.labelNombre.AutoSize = true;
             this.labelNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelNombre.ForeColor = System.Drawing.Color.White;
-            this.labelNombre.Location = new System.Drawing.Point(147, 630);
+            this.labelNombre.Location = new System.Drawing.Point(108, 576);
             this.labelNombre.Name = "labelNombre";
             this.labelNombre.Size = new System.Drawing.Size(61, 16);
             this.labelNombre.TabIndex = 23;
@@ -127,7 +148,7 @@
             this.labelDNI.AutoSize = true;
             this.labelDNI.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelDNI.ForeColor = System.Drawing.Color.White;
-            this.labelDNI.Location = new System.Drawing.Point(148, 613);
+            this.labelDNI.Location = new System.Drawing.Point(109, 559);
             this.labelDNI.Name = "labelDNI";
             this.labelDNI.Size = new System.Drawing.Size(33, 16);
             this.labelDNI.TabIndex = 22;
@@ -147,9 +168,9 @@
             // 
             this.roundedPictureBox1.CornerRadius = 20;
             this.roundedPictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("roundedPictureBox1.Image")));
-            this.roundedPictureBox1.Location = new System.Drawing.Point(10, 12);
+            this.roundedPictureBox1.Location = new System.Drawing.Point(19, 21);
             this.roundedPictureBox1.Name = "roundedPictureBox1";
-            this.roundedPictureBox1.Size = new System.Drawing.Size(204, 69);
+            this.roundedPictureBox1.Size = new System.Drawing.Size(162, 56);
             this.roundedPictureBox1.TabIndex = 20;
             this.roundedPictureBox1.TabStop = false;
             // 
@@ -159,13 +180,13 @@
             this.btnCaja.FlatAppearance.BorderSize = 0;
             this.btnCaja.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(38)))));
             this.btnCaja.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCaja.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCaja.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCaja.ForeColor = System.Drawing.Color.White;
             this.btnCaja.Image = ((System.Drawing.Image)(resources.GetObject("btnCaja.Image")));
             this.btnCaja.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCaja.Location = new System.Drawing.Point(0, 286);
+            this.btnCaja.Location = new System.Drawing.Point(0, 345);
             this.btnCaja.Name = "btnCaja";
-            this.btnCaja.Size = new System.Drawing.Size(250, 54);
+            this.btnCaja.Size = new System.Drawing.Size(233, 54);
             this.btnCaja.TabIndex = 3;
             this.btnCaja.Text = "CAJA";
             this.btnCaja.UseVisualStyleBackColor = true;
@@ -177,7 +198,7 @@
             this.lblNombre.AutoSize = true;
             this.lblNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNombre.ForeColor = System.Drawing.Color.White;
-            this.lblNombre.Location = new System.Drawing.Point(132, 630);
+            this.lblNombre.Location = new System.Drawing.Point(93, 576);
             this.lblNombre.Name = "lblNombre";
             this.lblNombre.Size = new System.Drawing.Size(0, 16);
             this.lblNombre.TabIndex = 18;
@@ -188,7 +209,7 @@
             this.lblDNI.AutoSize = true;
             this.lblDNI.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDNI.ForeColor = System.Drawing.Color.White;
-            this.lblDNI.Location = new System.Drawing.Point(132, 613);
+            this.lblDNI.Location = new System.Drawing.Point(93, 559);
             this.lblDNI.Name = "lblDNI";
             this.lblDNI.Size = new System.Drawing.Size(0, 16);
             this.lblDNI.TabIndex = 17;
@@ -199,7 +220,7 @@
             this.lbluser.AutoSize = true;
             this.lbluser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbluser.ForeColor = System.Drawing.Color.White;
-            this.lbluser.Location = new System.Drawing.Point(71, 629);
+            this.lbluser.Location = new System.Drawing.Point(32, 575);
             this.lbluser.Name = "lbluser";
             this.lbluser.Size = new System.Drawing.Size(73, 16);
             this.lbluser.TabIndex = 16;
@@ -209,7 +230,7 @@
             // 
             this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(1, 583);
+            this.pictureBox2.Location = new System.Drawing.Point(68, 485);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(64, 63);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -222,7 +243,7 @@
             this.lblusuario.AutoSize = true;
             this.lblusuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblusuario.ForeColor = System.Drawing.Color.White;
-            this.lblusuario.Location = new System.Drawing.Point(87, 612);
+            this.lblusuario.Location = new System.Drawing.Point(48, 558);
             this.lblusuario.Name = "lblusuario";
             this.lblusuario.Size = new System.Drawing.Size(57, 16);
             this.lblusuario.TabIndex = 14;
@@ -234,13 +255,13 @@
             this.btnMembresias.FlatAppearance.BorderSize = 0;
             this.btnMembresias.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(38)))));
             this.btnMembresias.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMembresias.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMembresias.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMembresias.ForeColor = System.Drawing.Color.White;
             this.btnMembresias.Image = ((System.Drawing.Image)(resources.GetObject("btnMembresias.Image")));
             this.btnMembresias.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnMembresias.Location = new System.Drawing.Point(0, 178);
+            this.btnMembresias.Location = new System.Drawing.Point(0, 237);
             this.btnMembresias.Name = "btnMembresias";
-            this.btnMembresias.Size = new System.Drawing.Size(250, 54);
+            this.btnMembresias.Size = new System.Drawing.Size(233, 54);
             this.btnMembresias.TabIndex = 1;
             this.btnMembresias.Text = "MEMBRESÍAS";
             this.btnMembresias.UseVisualStyleBackColor = true;
@@ -253,13 +274,13 @@
             this.btnSocios.FlatAppearance.BorderSize = 0;
             this.btnSocios.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(38)))));
             this.btnSocios.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSocios.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSocios.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSocios.ForeColor = System.Drawing.Color.White;
             this.btnSocios.Image = ((System.Drawing.Image)(resources.GetObject("btnSocios.Image")));
             this.btnSocios.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSocios.Location = new System.Drawing.Point(0, 124);
+            this.btnSocios.Location = new System.Drawing.Point(0, 183);
             this.btnSocios.Name = "btnSocios";
-            this.btnSocios.Size = new System.Drawing.Size(250, 54);
+            this.btnSocios.Size = new System.Drawing.Size(233, 54);
             this.btnSocios.TabIndex = 0;
             this.btnSocios.Text = "SOCIOS";
             this.btnSocios.UseVisualStyleBackColor = false;
@@ -271,13 +292,13 @@
             this.btnClientes.FlatAppearance.BorderSize = 0;
             this.btnClientes.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(38)))));
             this.btnClientes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClientes.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClientes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClientes.ForeColor = System.Drawing.Color.White;
             this.btnClientes.Image = ((System.Drawing.Image)(resources.GetObject("btnClientes.Image")));
             this.btnClientes.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnClientes.Location = new System.Drawing.Point(0, 232);
+            this.btnClientes.Location = new System.Drawing.Point(0, 291);
             this.btnClientes.Name = "btnClientes";
-            this.btnClientes.Size = new System.Drawing.Size(250, 54);
+            this.btnClientes.Size = new System.Drawing.Size(233, 54);
             this.btnClientes.TabIndex = 2;
             this.btnClientes.Text = "VENTAS";
             this.btnClientes.UseVisualStyleBackColor = true;
@@ -289,13 +310,13 @@
             this.btnAdministracion.FlatAppearance.BorderSize = 0;
             this.btnAdministracion.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(38)))));
             this.btnAdministracion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAdministracion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAdministracion.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAdministracion.ForeColor = System.Drawing.Color.White;
             this.btnAdministracion.Image = ((System.Drawing.Image)(resources.GetObject("btnAdministracion.Image")));
             this.btnAdministracion.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAdministracion.Location = new System.Drawing.Point(0, 340);
+            this.btnAdministracion.Location = new System.Drawing.Point(0, 399);
             this.btnAdministracion.Name = "btnAdministracion";
-            this.btnAdministracion.Size = new System.Drawing.Size(250, 54);
+            this.btnAdministracion.Size = new System.Drawing.Size(233, 54);
             this.btnAdministracion.TabIndex = 4;
             this.btnAdministracion.Text = " ADMINISTRACIÓN";
             this.btnAdministracion.UseVisualStyleBackColor = true;
@@ -310,9 +331,9 @@
             this.BarraTitulo.Controls.Add(this.iconmaximizar);
             this.BarraTitulo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BarraTitulo.Dock = System.Windows.Forms.DockStyle.Top;
-            this.BarraTitulo.Location = new System.Drawing.Point(225, 0);
+            this.BarraTitulo.Location = new System.Drawing.Point(206, 0);
             this.BarraTitulo.Name = "BarraTitulo";
-            this.BarraTitulo.Size = new System.Drawing.Size(1075, 45);
+            this.BarraTitulo.Size = new System.Drawing.Size(818, 45);
             this.BarraTitulo.TabIndex = 1;
             this.BarraTitulo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.BarraTitulo_MouseDown);
             // 
@@ -321,7 +342,7 @@
             this.iconminimizar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.iconminimizar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.iconminimizar.Image = ((System.Drawing.Image)(resources.GetObject("iconminimizar.Image")));
-            this.iconminimizar.Location = new System.Drawing.Point(981, 8);
+            this.iconminimizar.Location = new System.Drawing.Point(724, 8);
             this.iconminimizar.Name = "iconminimizar";
             this.iconminimizar.Size = new System.Drawing.Size(35, 24);
             this.iconminimizar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -334,7 +355,7 @@
             this.iconcerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.iconcerrar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.iconcerrar.Image = ((System.Drawing.Image)(resources.GetObject("iconcerrar.Image")));
-            this.iconcerrar.Location = new System.Drawing.Point(1040, 8);
+            this.iconcerrar.Location = new System.Drawing.Point(783, 8);
             this.iconcerrar.Name = "iconcerrar";
             this.iconcerrar.Size = new System.Drawing.Size(35, 24);
             this.iconcerrar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -347,7 +368,7 @@
             this.iconrestaurar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.iconrestaurar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.iconrestaurar.Image = ((System.Drawing.Image)(resources.GetObject("iconrestaurar.Image")));
-            this.iconrestaurar.Location = new System.Drawing.Point(1010, 8);
+            this.iconrestaurar.Location = new System.Drawing.Point(753, 8);
             this.iconrestaurar.Name = "iconrestaurar";
             this.iconrestaurar.Size = new System.Drawing.Size(35, 24);
             this.iconrestaurar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -361,7 +382,7 @@
             this.iconmaximizar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.iconmaximizar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.iconmaximizar.Image = ((System.Drawing.Image)(resources.GetObject("iconmaximizar.Image")));
-            this.iconmaximizar.Location = new System.Drawing.Point(1011, 8);
+            this.iconmaximizar.Location = new System.Drawing.Point(754, 8);
             this.iconmaximizar.Name = "iconmaximizar";
             this.iconmaximizar.Size = new System.Drawing.Size(35, 24);
             this.iconmaximizar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -373,16 +394,16 @@
             // 
             this.panelContenedor.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panelContenedor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelContenedor.Location = new System.Drawing.Point(225, 45);
+            this.panelContenedor.Location = new System.Drawing.Point(206, 45);
             this.panelContenedor.Name = "panelContenedor";
-            this.panelContenedor.Size = new System.Drawing.Size(1075, 605);
+            this.panelContenedor.Size = new System.Drawing.Size(818, 555);
             this.panelContenedor.TabIndex = 2;
             // 
             // FormContenedor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1300, 650);
+            this.ClientSize = new System.Drawing.Size(1024, 600);
             this.Controls.Add(this.panelContenedor);
             this.Controls.Add(this.BarraTitulo);
             this.Controls.Add(this.MenuVertical);
@@ -430,6 +451,7 @@
         private System.Windows.Forms.Label labelNombre;
         private System.Windows.Forms.Label labelDNI;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Button btnVerificacion;
     }
 }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Net;
@@ -29,26 +30,57 @@ namespace Control_Gym.Capa_de_presentacion
         private CTipoMembresia cTipoMembresia = new CTipoMembresia();
         private CMembresia cMembresia = new CMembresia();
         private CSociosD cSociosD = new CSociosD();
+
         private void CargarGrilla()
         {
             try
             {
+                // Cargar los tipos de membresía para el ComboBox
                 List<CTipoMembresia> tipos = cTipoMembresia.traerTipos();
-                List<CMembresia> membresias = cMembresia.TraerMembresias();
-
                 cbTipoMembresia.DataSource = tipos;
-                dvgMembresias.DataSource = membresias;
-                dvgMembresias.Columns[0].HeaderText = "ID";
-                dvgMembresias.Columns[0].Width = 55;
-                dvgMembresias.Columns[1].Visible = false; //cod_tipo_membresia
-                dvgMembresias.Columns[2].Visible = false; //id_socio
-                dvgMembresias.Columns[3].HeaderText = "Dni del socio";
-                dvgMembresias.Columns[4].HeaderText = "Fecha de inicio";
-                dvgMembresias.Columns[5].HeaderText = "Fecha de fin";
-                dvgMembresias.Columns[6].HeaderText = "Tipo de membresia";
-                dvgMembresias.Columns[7].HeaderText = "Precio";
-                dvgMembresias.Columns[8].HeaderText = "Dias de duración";
-                dvgMembresias.Columns[8].Width = 120;
+                cbTipoMembresia.DisplayMember = "nombre";
+                cbTipoMembresia.ValueMember = "cod_tipo_membresia";
+
+                // Obtener el DataTable de membresías desde la capa lógica
+                DataTable tablaMembresias = cMembresia.TraerMembresias();
+                dvgMembresias.DataSource = tablaMembresias;
+
+                // Verificar y configurar las columnas del DataGridView si existen
+                if (dvgMembresias.Columns["cod_membresia"] != null)
+                {
+                    dvgMembresias.Columns["cod_membresia"].HeaderText = "ID";
+                    dvgMembresias.Columns["cod_membresia"].Width = 55;
+                }
+
+                if (dvgMembresias.Columns["cod_tipo_membresia"] != null)
+                    dvgMembresias.Columns["cod_tipo_membresia"].Visible = false;
+
+                if (dvgMembresias.Columns["id_socio"] != null)
+                    dvgMembresias.Columns["id_socio"].Visible = false;
+
+                if (dvgMembresias.Columns["dni_socio"] != null)
+                    dvgMembresias.Columns["dni_socio"].HeaderText = "Dni del socio";
+
+                if (dvgMembresias.Columns["nombre_completo"] != null)
+                    dvgMembresias.Columns["nombre_completo"].HeaderText = "Nombre completo";
+
+                if (dvgMembresias.Columns["fecha_inicio"] != null)
+                    dvgMembresias.Columns["fecha_inicio"].HeaderText = "Fecha de inicio";
+
+                if (dvgMembresias.Columns["fecha_fin"] != null)
+                    dvgMembresias.Columns["fecha_fin"].HeaderText = "Fecha de fin";
+
+                if (dvgMembresias.Columns["nombre"] != null)
+                    dvgMembresias.Columns["nombre"].HeaderText = "Tipo de membresía";
+
+                if (dvgMembresias.Columns["precio"] != null)
+                    dvgMembresias.Columns["precio"].HeaderText = "Precio";
+
+                if (dvgMembresias.Columns["cantidad_dias"] != null)
+                {
+                    dvgMembresias.Columns["cantidad_dias"].HeaderText = "Días de duración";
+                    dvgMembresias.Columns["cantidad_dias"].Width = 120;
+                }
             }
             catch (Exception ex)
             {
@@ -58,12 +90,10 @@ namespace Control_Gym.Capa_de_presentacion
 
         private void FormMembresias_Load(object sender, EventArgs e)
         {
-            btnCancelarMembresia.Visible = false;
-            btnActualizarMembresia.Visible = false;
-            btnEliminarMembresia.Visible = false;
             dtpFechaFin.Value = dtpFechaFin.Value.AddDays(cMembresia.cantidad_dias);
             dvgMembresias.CellFormatting += dvgMembresias_CellFormatting;
             CargarGrilla();
+            CancelarModificar();
 
             if (dni_socio == 0)
             {
@@ -77,10 +107,11 @@ namespace Control_Gym.Capa_de_presentacion
 
         public void CancelarModificar()
         {
-            btnCrearMembresia.Visible = true;
+            btnCrearMembresia.Visible = false;
             btnActualizarMembresia.Visible = false;
             btnEliminarMembresia.Visible = false;
             btnCancelarMembresia.Visible = false;
+            lblSocioAgregado.Visible = false;
 
             txtDniMembresia.ReadOnly = false;
         }
@@ -117,7 +148,9 @@ namespace Control_Gym.Capa_de_presentacion
                                 cMembresia.CrearMembresia(cMembresia);
                                 LimpiarCampos();
                                 CargarGrilla();
-                                MessageBox.Show("Membresía creada correctamente");
+                                CancelarModificar();
+
+                                lblSocioAgregado.Visible = true;
                             }
                             else
                             {
@@ -398,6 +431,7 @@ namespace Control_Gym.Capa_de_presentacion
 
         private void txtDniMembresia_Click(object sender, EventArgs e)
         {
+            btnCrearMembresia.Visible = true;
             if (txtDniMembresia.ReadOnly)
             {
                 MessageBox.Show("No se puede modificar el DNI", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -413,7 +447,6 @@ namespace Control_Gym.Capa_de_presentacion
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
                 comando.Parameters.AddWithValue("@codMembresia", codMembresia);
                 comando.ExecuteNonQuery();
-                MessageBox.Show("Se ha eliminado la cuota con código: " + codMembresia.ToString());
             }
             catch (Exception ex)
             {
@@ -428,6 +461,18 @@ namespace Control_Gym.Capa_de_presentacion
         private void btnFechaHoy_Click(object sender, EventArgs e)
         {
             dtpFechaInicio.Value = DateTime.Now;
+        }
+
+        private void txtDniMembresia_TextChanged(object sender, EventArgs e)
+        {
+            if (txtDniMembresia.ReadOnly)
+            {
+                btnCrearMembresia.Visible = false;
+            }
+            else
+            {
+                btnCrearMembresia.Visible = true;
+            }
         }
     }
 }

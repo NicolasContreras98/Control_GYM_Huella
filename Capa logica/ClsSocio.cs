@@ -22,8 +22,8 @@ namespace Control_Gym.Capa_logica
         public string Domicilio { get; set; }
         public string Email { get; set; }
         //Agrego los campos de la tabla membresia para el join para el chequeo
-        public DateTime? Fecha_Inicio { get; set; }
-        public DateTime? Fecha_Fin { get; set; }
+        public string Fecha_Inicio { get; set; }  // Cambiado a string para almacenar la fecha formateada
+        public string Fecha_Fin { get; set; }     // Cambiado a string para almacenar la fecha formateada
         public List<CTipoMembresia> Tipos_membresias { get; set; } = new List<CTipoMembresia>();
 
         public ClsSocio(int Id_socio, int Dni, string Nombre, string Apellido, string Telefono, DateTime FechaDeNacimiento, string Domicilio, string Email, List<CTipoMembresia> tipos_membresias)
@@ -38,7 +38,8 @@ namespace Control_Gym.Capa_logica
             this.Email = Email;
             this.Tipos_membresias = tipos_membresias;
         }
-        public ClsSocio(int id_socio, int dni, string nombre, string apellido,  DateTime? fecha_Inicio, DateTime? fecha_Fin, List<CTipoMembresia> tipos_membresias)
+
+        public ClsSocio(int id_socio, int dni, string nombre, string apellido, string fecha_Inicio, string fecha_Fin, List<CTipoMembresia> tipos_membresias)
         {
             this.Id_socio = id_socio;
             this.Dni = dni;
@@ -48,7 +49,8 @@ namespace Control_Gym.Capa_logica
             this.Fecha_Fin = fecha_Fin;
             this.Tipos_membresias = tipos_membresias;
         }
-        public ClsSocio(int id_socio, int dni, string nombre, string apellido, DateTime? fecha_Inicio, DateTime? fecha_Fin)
+
+        public ClsSocio(int id_socio, int dni, string nombre, string apellido, string fecha_Inicio, string fecha_Fin)
         {
             this.Id_socio = id_socio;
             this.Dni = dni;

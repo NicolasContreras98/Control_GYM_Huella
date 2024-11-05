@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Control_Gym.Capa_logica;
 
@@ -131,82 +126,48 @@ namespace Control_Gym.Capa_de_datos
 
         }
 
-        public List<CMembresia> TraerMembresias()
+        public DataTable TraerMembresias()
         {
-            List<CMembresia> membresias = new List<CMembresia>();
-            string query = "select m.cod_membresia,m.cod_tipo_membresia, s.dni_socio, s.id_socio, m.fecha_inicio, m.fecha_fin, t.nombre, t.precio, t.cantidad_dias from membresias m left join tipos_membresias t on m.cod_tipo_membresia = t.cod_tipo_membresia left join socios s on m.id_socio = s.id_socio;";
+            // Consulta que incluye el nombre completo del socio y su DNI junto con los datos de membresía
+            string query = @"
+                            SELECT 
+                                m.cod_membresia,
+                                m.cod_tipo_membresia,
+                                s.dni_socio,
+                                (s.nombre + ' ' + s.apellido) AS nombre_completo,
+                                m.fecha_inicio,
+                                m.fecha_fin,
+                                t.nombre AS tipo_membresia,
+                                t.precio,
+                                t.cantidad_dias
+                            FROM membresias m
+                            LEFT JOIN tipos_membresias t ON m.cod_tipo_membresia = t.cod_tipo_membresia
+                            LEFT JOIN socios s ON m.id_socio = s.id_socio;
+                            ";
+
+            DataTable tabla = new DataTable();
+
             try
             {
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
                 SqlDataReader reader = comando.ExecuteReader();
 
-                while (reader.Read())
-                {
-                    CMembresia membresia = new CMembresia
-                    {
-                        cod_membresia = Convert.ToInt32(reader["cod_membresia"].ToString()),
-                        cod_tipo_membresia = Convert.ToInt32(reader["cod_tipo_membresia"].ToString()),                        
-                        dni_socio = Convert.ToInt32(reader["dni_socio"].ToString()),
-                        id_socio = Convert.ToInt32(reader["id_socio"].ToString()),
-                        fecha_inicio = DateTime.Parse(reader["fecha_inicio"].ToString()),
-                        fecha_fin = DateTime.Parse(reader["fecha_fin"].ToString()),
-                        nombre_tipo = reader["nombre"].ToString(),
-                        precio_tipo = Convert.ToDecimal(reader["precio"].ToString()),
-                        cantidad_dias = Convert.ToInt32(reader["cantidad_dias"].ToString())
-                    };
-
-                    membresias.Add(membresia);
-                }
-
+                // Cargar los datos en el DataTable
+                tabla.Load(reader);
                 reader.Close();
-                return membresias;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Hubo un error al mostrar las membresias: " + ex);
-                throw;
+                MessageBox.Show("Hubo un error al mostrar las membresías: " + ex.Message);
             }
             finally
             {
                 conexionBD.CerrarConexion();
             }
-        }
-        public List<CMembresia> CargarGrilla()
-        {
-            List<CMembresia> membresias = new List<CMembresia>();
-            string query = "select cod_membresia as 'ID', dni_socio as 'Dni socio', fecha_inicio as 'Fecha de inicio', fecha_fin as 'Fecha de fin', nombre as 'Tipo de membresia',precio as 'Precio' from membresias inner join tipos_membresias on membresias.cod_tipo_membresia = tipos_membresias.cod_tipo_membresia";
-            try
-            {
-                SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
-                SqlDataReader reader = comando.ExecuteReader();
 
-                while (reader.Read())
-                {
-                    CMembresia membresia = new CMembresia
-                    {
-                        cod_membresia = Convert.ToInt32(reader["ID"].ToString()),
-                        dni_socio = Convert.ToInt32(reader["Dni socio"].ToString()),
-                        fecha_inicio = DateTime.Parse(reader["Fecha de inicio"].ToString()),
-                        fecha_fin = DateTime.Parse(reader["Fecha de fin"].ToString()),
-                        nombre_tipo = reader["Tipo de membresia"].ToString(),
-                        precio_tipo = Convert.ToDecimal(reader["Precio"].ToString()),
-                    };
-                    membresias.Add(membresia);
-                }
-
-                reader.Close();
-                return membresias;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Hubo un error al mostrar las membresias: " + ex);
-                throw;
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
+            return tabla;
         }
+
 
         public void EditarMembresia(CMembresia cMembresia)
         {
@@ -362,6 +323,19 @@ namespace Control_Gym.Capa_de_datos
 
             conexionBD.CerrarConexion();
             return membresiasPorMes;
+        }
+
+        public int ObtenerCantidadSociosConMembresia()
+        {
+            int cantidadSocios = 0;
+
+            string query = "SELECT COUNT(DISTINCT id_socio) FROM membresias WHERE fecha_fin > GETDATE()";
+
+            SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
+            cantidadSocios = Convert.ToInt32(comando.ExecuteScalar());
+
+            conexionBD.CerrarConexion();
+            return cantidadSocios;
         }
     }
 }

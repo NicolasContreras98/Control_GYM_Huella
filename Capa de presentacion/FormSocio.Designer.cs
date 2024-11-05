@@ -75,11 +75,11 @@
             this.dgvSocios.AllowUserToAddRows = false;
             this.dgvSocios.AllowUserToDeleteRows = false;
             this.dgvSocios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSocios.Location = new System.Drawing.Point(6, 5);
+            this.dgvSocios.Location = new System.Drawing.Point(0, 0);
             this.dgvSocios.Name = "dgvSocios";
             this.dgvSocios.ReadOnly = true;
             this.dgvSocios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSocios.Size = new System.Drawing.Size(745, 511);
+            this.dgvSocios.Size = new System.Drawing.Size(559, 502);
             this.dgvSocios.TabIndex = 50;
             this.dgvSocios.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSocios_RowHeaderMouseClick);
             // 
@@ -89,7 +89,7 @@
             this.txtDniSocio.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.txtDniSocio.Location = new System.Drawing.Point(125, 59);
             this.txtDniSocio.Name = "txtDniSocio";
-            this.txtDniSocio.Size = new System.Drawing.Size(156, 22);
+            this.txtDniSocio.Size = new System.Drawing.Size(125, 22);
             this.txtDniSocio.TabIndex = 0;
             this.txtDniSocio.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtDniSocio.Click += new System.EventHandler(this.txtDniSocio_Click);
@@ -104,7 +104,7 @@
             this.txtNombreSocio.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.txtNombreSocio.Location = new System.Drawing.Point(125, 97);
             this.txtNombreSocio.Name = "txtNombreSocio";
-            this.txtNombreSocio.Size = new System.Drawing.Size(156, 22);
+            this.txtNombreSocio.Size = new System.Drawing.Size(125, 22);
             this.txtNombreSocio.TabIndex = 1;
             this.txtNombreSocio.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtNombreSocio.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtNombreSocio_KeyDown);
@@ -116,7 +116,7 @@
             this.txtApellidoSocio.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.txtApellidoSocio.Location = new System.Drawing.Point(125, 135);
             this.txtApellidoSocio.Name = "txtApellidoSocio";
-            this.txtApellidoSocio.Size = new System.Drawing.Size(156, 22);
+            this.txtApellidoSocio.Size = new System.Drawing.Size(125, 22);
             this.txtApellidoSocio.TabIndex = 2;
             this.txtApellidoSocio.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtApellidoSocio.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtApellidoSocio_KeyDown);
@@ -128,7 +128,7 @@
             this.txtTelefonoSocio.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.txtTelefonoSocio.Location = new System.Drawing.Point(125, 173);
             this.txtTelefonoSocio.Name = "txtTelefonoSocio";
-            this.txtTelefonoSocio.Size = new System.Drawing.Size(156, 22);
+            this.txtTelefonoSocio.Size = new System.Drawing.Size(125, 22);
             this.txtTelefonoSocio.TabIndex = 3;
             this.txtTelefonoSocio.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtTelefonoSocio.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtTelefonoSocio_KeyDown);
@@ -141,7 +141,7 @@
             this.txtDomicilio.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.txtDomicilio.Location = new System.Drawing.Point(125, 249);
             this.txtDomicilio.Name = "txtDomicilio";
-            this.txtDomicilio.Size = new System.Drawing.Size(156, 22);
+            this.txtDomicilio.Size = new System.Drawing.Size(125, 22);
             this.txtDomicilio.TabIndex = 5;
             this.txtDomicilio.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtDomicilio.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDomicilio_KeyDown);
@@ -153,7 +153,7 @@
             this.txtEmail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.txtEmail.Location = new System.Drawing.Point(125, 287);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(156, 22);
+            this.txtEmail.Size = new System.Drawing.Size(125, 22);
             this.txtEmail.TabIndex = 6;
             this.txtEmail.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtEmail.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtEmail_KeyDown);
@@ -232,7 +232,7 @@
             this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGuardar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnGuardar.Location = new System.Drawing.Point(125, 524);
+            this.btnGuardar.Location = new System.Drawing.Point(94, 484);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(75, 30);
             this.btnGuardar.TabIndex = 7;
@@ -247,7 +247,7 @@
             this.btnModificar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnModificar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnModificar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnModificar.Location = new System.Drawing.Point(125, 524);
+            this.btnModificar.Location = new System.Drawing.Point(94, 484);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(75, 30);
             this.btnModificar.TabIndex = 10;
@@ -262,7 +262,7 @@
             this.btnBorrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBorrar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBorrar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnBorrar.Location = new System.Drawing.Point(206, 524);
+            this.btnBorrar.Location = new System.Drawing.Point(175, 484);
             this.btnBorrar.Name = "btnBorrar";
             this.btnBorrar.Size = new System.Drawing.Size(75, 30);
             this.btnBorrar.TabIndex = 8;
@@ -277,7 +277,7 @@
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnCancelar.Location = new System.Drawing.Point(125, 560);
+            this.btnCancelar.Location = new System.Drawing.Point(94, 520);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 30);
             this.btnCancelar.TabIndex = 9;
@@ -293,7 +293,7 @@
             // txtBuscarSocio
             // 
             this.txtBuscarSocio.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBuscarSocio.Location = new System.Drawing.Point(382, 28);
+            this.txtBuscarSocio.Location = new System.Drawing.Point(375, 22);
             this.txtBuscarSocio.Multiline = true;
             this.txtBuscarSocio.Name = "txtBuscarSocio";
             this.txtBuscarSocio.Size = new System.Drawing.Size(189, 26);
@@ -305,7 +305,7 @@
             this.dtpFechaNacimiento.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpFechaNacimiento.Location = new System.Drawing.Point(125, 211);
             this.dtpFechaNacimiento.Name = "dtpFechaNacimiento";
-            this.dtpFechaNacimiento.Size = new System.Drawing.Size(156, 22);
+            this.dtpFechaNacimiento.Size = new System.Drawing.Size(125, 22);
             this.dtpFechaNacimiento.TabIndex = 4;
             // 
             // lblDni
@@ -355,7 +355,7 @@
             this.panelContenedor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelContenedor.Location = new System.Drawing.Point(0, 0);
             this.panelContenedor.Name = "panelContenedor";
-            this.panelContenedor.Size = new System.Drawing.Size(1050, 605);
+            this.panelContenedor.Size = new System.Drawing.Size(818, 560);
             this.panelContenedor.TabIndex = 28;
             // 
             // btnCancelarRegHuella
@@ -364,7 +364,7 @@
             this.btnCancelarRegHuella.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelarRegHuella.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelarRegHuella.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnCancelarRegHuella.Location = new System.Drawing.Point(15, 419);
+            this.btnCancelarRegHuella.Location = new System.Drawing.Point(12, 419);
             this.btnCancelarRegHuella.Name = "btnCancelarRegHuella";
             this.btnCancelarRegHuella.Size = new System.Drawing.Size(73, 39);
             this.btnCancelarRegHuella.TabIndex = 57;
@@ -384,9 +384,9 @@
             // picHuella
             // 
             this.picHuella.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picHuella.Location = new System.Drawing.Point(125, 315);
+            this.picHuella.Location = new System.Drawing.Point(94, 315);
             this.picHuella.Name = "picHuella";
-            this.picHuella.Size = new System.Drawing.Size(156, 190);
+            this.picHuella.Size = new System.Drawing.Size(156, 163);
             this.picHuella.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picHuella.TabIndex = 53;
             this.picHuella.TabStop = false;
@@ -395,7 +395,7 @@
             // 
             this.txtIdSocio.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtIdSocio.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.txtIdSocio.Location = new System.Drawing.Point(673, 27);
+            this.txtIdSocio.Location = new System.Drawing.Point(602, 21);
             this.txtIdSocio.Name = "txtIdSocio";
             this.txtIdSocio.ReadOnly = true;
             this.txtIdSocio.Size = new System.Drawing.Size(156, 22);
@@ -407,9 +407,9 @@
             // 
             this.groupBox1.Controls.Add(this.dgvSocios);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(287, 55);
+            this.groupBox1.Location = new System.Drawing.Point(256, 55);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(878, 641);
+            this.groupBox1.Size = new System.Drawing.Size(559, 502);
             this.groupBox1.TabIndex = 51;
             this.groupBox1.TabStop = false;
             // 
@@ -438,7 +438,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(577, 28);
+            this.pictureBox1.Location = new System.Drawing.Point(570, 22);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(24, 26);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -449,7 +449,7 @@
             // 
             this.lblDni2Membresia.AutoSize = true;
             this.lblDni2Membresia.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDni2Membresia.Location = new System.Drawing.Point(380, 11);
+            this.lblDni2Membresia.Location = new System.Drawing.Point(373, 5);
             this.lblDni2Membresia.Name = "lblDni2Membresia";
             this.lblDni2Membresia.Size = new System.Drawing.Size(33, 16);
             this.lblDni2Membresia.TabIndex = 23;
@@ -461,7 +461,7 @@
             this.btnRegistrarHuella.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRegistrarHuella.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRegistrarHuella.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnRegistrarHuella.Location = new System.Drawing.Point(15, 355);
+            this.btnRegistrarHuella.Location = new System.Drawing.Point(12, 355);
             this.btnRegistrarHuella.Name = "btnRegistrarHuella";
             this.btnRegistrarHuella.Size = new System.Drawing.Size(73, 48);
             this.btnRegistrarHuella.TabIndex = 56;
@@ -475,7 +475,7 @@
             this.btnBorrarHuella.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBorrarHuella.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBorrarHuella.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnBorrarHuella.Location = new System.Drawing.Point(15, 355);
+            this.btnBorrarHuella.Location = new System.Drawing.Point(12, 355);
             this.btnBorrarHuella.Name = "btnBorrarHuella";
             this.btnBorrarHuella.Size = new System.Drawing.Size(73, 48);
             this.btnBorrarHuella.TabIndex = 59;
@@ -488,7 +488,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(1050, 605);
+            this.ClientSize = new System.Drawing.Size(818, 560);
             this.ControlBox = false;
             this.Controls.Add(this.panelContenedor);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

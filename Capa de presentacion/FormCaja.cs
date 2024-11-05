@@ -202,5 +202,75 @@ namespace Control_Gym.Capa_de_presentacion
             FormInformes formInformes = new FormInformes();
             formInformes.ShowDialog();
         }
+
+        private void lblTotalHoyCuotasResult_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnBorrarCuota_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblTotalMesCuotaResult_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblTotalCuotasResult_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtCod_cuota_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvVentas_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblTotalHoyResult_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

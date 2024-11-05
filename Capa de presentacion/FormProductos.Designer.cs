@@ -162,25 +162,25 @@
             // dtpFechaVenc
             // 
             this.dtpFechaVenc.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpFechaVenc.Location = new System.Drawing.Point(504, 90);
+            this.dtpFechaVenc.Location = new System.Drawing.Point(441, 90);
             this.dtpFechaVenc.Name = "dtpFechaVenc";
             this.dtpFechaVenc.Size = new System.Drawing.Size(156, 22);
             this.dtpFechaVenc.TabIndex = 6;
             // 
             // txtCod
             // 
-            this.txtCod.Location = new System.Drawing.Point(831, 18);
+            this.txtCod.Location = new System.Drawing.Point(629, 38);
             this.txtCod.Name = "txtCod";
-            this.txtCod.Size = new System.Drawing.Size(97, 21);
+            this.txtCod.Size = new System.Drawing.Size(97, 20);
             this.txtCod.TabIndex = 25;
             this.txtCod.Visible = false;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(832, 2);
+            this.label1.Location = new System.Drawing.Point(630, 22);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(142, 15);
+            this.label1.Size = new System.Drawing.Size(128, 13);
             this.label1.TabIndex = 24;
             this.label1.Text = "Producto solicitante: ";
             this.label1.Visible = false;
@@ -214,17 +214,18 @@
             this.lblFechaVencimiento.AutoSize = true;
             this.lblFechaVencimiento.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFechaVencimiento.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblFechaVencimiento.Location = new System.Drawing.Point(331, 96);
+            this.lblFechaVencimiento.Location = new System.Drawing.Point(336, 96);
             this.lblFechaVencimiento.Name = "lblFechaVencimiento";
-            this.lblFechaVencimiento.Size = new System.Drawing.Size(167, 16);
+            this.lblFechaVencimiento.Size = new System.Drawing.Size(99, 16);
             this.lblFechaVencimiento.TabIndex = 20;
-            this.lblFechaVencimiento.Text = "Fecha de vencimiento :";
+            this.lblFechaVencimiento.Text = "Fecha venc. :";
+            this.lblFechaVencimiento.Click += new System.EventHandler(this.lblFechaVencimiento_Click);
             // 
             // txtGanancia
             // 
             this.txtGanancia.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtGanancia.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.txtGanancia.Location = new System.Drawing.Point(504, 64);
+            this.txtGanancia.Location = new System.Drawing.Point(441, 64);
             this.txtGanancia.Name = "txtGanancia";
             this.txtGanancia.ReadOnly = true;
             this.txtGanancia.Size = new System.Drawing.Size(156, 22);
@@ -235,7 +236,7 @@
             // 
             this.txtCosto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCosto.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.txtCosto.Location = new System.Drawing.Point(504, 38);
+            this.txtCosto.Location = new System.Drawing.Point(441, 38);
             this.txtCosto.Name = "txtCosto";
             this.txtCosto.Size = new System.Drawing.Size(156, 22);
             this.txtCosto.TabIndex = 5;
@@ -248,7 +249,7 @@
             // 
             this.txtPrecioVenta.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPrecioVenta.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.txtPrecioVenta.Location = new System.Drawing.Point(504, 12);
+            this.txtPrecioVenta.Location = new System.Drawing.Point(441, 12);
             this.txtPrecioVenta.Name = "txtPrecioVenta";
             this.txtPrecioVenta.Size = new System.Drawing.Size(156, 22);
             this.txtPrecioVenta.TabIndex = 4;
@@ -262,7 +263,7 @@
             this.lblGanancia.AutoSize = true;
             this.lblGanancia.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGanancia.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblGanancia.Location = new System.Drawing.Point(417, 69);
+            this.lblGanancia.Location = new System.Drawing.Point(354, 69);
             this.lblGanancia.Name = "lblGanancia";
             this.lblGanancia.Size = new System.Drawing.Size(81, 16);
             this.lblGanancia.TabIndex = 16;
@@ -273,7 +274,7 @@
             this.lblCosto.AutoSize = true;
             this.lblCosto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCosto.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblCosto.Location = new System.Drawing.Point(443, 42);
+            this.lblCosto.Location = new System.Drawing.Point(380, 42);
             this.lblCosto.Name = "lblCosto";
             this.lblCosto.Size = new System.Drawing.Size(55, 16);
             this.lblCosto.TabIndex = 15;
@@ -284,7 +285,7 @@
             this.lblPrecioVenta.AutoSize = true;
             this.lblPrecioVenta.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPrecioVenta.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblPrecioVenta.Location = new System.Drawing.Point(374, 15);
+            this.lblPrecioVenta.Location = new System.Drawing.Point(311, 15);
             this.lblPrecioVenta.Name = "lblPrecioVenta";
             this.lblPrecioVenta.Size = new System.Drawing.Size(124, 16);
             this.lblPrecioVenta.TabIndex = 14;
@@ -297,7 +298,7 @@
             this.btnCrear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCrear.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCrear.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnCrear.Location = new System.Drawing.Point(685, 34);
+            this.btnCrear.Location = new System.Drawing.Point(632, 34);
             this.btnCrear.Name = "btnCrear";
             this.btnCrear.Size = new System.Drawing.Size(75, 30);
             this.btnCrear.TabIndex = 7;
@@ -312,7 +313,7 @@
             this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEliminar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnEliminar.Location = new System.Drawing.Point(766, 34);
+            this.btnEliminar.Location = new System.Drawing.Point(713, 34);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(75, 30);
             this.btnEliminar.TabIndex = 8;
@@ -327,7 +328,7 @@
             this.btnModificar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnModificar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnModificar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnModificar.Location = new System.Drawing.Point(685, 34);
+            this.btnModificar.Location = new System.Drawing.Point(632, 34);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(75, 30);
             this.btnModificar.TabIndex = 10;
@@ -344,10 +345,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvProductos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvProductos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvProductos.Location = new System.Drawing.Point(6, 18);
+            this.dgvProductos.Location = new System.Drawing.Point(0, 0);
             this.dgvProductos.Name = "dgvProductos";
             this.dgvProductos.ReadOnly = true;
-            this.dgvProductos.Size = new System.Drawing.Size(960, 268);
+            this.dgvProductos.Size = new System.Drawing.Size(808, 302);
             this.dgvProductos.TabIndex = 19;
             this.dgvProductos.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvProductos_RowHeaderMouseClick);
             // 
@@ -355,7 +356,7 @@
             // 
             this.txtBuscar.Location = new System.Drawing.Point(11, 37);
             this.txtBuscar.Name = "txtBuscar";
-            this.txtBuscar.Size = new System.Drawing.Size(146, 21);
+            this.txtBuscar.Size = new System.Drawing.Size(146, 20);
             this.txtBuscar.TabIndex = 20;
             this.txtBuscar.Visible = false;
             this.txtBuscar.TextChanged += new System.EventHandler(this.txtBuscar_TextChanged);
@@ -378,7 +379,7 @@
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnCancelar.Location = new System.Drawing.Point(685, 64);
+            this.btnCancelar.Location = new System.Drawing.Point(632, 64);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 30);
             this.btnCancelar.TabIndex = 9;
@@ -395,10 +396,10 @@
             this.groupBox1.Controls.Add(this.dgvProductos);
             this.groupBox1.Controls.Add(this.lblCodProducto);
             this.groupBox1.Controls.Add(this.txtCodProducto);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(6, 140);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(2, 120);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1028, 296);
+            this.groupBox1.Size = new System.Drawing.Size(808, 302);
             this.groupBox1.TabIndex = 26;
             this.groupBox1.TabStop = false;
             // 
@@ -407,7 +408,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(974, 448);
+            this.ClientSize = new System.Drawing.Size(818, 425);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.txtStock);

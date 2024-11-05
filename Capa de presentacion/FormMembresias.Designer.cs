@@ -50,6 +50,7 @@
             this.txtCodMembresia = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblSocioAgregado = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dvgMembresias)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -67,6 +68,7 @@
             this.txtDniMembresia.TabIndex = 0;
             this.txtDniMembresia.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtDniMembresia.Click += new System.EventHandler(this.txtDniMembresia_Click);
+            this.txtDniMembresia.TextChanged += new System.EventHandler(this.txtDniMembresia_TextChanged);
             this.txtDniMembresia.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDniMembresia_KeyDown);
             this.txtDniMembresia.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDniMembresia_KeyPress);
             this.txtDniMembresia.MouseDown += new System.Windows.Forms.MouseEventHandler(this.txtDniMembresia_MouseDown);
@@ -91,7 +93,7 @@
             this.btnActualizarMembresia.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnActualizarMembresia.Location = new System.Drawing.Point(3, 27);
             this.btnActualizarMembresia.Name = "btnActualizarMembresia";
-            this.btnActualizarMembresia.Size = new System.Drawing.Size(75, 30);
+            this.btnActualizarMembresia.Size = new System.Drawing.Size(86, 30);
             this.btnActualizarMembresia.TabIndex = 6;
             this.btnActualizarMembresia.Text = "Actualizar";
             this.btnActualizarMembresia.UseVisualStyleBackColor = false;
@@ -148,7 +150,7 @@
             this.panel1.Controls.Add(this.btnCancelarMembresia);
             this.panel1.Controls.Add(this.btnActualizarMembresia);
             this.panel1.Controls.Add(this.btnCrearMembresia);
-            this.panel1.Location = new System.Drawing.Point(530, 55);
+            this.panel1.Location = new System.Drawing.Point(519, 54);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(286, 111);
             this.panel1.TabIndex = 19;
@@ -159,11 +161,11 @@
             this.dvgMembresias.AllowUserToDeleteRows = false;
             this.dvgMembresias.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dvgMembresias.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dvgMembresias.Location = new System.Drawing.Point(6, 16);
+            this.dvgMembresias.Location = new System.Drawing.Point(6, 19);
             this.dvgMembresias.MultiSelect = false;
             this.dvgMembresias.Name = "dvgMembresias";
             this.dvgMembresias.ReadOnly = true;
-            this.dvgMembresias.Size = new System.Drawing.Size(1024, 335);
+            this.dvgMembresias.Size = new System.Drawing.Size(805, 298);
             this.dvgMembresias.TabIndex = 111;
             this.dvgMembresias.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dvgMembresias_CellFormatting);
             this.dvgMembresias.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dvgMembresias_RowHeaderMouseClick);
@@ -204,7 +206,7 @@
             this.groupBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(512, 169);
+            this.groupBox2.Size = new System.Drawing.Size(496, 173);
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Datos del socio";
@@ -317,20 +319,33 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.dvgMembresias);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.groupBox1.Location = new System.Drawing.Point(2, 235);
+            this.groupBox1.Location = new System.Drawing.Point(2, 231);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1036, 358);
+            this.groupBox1.Size = new System.Drawing.Size(817, 322);
             this.groupBox1.TabIndex = 113;
             this.groupBox1.TabStop = false;
+            // 
+            // lblSocioAgregado
+            // 
+            this.lblSocioAgregado.AutoSize = true;
+            this.lblSocioAgregado.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSocioAgregado.ForeColor = System.Drawing.Color.ForestGreen;
+            this.lblSocioAgregado.Location = new System.Drawing.Point(336, 207);
+            this.lblSocioAgregado.Name = "lblSocioAgregado";
+            this.lblSocioAgregado.Size = new System.Drawing.Size(261, 20);
+            this.lblSocioAgregado.TabIndex = 114;
+            this.lblSocioAgregado.Text = "Socio Agregado Correctamente";
+            this.lblSocioAgregado.Visible = false;
             // 
             // FormMembresias
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(1050, 605);
+            this.ClientSize = new System.Drawing.Size(818, 555);
+            this.Controls.Add(this.lblSocioAgregado);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.txtCodMembresia);
@@ -376,5 +391,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnFechaHoy;
+        private System.Windows.Forms.Label lblSocioAgregado;
     }
 }

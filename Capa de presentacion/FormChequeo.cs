@@ -1,50 +1,56 @@
 ﻿using Control_Gym.Capa_de_datos;
 using Control_Gym.Capa_logica;
 using libzkfpcsharp;
+using Sample;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
+using System.Media;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-using Sample;
-using System.Collections.Generic;
-//using AxZKFPEngXControl;
-using System.Text.RegularExpressions;
+
 
 namespace Control_Gym.Capa_de_presentacion
 {
     public partial class FormChequeo : Form
-    {        
+    {
         private const int TEMPLATE_SIZE = 2048;
         private const int MESSAGE_CAPTURED_OK = 0x0400 + 6;
 
-        private CTipoMembresia cTipoMembresia = new CTipoMembresia();        
+        private CTipoMembresia cTipoMembresia = new CTipoMembresia();
         private CHuellaD cHuellaD = new CHuellaD();
         private CSociosD cSociosD = new CSociosD();
+        public FormSocio objFormSocios = new FormSocio();
+        private FormContenedor formContenedor;
 
         private IntPtr formHandle = IntPtr.Zero;
         private bool isTimeToDie = false;
-        private byte[] FPBuffer;        
-        private byte[] RegTmp = new byte[TEMPLATE_SIZE];        
+        private byte[] FPBuffer;
+        private byte[] RegTmp = new byte[TEMPLATE_SIZE];
         private int cbCapTmp = TEMPLATE_SIZE;
         private int regTempLen = 0;
         private int fid = Program.idSocioSeleccionado;
         private int mfpWidth = 0;
         private int mfpHeight = 0;
-        private Thread captureThread = null; 
+        private Thread captureThread = null;
         Random random = new Random();
 
         [DllImport("user32.dll", EntryPoint = "SendMessageA")]
         public static extern int SendMessage(IntPtr hwnd, int wMsg, IntPtr wParam, IntPtr lParam);
-        
-        public FormChequeo()
+
+        public FormChequeo(FormContenedor contenedor)
         {
             InitializeComponent();
+            formContenedor = contenedor;
         }
 
         private void FormChequeo_Load(object sender, EventArgs e)
         {
+            lblAviso.Visible = false;
             formHandle = this.Handle;
             InitializeDevice();
         }
@@ -66,13 +72,23 @@ namespace Control_Gym.Capa_de_presentacion
                 {
                     Program.fpInstance.Finalize();
                     MessageBox.Show("No hay dispositivos conectados.");
+                    Application.Exit(); // Cierra el programa si no hay dispositivos conectados
                 }
             }
             else
             {
-                MessageBox.Show($"Error al inicializar el dispositivo (Código de error: {initializeResult}).");
+                /*MessageBox.Show(
+                "No se pudo inicializar el dispositivo. Parece que está desconectado.\n\n" +
+                "Por favor, verifica que el dispositivo esté correctamente conectado y encendido. " +
+                "Si el problema persiste, intenta reiniciar la aplicación o contacta al soporte técnico.",
+                "Error de Inicialización",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+
+               Application.Exit();*/
             }
         }
+
 
         private void OpenDevice(int deviceIndex)
         {
@@ -103,8 +119,6 @@ namespace Control_Gym.Capa_de_presentacion
             captureThread.Start();
 
             isTimeToDie = false;
-
-            MessageBox.Show("Dispositivo conectado. Número de serie: " + Program.fpInstance.devSn);
         }
 
         private void SetDeviceParameters()
@@ -150,7 +164,8 @@ namespace Control_Gym.Capa_de_presentacion
                 if (Program.isRegistering)
                 {
                     HandleRegistration();
-                }else if (Program.isModifiying)
+                }
+                else if (Program.isModifiying)
                 {
                     HandleModification();
                 }
@@ -171,7 +186,7 @@ namespace Control_Gym.Capa_de_presentacion
             using (ms)
             {
                 BitmapFormat.GetBitmap(FPBuffer, mfpWidth, mfpHeight, ref ms);
-                picFPImg.Image = new Bitmap(ms);                
+                picFPImg.Image = new Bitmap(ms);
             }
         }
 
@@ -194,7 +209,7 @@ namespace Control_Gym.Capa_de_presentacion
                     return (FormSocio)form; // Devuelve la instancia de FormSocio si está abierta
                 }
             }
-            return null; 
+            return null;
         }
 
         private void HandleModification()
@@ -258,13 +273,6 @@ namespace Control_Gym.Capa_de_presentacion
             }
         }
 
-        /* FALTA ARREGLAR EL CASO CUANDO QUEDA SELECCIONADO UN SOCIO PERO QUIERO REGISTRAR UNO NUEVO (ACTUALMENTE
-         INSERTA UNA HUELLA AL SELECCIONADO EN LUGAR DEL NUEVO), SE SOLUCIONARIA AL CAMBIAR DE ESTADO LAS VARIABLES
-        ISMODIFIYING Y ISREGISTERING EN EL ROWHEADER Y EN EL EVENTO DE CHANGE DEL INPUT DE DNI RESPECTIVAMENTE.
-        HACER QUE EL BOTON REGISTRAR HUELLA POR DEFECTO SEA INVISIBLE Y SE VEA SOLO EN EL ROWHEADER Y AL ESCRIBIR EL DNI
-         CHEQUEAR TODO DE NUEVO!!!!         
-        */
-
         private void FinalizeModification()
         {
             try
@@ -275,12 +283,11 @@ namespace Control_Gym.Capa_de_presentacion
 
                 int ret = Program.fpInstance.GenerateRegTemplate(Program.RegTmps[0], Program.RegTmps[1], Program.RegTmps[2], RegTmp, ref regTempLen);
 
-                // Verifica si la plantilla se generó correctamente
                 if (zkfp.ZKFP_ERR_OK == ret)
                 {
-                    // Intentar agregar la plantilla
-                    fid = random.Next(1, 100000); // este fid tiene que ser único 
+                    fid = random.Next(1, 100000);
                     ret = Program.fpInstance.AddRegTemplate(fid, RegTmp);
+
                     if (zkfp.ZKFP_ERR_OK == ret)
                     {
                         if (cHuellaD.GuardarHuella(Program.idSocioSeleccionado, RegTmp) && Program.isModifiying)
@@ -297,6 +304,17 @@ namespace Control_Gym.Capa_de_presentacion
                             formSocio.btnCancelar.Visible = false;
                             formSocio.dgvSocios.Enabled = true;
                             formSocio.picHuella.Image = null;
+
+                            // Llamada a limpiarCampos en un bloque try-catch
+                            try
+                            {
+                                formSocio.limpiarCampos();
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show($"Error en limpiarCampos: {ex.Message}");
+                            }
+
                             Program.isRegistering = false;
                             Program.isIdentifying = true;
                             Program.isModifiying = false;
@@ -307,12 +325,16 @@ namespace Control_Gym.Capa_de_presentacion
                     }
                     else
                     {
-                        MessageBox.Show($"Error en FinalizeModification: No se pudo agregar la plantilla. Código de error: {ret}");
+                        MessageBox.Show($"Error al agregar la plantilla, intente de nuevo");
+                        formSocio.btnCancelarRegHuella_Click(null, EventArgs.Empty);
+                        formSocio.btnRegistrarHuella_Click(null, EventArgs.Empty);
                     }
                 }
                 else
                 {
-                    MessageBox.Show($"Error en FinalizeModification: No se pudo generar la plantilla de huella digital. Código de error: {ret}");
+                    MessageBox.Show($"Error al generar la plantilla, intente de nuevo");
+                    formSocio.btnCancelarRegHuella_Click(null, EventArgs.Empty);
+                    formSocio.btnRegistrarHuella_Click(null, EventArgs.Empty);
                 }
             }
             catch (Exception ex)
@@ -320,6 +342,7 @@ namespace Control_Gym.Capa_de_presentacion
                 MessageBox.Show($"Ocurrió un error en FinalizeModification: {ex.Message}");
             }
         }
+
 
 
         private void HandleRegistration()
@@ -394,19 +417,17 @@ namespace Control_Gym.Capa_de_presentacion
 
                 int ret = Program.fpInstance.GenerateRegTemplate(Program.RegTmps[0], Program.RegTmps[1], Program.RegTmps[2], RegTmp, ref regTempLen);
 
-                // Verifica si la plantilla se generó correctamente
                 if (zkfp.ZKFP_ERR_OK == ret)
                 {
-                    // Intentar agregar la plantilla
                     fid = random.Next(1, 100000); // este fid tiene que ser único 
                     ret = Program.fpInstance.AddRegTemplate(fid, RegTmp);
+
                     if (zkfp.ZKFP_ERR_OK == ret)
                     {
                         if (Program.idSocioSeleccionado > 0 && Program.isModifiying)
                         {
                             if (cHuellaD.GuardarHuella(Program.idSocioSeleccionado, RegTmp) && Program.isRegistering)
                             {
-                                MessageBox.Show("Huella digital registrada correctamente.");
                                 formSocio.textRes.Text = "";
                                 formSocio.btnCancelarRegHuella.Visible = false;
                                 formSocio.btnRegistrarHuella.Visible = false;
@@ -414,18 +435,18 @@ namespace Control_Gym.Capa_de_presentacion
                                 formSocio.dgvSocios.Enabled = true;
                                 formSocio.picHuella.Image = null;
                                 formSocio.btnGuardar.Enabled = true;
-                                formSocio.btnGuardar.Visible = true;
+                                formSocio.btnGuardar.Visible = false;
                                 Program.isRegistering = false;
                                 Program.isIdentifying = true;
-
                                 Program.HuellaTemplate = RegTmp;
-
                                 Program.idSocioSeleccionado = -1;
+
+                                // Disparar el evento del botón Guardar
+                                formSocio.btnGuardar_Click(null, EventArgs.Empty);
                             }
                         }
                         else
                         {
-                            MessageBox.Show("Huella digital registrada correctamente.");
                             formSocio.textRes.Text = "";
                             formSocio.btnCancelarRegHuella.Visible = false;
                             formSocio.btnRegistrarHuella.Visible = false;
@@ -436,17 +457,24 @@ namespace Control_Gym.Capa_de_presentacion
                             Program.isIdentifying = true;
                             Program.HuellaTemplate = RegTmp;
                             formSocio.btnGuardar.Enabled = true;
-                            formSocio.btnGuardar.Visible = true;
+                            formSocio.btnGuardar.Visible = false;
+
+                            // Disparar el evento del botón Guardar
+                            formSocio.btnGuardar_Click(null, EventArgs.Empty);
                         }
                     }
                     else
                     {
-                        MessageBox.Show($"Error al agregar la plantilla en FinalizeRegistration. Código de error: {ret}");
+                        MessageBox.Show($"Error al agregar la plantilla, intente de nuevo");
+                        formSocio.btnCancelarRegHuella_Click(null, EventArgs.Empty);
+                        formSocio.btnRegistrarHuella_Click(null, EventArgs.Empty);
                     }
                 }
                 else
                 {
-                    MessageBox.Show($"Error al generar la plantilla de huella digital en FinalizeRegistration. Código de error: {ret}");
+                    MessageBox.Show($"Error al generar la plantilla, intente de nuevo");
+                    formSocio.btnCancelarRegHuella_Click(null, EventArgs.Empty);
+                    formSocio.btnRegistrarHuella_Click(null, EventArgs.Empty);
                 }
             }
             catch (Exception ex)
@@ -455,8 +483,30 @@ namespace Control_Gym.Capa_de_presentacion
             }
         }
 
-
         int idSocioEncontrado = -1;
+
+        public static void PlayEmbeddedSound(string soundName)
+        {
+            // Construir el nombre completo del recurso en función del nombre del sonido pasado
+            string resourceName = $"Control_Gym.Iconos.{soundName}.wav";
+
+            using (Stream soundStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+            {
+                if (soundStream != null)
+                {
+                    soundStream.Position = 0; // Asegura que la posición del Stream esté al inicio
+                    using (SoundPlayer player = new SoundPlayer(soundStream))
+                    {
+                        player.Play();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show($"Error: El recurso '{resourceName}' no se encontró.");
+                }
+            }
+        }
+
         private void HandleVerification()
         {
             try
@@ -464,7 +514,6 @@ namespace Control_Gym.Capa_de_presentacion
                 List<(int id_socio, byte[] huella)> huellasDB = cHuellaD.ObtenerHuellasDesdeDB();
                 bool verificacionExitosa = false;
 
-                // Recorrer todas las huellas almacenadas y compararlas con la huella capturada
                 foreach (var (idSocio, huellaGuardada) in huellasDB)
                 {
                     int ret = Program.fpInstance.Match(Program.CapTmp, huellaGuardada);
@@ -479,6 +528,7 @@ namespace Control_Gym.Capa_de_presentacion
 
                 if (verificacionExitosa)
                 {
+                    lblAviso.Visible = false;
                     timer1.Stop();
                     timer1.Start();
                     lblFeedBack.Text = "";
@@ -488,48 +538,44 @@ namespace Control_Gym.Capa_de_presentacion
                     ClsSocio[] socioEncontrado = cSociosD.ObtenerDatosSocio(idSocioEncontrado);
                     lblNombreCompleto.Text = $"{socioEncontrado[0].Nombre} {socioEncontrado[0].Apellido}";
 
-                    lblInicio.Text = socioEncontrado[0].Fecha_Inicio.HasValue
-                        ? socioEncontrado[0].Fecha_Inicio.Value.ToString("dd/MM")
-                        : "";
+                    // Obtener las fechas formateadas directamente de las propiedades de string
+                    string fechaInicioFormateada = socioEncontrado[0].Fecha_Inicio;
+                    string fechaFinFormateada = socioEncontrado[0].Fecha_Fin;
 
-                    lblFin.Text = socioEncontrado[0].Fecha_Fin.HasValue
-                        ? socioEncontrado[0].Fecha_Fin.Value.ToString("dd/MM")
-                        : "";
+                    lblInicio.Text = fechaInicioFormateada;
+                    lblFin.Text = fechaFinFormateada;
 
+                    DateTime fecha_fin = DateTime.ParseExact(socioEncontrado[0].Fecha_Fin, "dd 'de' MMMM", new CultureInfo("es-ES"));
                     DateTime fecha_actual = DateTime.Today;
 
-                    if (socioEncontrado[0].Fecha_Fin != null && socioEncontrado[0].Fecha_Inicio != null)
-                    {
-                        DateTime fecha_fin = socioEncontrado[0].Fecha_Fin.HasValue ? socioEncontrado[0].Fecha_Fin.Value : DateTime.Now;
-                        TimeSpan diferencia = fecha_fin - fecha_actual;
-                        int dias_restantes = diferencia.Days;
+                    TimeSpan diferencia = fecha_fin - fecha_actual;
+                    int dias_restantes = diferencia.Days + 1;
 
-                        lblDiasRestantes.Text = dias_restantes.ToString();
-                        if (socioEncontrado[0].Tipos_membresias != null)
-                        {
-                            cmbTipoMembresia.DataSource = socioEncontrado[0].Tipos_membresias;
-                        }
-                        if (dias_restantes <= 5 && dias_restantes >= 1)
-                        {
-                            pbNeutro.Visible = false;
-                            pbYes.Visible = false;
-                            pbNo.Visible = false;
-                            pbWarning.Visible = true;
-                        }
-                        else if (dias_restantes > 5)
-                        {
-                            pbNeutro.Visible = false;
-                            pbYes.Visible = true;
-                            pbNo.Visible = false;
-                            pbWarning.Visible = false;
-                        }
-                        else
-                        {
-                            pbNeutro.Visible = false;
-                            pbYes.Visible = false;
-                            pbWarning.Visible = false;
-                            pbNo.Visible = true;
-                        }
+                    lblDiasRestantes.Text = dias_restantes.ToString();
+
+                    if (socioEncontrado[0].Tipos_membresias != null)
+                    {
+                        cmbTipoMembresia.DataSource = socioEncontrado[0].Tipos_membresias;
+                    }
+
+                    // Configuración de íconos según días restantes
+                    if (dias_restantes <= 5 && dias_restantes >= 1)
+                    {
+                        pbNeutro.Visible = false;
+                        pbYes.Visible = false;
+                        pbNo.Visible = false;
+                        pbWarning.Visible = true;
+
+                        PlayEmbeddedSound("exito");
+                    }
+                    else if (dias_restantes > 5)
+                    {
+                        pbNeutro.Visible = false;
+                        pbYes.Visible = true;
+                        pbNo.Visible = false;
+                        pbWarning.Visible = false;
+
+                        PlayEmbeddedSound("exito");
                     }
                     else
                     {
@@ -537,20 +583,24 @@ namespace Control_Gym.Capa_de_presentacion
                         pbYes.Visible = false;
                         pbWarning.Visible = false;
                         pbNo.Visible = true;
-                        lblDiasRestantes.Text = "";
-                        lblFeedBack.Text = "No tiene ninguna membresía activa.";
+
+                        PlayEmbeddedSound("error");
                     }
                 }
                 else
                 {
-                    MessageBox.Show("No se pudo verificar la huella digital. Asegúrese de que está usando un dedo registrado.", "Verificación fallida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    limpiarLabels();
+                    lblAviso.Visible = true;
+
+                    PlayEmbeddedSound("error");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ocurrió un error inesperado en la función HandleVerification: {ex.Message}", "Error en HandleVerification", MessageBoxButtons.OK, MessageBoxIcon.Error); MessageBox.Show($"Ocurrió un error inesperado durante la verificación de la huella digital: {ex.Message}. Por favor, intente de nuevo o contacte a soporte técnico si el problema persiste.", "Error de verificación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Ocurrió un error inesperado durante la verificación de la huella digital: {ex.Message}. Por favor, intente de nuevo o contacte a soporte técnico si el problema persiste.", "Error de verificación", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
         private void DisconnectDevice()
@@ -604,35 +654,34 @@ namespace Control_Gym.Capa_de_presentacion
             lblFeedBack.Text = "";
             lblTipoMembresia.Visible = true;
             cmbTipoMembresia.Visible = true;
+
             CTipoMembresia tipoSeleccionado = (CTipoMembresia)cmbTipoMembresia.SelectedItem;
             int cod_tipo_membresia = tipoSeleccionado.cod_tipo_membresia;
             cTipoMembresia.cod_tipo_membresia = cod_tipo_membresia;
 
-            ClsSocio[] socioEncontrado = cSociosD.ObtenerDatosSocio(idSocioEncontrado, cod_tipo_membresia); 
-            lblNombreCompleto.Text = $"{socioEncontrado[0].Nombre} {socioEncontrado[0].Apellido}";
-            lblInicio.Text = socioEncontrado[0].Fecha_Inicio.HasValue
-                   ? socioEncontrado[0].Fecha_Inicio.Value.ToString("dd/MM")
-                   : "";
+            ClsSocio[] socioEncontrado = cSociosD.ObtenerDatosSocio(idSocioEncontrado, cod_tipo_membresia);
 
-            lblFin.Text = socioEncontrado[0].Fecha_Fin.HasValue
-                ? socioEncontrado[0].Fecha_Fin.Value.ToString("dd/MM")
-                : "";
+            lblNombreCompleto.Text = $"{socioEncontrado[0].Nombre} {socioEncontrado[0].Apellido}";
+            lblInicio.Text = socioEncontrado[0].Fecha_Inicio ?? "";
+            lblFin.Text = socioEncontrado[0].Fecha_Fin ?? "";
+
             DateTime fecha_actual = DateTime.Today;
-            if (socioEncontrado[0].Fecha_Fin != null && socioEncontrado[0].Fecha_Inicio != null)
+            if (!string.IsNullOrEmpty(socioEncontrado[0].Fecha_Fin) && !string.IsNullOrEmpty(socioEncontrado[0].Fecha_Inicio))
             {
-                DateTime fecha_fin = socioEncontrado[0].Fecha_Fin.HasValue ? socioEncontrado[0].Fecha_Fin.Value : DateTime.Now;
+                DateTime fecha_fin = DateTime.ParseExact(socioEncontrado[0].Fecha_Fin, "dd 'de' MMMM", new CultureInfo("es-ES"));
                 TimeSpan diferencia = fecha_fin - fecha_actual;
                 int dias_restantes = diferencia.Days;
 
                 lblDiasRestantes.Text = dias_restantes.ToString();
-                if (Convert.ToInt32(dias_restantes) <= 5 && Convert.ToInt32(dias_restantes) >= 1)
+
+                if (dias_restantes <= 5 && dias_restantes >= 1)
                 {
                     pbNeutro.Visible = false;
                     pbYes.Visible = false;
                     pbNo.Visible = false;
                     pbWarning.Visible = true;
                 }
-                else if (Convert.ToInt32(dias_restantes) > 5)
+                else if (dias_restantes > 5)
                 {
                     pbNeutro.Visible = false;
                     pbYes.Visible = true;
@@ -649,19 +698,14 @@ namespace Control_Gym.Capa_de_presentacion
             }
             else
             {
-                lblFeedBack.Text = "No tiene ninguna membresia";
+                lblFeedBack.Text = "No tiene ninguna membresía activa";
             }
         }
+
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             timer1.Stop();
-
-            pbYes.Visible = false;
-            pbNo.Visible = false;
-            pbWarning.Visible = false;
-            pbNeutro.Visible = true;
-
             limpiarLabels();
         }
 
@@ -673,7 +717,12 @@ namespace Control_Gym.Capa_de_presentacion
             lblDiasRestantes.Text = "00";
             cmbTipoMembresia.Visible = false;
             lblTipoMembresia.Visible = false;
+            lblAviso.Visible = false;
             picFPImg.Image = null;
+            pbYes.Visible = false;
+            pbNo.Visible = false;
+            pbWarning.Visible = false;
+            pbNeutro.Visible = true;
         }
     }
 }
