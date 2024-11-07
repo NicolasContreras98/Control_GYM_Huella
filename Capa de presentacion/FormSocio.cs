@@ -22,6 +22,13 @@ namespace Control_Gym.Capa_de_presentacion
             InitializeComponent();
         }
 
+        public FormSocio(FormContenedor formContenedor)
+        {
+            InitializeComponent();
+            this.formContenedor = formContenedor;
+        }
+
+
         public void btnGuardar_Click(object sender, EventArgs e)
         {
             try

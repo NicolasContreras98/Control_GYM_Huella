@@ -260,7 +260,7 @@ namespace Control_Gym.Capa_de_presentacion
 
                 Array.Copy(Program.CapTmp, Program.RegTmps[Program.RegisterCount], cbCapTmp);
                 Program.RegisterCount++;
-                formSocio.textRes.Text = $"Por favor, presiona el mismo dedo {Program.REGISTER_FINGER_COUNT - Program.RegisterCount} veces más";
+                formSocio.textRes.Text = $"Por favor, presiona el mismo dedo\n{Program.REGISTER_FINGER_COUNT - Program.RegisterCount} veces más";
 
                 if (Program.RegisterCount >= Program.REGISTER_FINGER_COUNT)
                 {

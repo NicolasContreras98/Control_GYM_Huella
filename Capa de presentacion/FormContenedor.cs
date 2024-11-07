@@ -9,9 +9,9 @@ namespace Control_Gym
 {
     public partial class FormContenedor : Form
     {
-        private readonly int dni_empleado;
-        private readonly string nombre;
-        private readonly string rol;
+        private int dni_empleado;
+        private string nombre;
+        private string rol;
 
         private FormChequeo formChequeo;
         private FormSocio formSocio;
@@ -236,7 +236,7 @@ namespace Control_Gym
             {
                 if (formSocio == null || formSocio.IsDisposed)
                 {
-                    formSocio = new FormSocio();
+                    formSocio = new FormSocio(this);
                 }
 
                 AbrirFormEnPanel(formSocio);

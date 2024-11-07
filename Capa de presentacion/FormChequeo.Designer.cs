@@ -64,11 +64,11 @@
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.LightGray;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label1.Location = new System.Drawing.Point(14, 49);
+            this.label1.Location = new System.Drawing.Point(10, 44);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 20);
+            this.label1.Size = new System.Drawing.Size(82, 29);
             this.label1.TabIndex = 5;
             this.label1.Text = "Inicio :";
             // 
@@ -77,11 +77,11 @@
             this.lblInicio.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblInicio.AutoSize = true;
             this.lblInicio.BackColor = System.Drawing.Color.LightGray;
-            this.lblInicio.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInicio.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblInicio.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.lblInicio.Location = new System.Drawing.Point(74, 49);
+            this.lblInicio.Location = new System.Drawing.Point(98, 46);
             this.lblInicio.Name = "lblInicio";
-            this.lblInicio.Size = new System.Drawing.Size(18, 20);
+            this.lblInicio.Size = new System.Drawing.Size(26, 29);
             this.lblInicio.TabIndex = 6;
             this.lblInicio.Text = "0";
             // 
@@ -90,11 +90,11 @@
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.LightGray;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label3.Location = new System.Drawing.Point(14, 82);
+            this.label3.Location = new System.Drawing.Point(10, 81);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(39, 20);
+            this.label3.Size = new System.Drawing.Size(59, 29);
             this.label3.TabIndex = 7;
             this.label3.Text = "Fin :";
             // 
@@ -103,11 +103,11 @@
             this.lblFin.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblFin.AutoSize = true;
             this.lblFin.BackColor = System.Drawing.Color.LightGray;
-            this.lblFin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFin.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.lblFin.Location = new System.Drawing.Point(59, 82);
+            this.lblFin.Location = new System.Drawing.Point(75, 83);
             this.lblFin.Name = "lblFin";
-            this.lblFin.Size = new System.Drawing.Size(18, 20);
+            this.lblFin.Size = new System.Drawing.Size(26, 29);
             this.lblFin.TabIndex = 8;
             this.lblFin.Text = "0";
             // 
@@ -116,11 +116,11 @@
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.LightGray;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label5.Location = new System.Drawing.Point(14, 115);
+            this.label5.Location = new System.Drawing.Point(10, 118);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(127, 20);
+            this.label5.Size = new System.Drawing.Size(186, 29);
             this.label5.TabIndex = 9;
             this.label5.Text = "Dias Restantes :";
             // 
@@ -129,11 +129,11 @@
             this.lblDiasRestantes.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblDiasRestantes.AutoSize = true;
             this.lblDiasRestantes.BackColor = System.Drawing.Color.LightGray;
-            this.lblDiasRestantes.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDiasRestantes.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDiasRestantes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.lblDiasRestantes.Location = new System.Drawing.Point(147, 115);
+            this.lblDiasRestantes.Location = new System.Drawing.Point(192, 120);
             this.lblDiasRestantes.Name = "lblDiasRestantes";
-            this.lblDiasRestantes.Size = new System.Drawing.Size(18, 20);
+            this.lblDiasRestantes.Size = new System.Drawing.Size(26, 29);
             this.lblDiasRestantes.TabIndex = 10;
             this.lblDiasRestantes.Text = "0";
             // 
@@ -142,11 +142,11 @@
             this.lblTipoMembresia.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblTipoMembresia.AutoSize = true;
             this.lblTipoMembresia.BackColor = System.Drawing.Color.LightGray;
-            this.lblTipoMembresia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTipoMembresia.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTipoMembresia.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblTipoMembresia.Location = new System.Drawing.Point(14, 148);
+            this.lblTipoMembresia.Location = new System.Drawing.Point(10, 155);
             this.lblTipoMembresia.Name = "lblTipoMembresia";
-            this.lblTipoMembresia.Size = new System.Drawing.Size(151, 20);
+            this.lblTipoMembresia.Size = new System.Drawing.Size(236, 29);
             this.lblTipoMembresia.TabIndex = 11;
             this.lblTipoMembresia.Text = "Tipo de Membresía :";
             // 
@@ -155,11 +155,11 @@
             this.cmbTipoMembresia.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cmbTipoMembresia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTipoMembresia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmbTipoMembresia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbTipoMembresia.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbTipoMembresia.FormattingEnabled = true;
-            this.cmbTipoMembresia.Location = new System.Drawing.Point(171, 145);
+            this.cmbTipoMembresia.Location = new System.Drawing.Point(252, 151);
             this.cmbTipoMembresia.Name = "cmbTipoMembresia";
-            this.cmbTipoMembresia.Size = new System.Drawing.Size(125, 28);
+            this.cmbTipoMembresia.Size = new System.Drawing.Size(125, 37);
             this.cmbTipoMembresia.TabIndex = 2;
             this.cmbTipoMembresia.SelectedIndexChanged += new System.EventHandler(this.cmbTipoMembresia_SelectedIndexChanged);
             // 
@@ -206,6 +206,7 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(223, 222);
@@ -232,11 +233,11 @@
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.LightGray;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label2.Location = new System.Drawing.Point(14, 16);
+            this.label2.Location = new System.Drawing.Point(10, 7);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(144, 20);
+            this.label2.Size = new System.Drawing.Size(225, 29);
             this.label2.TabIndex = 18;
             this.label2.Text = "Nombre y Apellido :";
             // 
@@ -245,26 +246,27 @@
             this.lblNombreCompleto.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblNombreCompleto.AutoSize = true;
             this.lblNombreCompleto.BackColor = System.Drawing.Color.LightGray;
-            this.lblNombreCompleto.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNombreCompleto.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNombreCompleto.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.lblNombreCompleto.Location = new System.Drawing.Point(164, 16);
+            this.lblNombreCompleto.Location = new System.Drawing.Point(232, 8);
             this.lblNombreCompleto.Name = "lblNombreCompleto";
-            this.lblNombreCompleto.Size = new System.Drawing.Size(125, 20);
+            this.lblNombreCompleto.Size = new System.Drawing.Size(196, 29);
             this.lblNombreCompleto.TabIndex = 19;
             this.lblNombreCompleto.Text = "Nombre Apellido";
             // 
             // picFPImg
             // 
             this.picFPImg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picFPImg.Location = new System.Drawing.Point(444, 3);
+            this.picFPImg.Location = new System.Drawing.Point(597, 2);
             this.picFPImg.Name = "picFPImg";
-            this.picFPImg.Size = new System.Drawing.Size(208, 211);
+            this.picFPImg.Size = new System.Drawing.Size(208, 214);
             this.picFPImg.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picFPImg.TabIndex = 20;
             this.picFPImg.TabStop = false;
             // 
             // lblFeedBack
             // 
+            this.lblFeedBack.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblFeedBack.AutoSize = true;
             this.lblFeedBack.Location = new System.Drawing.Point(300, 331);
             this.lblFeedBack.Name = "lblFeedBack";
@@ -284,9 +286,10 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.lblTipoMembresia);
             this.groupBox1.Controls.Add(this.lblDiasRestantes);
+            this.groupBox1.Font = new System.Drawing.Font("Sitka Banner", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(401, 214);
+            this.groupBox1.Size = new System.Drawing.Size(589, 214);
             this.groupBox1.TabIndex = 22;
             this.groupBox1.TabStop = false;
             // 

@@ -59,19 +59,19 @@ namespace Control_Gym.Capa_de_presentacion
                     dvgMembresias.Columns["id_socio"].Visible = false;
 
                 if (dvgMembresias.Columns["dni_socio"] != null)
-                    dvgMembresias.Columns["dni_socio"].HeaderText = "Dni del socio";
+                    dvgMembresias.Columns["dni_socio"].HeaderText = "DNI";
 
                 if (dvgMembresias.Columns["nombre_completo"] != null)
                     dvgMembresias.Columns["nombre_completo"].HeaderText = "Nombre completo";
 
                 if (dvgMembresias.Columns["fecha_inicio"] != null)
-                    dvgMembresias.Columns["fecha_inicio"].HeaderText = "Fecha de inicio";
+                    dvgMembresias.Columns["fecha_inicio"].HeaderText = "Fecha inicio";
 
                 if (dvgMembresias.Columns["fecha_fin"] != null)
-                    dvgMembresias.Columns["fecha_fin"].HeaderText = "Fecha de fin";
+                    dvgMembresias.Columns["fecha_fin"].HeaderText = "Fecha fin";
 
-                if (dvgMembresias.Columns["nombre"] != null)
-                    dvgMembresias.Columns["nombre"].HeaderText = "Tipo de membresía";
+                if (dvgMembresias.Columns["tipo_membresia"] != null)
+                    dvgMembresias.Columns["tipo_membresia"].HeaderText = "Tipo de membresía";
 
                 if (dvgMembresias.Columns["precio"] != null)
                     dvgMembresias.Columns["precio"].HeaderText = "Precio";
@@ -331,7 +331,7 @@ namespace Control_Gym.Capa_de_presentacion
 
                     DataGridViewRow filaSeleccionada = dvgMembresias.SelectedRows[0];
                     txtCodMembresia.Text = filaSeleccionada.Cells["cod_membresia"].Value.ToString();
-                    cbTipoMembresia.Text = filaSeleccionada.Cells["nombre_tipo"].Value.ToString();
+                    cbTipoMembresia.Text = filaSeleccionada.Cells["tipo_membresia"].Value.ToString();
 
                     txtDniMembresia.Text = filaSeleccionada.Cells["dni_socio"].Value.ToString();
                     dtpFechaInicio.Text = filaSeleccionada.Cells["fecha_inicio"].Value.ToString();

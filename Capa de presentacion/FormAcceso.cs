@@ -54,14 +54,12 @@ namespace Control_Gym.Capa_de_presentacion
                         // Pasar el rol al método VerificarLicenciaEmpleado
                         if (VerificarLicenciaEmpleado(Convert.ToInt32(txtDniEmpleado.Text), rol))
                         {
-                            this.Hide(); // Oculta el formulario de inicio de sesión
-
                             FormContenedor formContenedor = new FormContenedor(acceso[0].dni_empleado, acceso[0].nombre, rol);
+                            this.Hide(); // Oculta el formulario de inicio de sesión
                             formContenedor.ShowDialog(); // Muestra FormContenedor como un cuadro de diálogo modal
 
-                            this.Show(); // Vuelve a mostrar el formulario de inicio de sesión cuando FormContenedor se cierre
-                            txtDniEmpleado.Text = "";
-                            txtContraseñaEmpleado.Text = "";
+                            // Al cerrar FormContenedor, cerrar la aplicación
+                            Application.Exit();
                         }
                         else
                         {
@@ -81,6 +79,7 @@ namespace Control_Gym.Capa_de_presentacion
                 MessageBox.Show("Error al iniciar sesión: " + ex.Message);
             }
         }
+
 
         private bool VerificarLicenciaEmpleado(int dniEmpleado, string rol)
         {
