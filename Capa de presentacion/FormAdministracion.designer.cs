@@ -432,7 +432,7 @@
             this.labelTiposProducto.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.labelTiposProducto.Font = new System.Drawing.Font("Century Gothic", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTiposProducto.ForeColor = System.Drawing.Color.White;
-            this.labelTiposProducto.Location = new System.Drawing.Point(13, 4);
+            this.labelTiposProducto.Location = new System.Drawing.Point(19, 4);
             this.labelTiposProducto.Name = "labelTiposProducto";
             this.labelTiposProducto.Size = new System.Drawing.Size(139, 20);
             this.labelTiposProducto.TabIndex = 15;

@@ -229,15 +229,14 @@ namespace Control_Gym.Capa_de_datos
             return tabla;
         }
 
-        public void EliminarDatos(int id_socio, string name)
+        public void EliminarDatos(int id_socio)
         {
-            string query = "DELETE socios WHERE id_socio = @id_socio"; //CAMBIO dni_socio POR id_socio
+            string query = "EXEC EliminarSocio @id_socio";  // Llamamos al procedimiento almacenado
             try
             {
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
                 comando.Parameters.AddWithValue("@id_socio", id_socio);
                 comando.ExecuteNonQuery();
-                MessageBox.Show("Eliminaste los datos del socio "+ name);
                 Program.isModifiying = false;
                 Program.idSocioSeleccionado = -1;
             }
@@ -250,6 +249,7 @@ namespace Control_Gym.Capa_de_datos
                 conexionBD.CerrarConexion();
             }
         }
+
 
         public ClsSocio TraerIdSocioPorDni(int dni)
         {

@@ -209,9 +209,9 @@
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(223, 222);
+            this.pictureBox1.Location = new System.Drawing.Point(223, 209);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(372, 360);
+            this.pictureBox1.Size = new System.Drawing.Size(372, 373);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 16;
             this.pictureBox1.TabStop = false;
@@ -297,11 +297,11 @@
             // 
             this.lblAviso.AutoSize = true;
             this.lblAviso.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.lblAviso.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAviso.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAviso.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblAviso.Location = new System.Drawing.Point(203, 225);
+            this.lblAviso.Location = new System.Drawing.Point(244, 229);
             this.lblAviso.Name = "lblAviso";
-            this.lblAviso.Size = new System.Drawing.Size(432, 29);
+            this.lblAviso.Size = new System.Drawing.Size(351, 24);
             this.lblAviso.TabIndex = 23;
             this.lblAviso.Text = "No existe un socio con esa huella !!!";
             // 
@@ -318,8 +318,8 @@
             this.Controls.Add(this.pbNo);
             this.Controls.Add(this.pbYes);
             this.Controls.Add(this.pbWarning);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.pictureBox1);
             this.Font = new System.Drawing.Font("Sitka Banner", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -327,10 +327,9 @@
             this.Name = "FormChequeo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormChequeo";
-            this.Activated += new System.EventHandler(this.FormChequeo_Activated);
-            this.Deactivate += new System.EventHandler(this.FormChequeo_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormChequeo_FormClosing);
             this.Load += new System.EventHandler(this.FormChequeo_Load);
+            this.Leave += new System.EventHandler(this.FormChequeo_Leave);
             ((System.ComponentModel.ISupportInitialize)(this.pbWarning)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbNeutro)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbNo)).EndInit();
@@ -364,6 +363,6 @@
         private System.Windows.Forms.PictureBox picFPImg;
         private System.Windows.Forms.Label lblFeedBack;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label lblAviso;
+        public System.Windows.Forms.Label lblAviso;
     }
 }

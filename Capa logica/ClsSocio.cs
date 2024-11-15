@@ -89,11 +89,13 @@ namespace Control_Gym.Capa_logica
 
             return tabla;
         }
-        public void EliminarDatos(int id_socio, string nombre)
+
+        public void EliminarDatos(int id_socio)
         {
             CSociosD cSociosD = new CSociosD();
-            cSociosD.EliminarDatos(id_socio, nombre);  //CAMBUI dni POR id_socio 
+            cSociosD.EliminarDatos(id_socio);  //CAMBUI dni POR id_socio 
         }
+
          public DataTable Filtrar(string dni)
         {
 

@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Control_Gym.Capa_de_datos;
 using Control_Gym.Capa_logica;
@@ -12,9 +13,11 @@ namespace Control_Gym.Capa_de_presentacion
 {
     public partial class FormMembresias : Form
     {
-        private ConexionBD conexionBD = ConexionBD.Instancia;
-
-        private int dni_socio;
+        private readonly ConexionBD conexionBD = ConexionBD.Instancia;
+        private readonly CTipoMembresia cTipoMembresia = new CTipoMembresia();
+        private readonly CMembresia cMembresia = new CMembresia();
+        private readonly CSociosD cSociosD = new CSociosD();
+        private readonly int dni_socio;
 
         public FormMembresias(int dni_socio)
         {
@@ -26,10 +29,6 @@ namespace Control_Gym.Capa_de_presentacion
         {
             InitializeComponent();
         }
-
-        private CTipoMembresia cTipoMembresia = new CTipoMembresia();
-        private CMembresia cMembresia = new CMembresia();
-        private CSociosD cSociosD = new CSociosD();
 
         private void CargarGrilla()
         {
@@ -107,6 +106,7 @@ namespace Control_Gym.Capa_de_presentacion
 
         public void CancelarModificar()
         {
+            txtBuscarDni.Clear();
             btnCrearMembresia.Visible = false;
             btnActualizarMembresia.Visible = false;
             btnEliminarMembresia.Visible = false;
@@ -121,6 +121,16 @@ namespace Control_Gym.Capa_de_presentacion
             txtDniMembresia.Text = "";
             cbTipoMembresia.Text = "";
             dtpFechaInicio.Value = DateTime.Now;
+        }
+
+        private async void MostrarSocioAgregado()
+        {
+            lblSocioAgregado.Visible = true;  // Muestra el label
+
+            // Espera durante 3 segundos (3000 milisegundos)
+            await Task.Delay(3000);
+
+            lblSocioAgregado.Visible = false; // Oculta el label después de 3 segundos
         }
 
         private void btnCrearMembresia_Click(object sender, EventArgs e)
@@ -150,7 +160,7 @@ namespace Control_Gym.Capa_de_presentacion
                                 CargarGrilla();
                                 CancelarModificar();
 
-                                lblSocioAgregado.Visible = true;
+                                MostrarSocioAgregado();
                             }
                             else
                             {
@@ -246,27 +256,36 @@ namespace Control_Gym.Capa_de_presentacion
 
         private void dvgMembresias_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.RowIndex >= 0 && e.ColumnIndex == 5) //Se cambia de 4 a 5
+            if (e.RowIndex >= 0 && e.ColumnIndex == 5) // Se cambia de 4 a 5
             {
-                DateTime fechaFin = (DateTime)dvgMembresias.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-                DateTime hoy = DateTime.Now;
+                var cellValue = dvgMembresias.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
 
-                TimeSpan diferencia = fechaFin - hoy;
+                if (cellValue != null && DateTime.TryParse(cellValue.ToString(), out DateTime fechaFin))
+                {
+                    DateTime hoy = DateTime.Now;
+                    TimeSpan diferencia = fechaFin - hoy;
 
-                if (diferencia.TotalDays < -1)
-                {
-                    dvgMembresias.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = Color.Salmon;
-                }
-                else if (diferencia.TotalDays <= 5)
-                {
-                    dvgMembresias.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = Color.Yellow;
+                    if (diferencia.TotalDays < -1)
+                    {
+                        dvgMembresias.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = Color.Salmon;
+                    }
+                    else if (diferencia.TotalDays <= 5)
+                    {
+                        dvgMembresias.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = Color.Yellow;
+                    }
+                    else
+                    {
+                        dvgMembresias.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = Color.LightGreen;
+                    }
                 }
                 else
                 {
-                    dvgMembresias.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = Color.LightGreen;
+                    // Opcional: Color o estilo predeterminado si el valor no es una fecha válida
+                    dvgMembresias.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = Color.White;
                 }
             }
         }
+
 
         private void btnActualizarMembresia_Click(object sender, EventArgs e)
         {
@@ -330,12 +349,21 @@ namespace Control_Gym.Capa_de_presentacion
                     txtDniMembresia.ReadOnly = true;
 
                     DataGridViewRow filaSeleccionada = dvgMembresias.SelectedRows[0];
-                    txtCodMembresia.Text = filaSeleccionada.Cells["cod_membresia"].Value.ToString();
-                    cbTipoMembresia.Text = filaSeleccionada.Cells["tipo_membresia"].Value.ToString();
 
-                    txtDniMembresia.Text = filaSeleccionada.Cells["dni_socio"].Value.ToString();
-                    dtpFechaInicio.Text = filaSeleccionada.Cells["fecha_inicio"].Value.ToString();
-                    dtpFechaFin.Text = filaSeleccionada.Cells["fecha_fin"].Value.ToString();
+                    // Verificar si la columna "cod_membresia" existe en el DataGridView
+                    if (dvgMembresias.Columns.Contains("cod_membresia"))
+                    {
+                        // Acceder a la celda por nombre de columna
+                        txtCodMembresia.Text = filaSeleccionada.Cells["cod_membresia"].Value?.ToString() ?? "";
+                    }
+
+                    // Verificar si la columna "tipo_membresia" existe en el DataGridView
+                    cbTipoMembresia.Text = filaSeleccionada.Cells["tipo_membresia"].Value?.ToString() ?? "";
+
+                    // Asignar los valores a los controles de la interfaz
+                    txtDniMembresia.Text = filaSeleccionada.Cells["dni_socio"].Value?.ToString() ?? "";
+                    dtpFechaInicio.Text = filaSeleccionada.Cells["fecha_inicio"].Value?.ToString() ?? DateTime.Now.ToString();
+                    dtpFechaFin.Text = filaSeleccionada.Cells["fecha_fin"].Value?.ToString() ?? DateTime.Now.ToString();
                 }
                 else
                 {
@@ -381,14 +409,14 @@ namespace Control_Gym.Capa_de_presentacion
         {
             try
             {
-                if (txtBuscarDni.Text != "")
+                if (!string.IsNullOrEmpty(txtBuscarDni.Text))
                 {
-                    List<CMembresia> membresias = cMembresia.BuscarPorDNI(Convert.ToInt32(txtBuscarDni.Text));
-                    dvgMembresias.DataSource = membresias;
+                    DataTable tablaMembresias = cMembresia.BuscarPorDNI(txtBuscarDni.Text);
+                    dvgMembresias.DataSource = tablaMembresias;  // Asigna el DataTable como origen de datos
                 }
                 else
                 {
-                    CargarGrilla();
+                    CargarGrilla(); // Si no hay búsqueda, carga la grilla con todos los datos
                 }
             }
             catch (Exception ex)
@@ -473,6 +501,11 @@ namespace Control_Gym.Capa_de_presentacion
             {
                 btnCrearMembresia.Visible = true;
             }
+        }
+
+        public void LoadArtificial()
+        {
+            CargarGrilla();
         }
     }
 }

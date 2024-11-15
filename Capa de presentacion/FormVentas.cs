@@ -377,6 +377,7 @@ namespace Control_Gym.Capa_de_presentacion
                             {
                                 MessageBox.Show("Venta realizada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 btnVenta.Visible = false;
+                                txtDniCliente.Clear();
                                 DataTable productos = cProducto.ObtenerDatosProductos();
                                 Limpiar();
                                 cbCodProducto.DataSource = productos;
@@ -766,6 +767,36 @@ namespace Control_Gym.Capa_de_presentacion
         private void groupBox3_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        public void LoadArtificial()
+        {
+            try
+            {
+                txtDniCliente.Clear();
+                limpiarCampos();
+                DataTable productos = cProducto.ObtenerDatosProductos();
+
+                cbCodProducto.DataSource = productos;
+                cbCodProducto.DisplayMember = "nombre"; // Nombre del campo que se mostrará en el ComboBox
+                cbCodProducto.ValueMember = "cod_producto"; // Valor del campo que se usará como valor seleccionado
+
+                btnQuitar.Visible = false;
+                btnVenta.Visible = false;
+                txtNombreProducto.Text = "";
+                txtPrecio.Text = "";
+                txtSubtotal.Text = "";
+                txtDniEmpleado.Text = dni_empleado.ToString();
+
+                txtStock.Text = "";
+                txtCodProducto.Text = "";
+
+                LoadCategories();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar productos: " + ex.Message);
+            }
         }
     }
 }

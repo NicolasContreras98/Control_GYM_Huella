@@ -59,7 +59,6 @@
             this.txtDniEmpleado.Name = "txtDniEmpleado";
             this.txtDniEmpleado.Size = new System.Drawing.Size(193, 31);
             this.txtDniEmpleado.TabIndex = 1;
-            this.txtDniEmpleado.Text = "44616531";
             this.txtDniEmpleado.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtDniEmpleado.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDniEmpleado_KeyDown);
             this.txtDniEmpleado.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDniEmpleado_KeyPress);
@@ -75,7 +74,6 @@
             this.txtContraseñaEmpleado.PasswordChar = '*';
             this.txtContraseñaEmpleado.Size = new System.Drawing.Size(193, 31);
             this.txtContraseñaEmpleado.TabIndex = 2;
-            this.txtContraseñaEmpleado.Text = "eugenia11";
             this.txtContraseñaEmpleado.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtContraseñaEmpleado.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtContraseñaEmpleado_KeyDown);
             this.txtContraseñaEmpleado.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtContraseñaEmpleado_KeyPress);

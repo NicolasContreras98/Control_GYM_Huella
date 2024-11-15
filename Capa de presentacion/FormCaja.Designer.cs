@@ -290,7 +290,7 @@
             this.btnVerInformes.Name = "btnVerInformes";
             this.btnVerInformes.Size = new System.Drawing.Size(137, 51);
             this.btnVerInformes.TabIndex = 24;
-            this.btnVerInformes.Text = "Ver Informe";
+            this.btnVerInformes.Text = "Informes";
             this.btnVerInformes.UseVisualStyleBackColor = false;
             this.btnVerInformes.Click += new System.EventHandler(this.btnVerInformes_Click);
             // 

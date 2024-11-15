@@ -3,6 +3,7 @@ using Control_Gym.Capa_logica;
 using libzkfpcsharp;
 using Sample;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -27,17 +28,18 @@ namespace Control_Gym.Capa_de_presentacion
         public FormSocio objFormSocios = new FormSocio();
         private FormContenedor formContenedor;
 
-        private IntPtr formHandle = IntPtr.Zero;
+        public IntPtr formHandle = IntPtr.Zero;
         private bool isTimeToDie = false;
-        private byte[] FPBuffer;
+        public byte[] FPBuffer;
         private byte[] RegTmp = new byte[TEMPLATE_SIZE];
-        private int cbCapTmp = TEMPLATE_SIZE;
+        public int cbCapTmp = TEMPLATE_SIZE;
         private int regTempLen = 0;
         private int fid = Program.idSocioSeleccionado;
         private int mfpWidth = 0;
         private int mfpHeight = 0;
         private Thread captureThread = null;
-        Random random = new Random();
+        readonly Random random = new Random();
+        int idSocioEncontrado = -1;
 
         [DllImport("user32.dll", EntryPoint = "SendMessageA")]
         public static extern int SendMessage(IntPtr hwnd, int wMsg, IntPtr wParam, IntPtr lParam);
@@ -50,9 +52,16 @@ namespace Control_Gym.Capa_de_presentacion
 
         private void FormChequeo_Load(object sender, EventArgs e)
         {
-            lblAviso.Visible = false;
-            formHandle = this.Handle;
-            InitializeDevice();
+            try
+            {
+                InitializeDevice();
+                formHandle = this.Handle;
+                lblAviso.Visible = false;
+            }
+            catch(Exception ex) 
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void InitializeDevice()
@@ -77,18 +86,15 @@ namespace Control_Gym.Capa_de_presentacion
             }
             else
             {
-                /*MessageBox.Show(
+                MessageBox.Show(
                 "No se pudo inicializar el dispositivo. Parece que está desconectado.\n\n" +
                 "Por favor, verifica que el dispositivo esté correctamente conectado y encendido. " +
                 "Si el problema persiste, intenta reiniciar la aplicación o contacta al soporte técnico.",
                 "Error de Inicialización",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Warning);
-
-               Application.Exit();*/
             }
         }
-
 
         private void OpenDevice(int deviceIndex)
         {
@@ -260,7 +266,7 @@ namespace Control_Gym.Capa_de_presentacion
 
                 Array.Copy(Program.CapTmp, Program.RegTmps[Program.RegisterCount], cbCapTmp);
                 Program.RegisterCount++;
-                formSocio.textRes.Text = $"Por favor, presiona el mismo dedo\n{Program.REGISTER_FINGER_COUNT - Program.RegisterCount} veces más";
+                formSocio.textRes.Text = $"Presione el mismo dedo {Program.REGISTER_FINGER_COUNT - Program.RegisterCount} veces más";
 
                 if (Program.RegisterCount >= Program.REGISTER_FINGER_COUNT)
                 {
@@ -304,6 +310,7 @@ namespace Control_Gym.Capa_de_presentacion
                             formSocio.btnCancelar.Visible = false;
                             formSocio.dgvSocios.Enabled = true;
                             formSocio.picHuella.Image = null;
+                            formSocio.txtDniSocio.ReadOnly = false;
 
                             // Llamada a limpiarCampos en un bloque try-catch
                             try
@@ -342,8 +349,6 @@ namespace Control_Gym.Capa_de_presentacion
                 MessageBox.Show($"Ocurrió un error en FinalizeModification: {ex.Message}");
             }
         }
-
-
 
         private void HandleRegistration()
         {
@@ -393,7 +398,7 @@ namespace Control_Gym.Capa_de_presentacion
 
                 Array.Copy(Program.CapTmp, Program.RegTmps[Program.RegisterCount], cbCapTmp);
                 Program.RegisterCount++;
-                formSocio.textRes.Text = $"Por favor, presiona el mismo dedo {Program.REGISTER_FINGER_COUNT - Program.RegisterCount} veces más";
+                formSocio.textRes.Text = $"Presione el mismo dedo {Program.REGISTER_FINGER_COUNT - Program.RegisterCount} veces más";
 
                 if (Program.RegisterCount >= Program.REGISTER_FINGER_COUNT)
                 {
@@ -405,7 +410,6 @@ namespace Control_Gym.Capa_de_presentacion
                 MessageBox.Show($"Ocurrió un error en HandleRegistration: {ex.Message}");
             }
         }
-
 
         private void FinalizeRegistration()
         {
@@ -482,8 +486,6 @@ namespace Control_Gym.Capa_de_presentacion
                 MessageBox.Show($"Ocurrió un error en FinalizeRegistration: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        int idSocioEncontrado = -1;
 
         public static void PlayEmbeddedSound(string soundName)
         {
@@ -601,8 +603,6 @@ namespace Control_Gym.Capa_de_presentacion
             }
         }
 
-
-
         private void DisconnectDevice()
         {
             try
@@ -631,20 +631,6 @@ namespace Control_Gym.Capa_de_presentacion
         private void FormChequeo_FormClosing(object sender, FormClosingEventArgs e)
         {
             DisconnectDevice();
-        }
-
-        private void FormChequeo_Activated(object sender, EventArgs e)
-        {
-            Program.isRegistering = false;
-            Program.isModifiying = false;
-            Program.isIdentifying = true;
-        }
-
-        private void FormChequeo_Deactivate(object sender, EventArgs e)
-        {
-            Program.isRegistering = false;
-            Program.isModifiying = false;
-            Program.isIdentifying = false;
         }
 
         private void cmbTipoMembresia_SelectedIndexChanged(object sender, EventArgs e)
@@ -702,7 +688,6 @@ namespace Control_Gym.Capa_de_presentacion
             }
         }
 
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             timer1.Stop();
@@ -723,6 +708,20 @@ namespace Control_Gym.Capa_de_presentacion
             pbNo.Visible = false;
             pbWarning.Visible = false;
             pbNeutro.Visible = true;
+        }
+
+        public void LoadArtificial()
+        {
+            Program.isRegistering = false;
+            Program.isModifiying = false;
+            Program.isIdentifying = true;
+        }
+
+        private void FormChequeo_Leave(object sender, EventArgs e)
+        {
+            Program.isRegistering = false;
+            Program.isModifiying = false;
+            Program.isIdentifying = false;
         }
     }
 }

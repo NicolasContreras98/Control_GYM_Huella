@@ -10,10 +10,11 @@ namespace Control_Gym.Capa_de_presentacion
 {
     public partial class FormSocio : Form
     {
-        CMembresiaD cMembresiaD = new CMembresiaD();
-        CSociosD cSociosD = new CSociosD();
-        private FormContenedor formContenedor;
-        ClsSocio oClsSocio = new ClsSocio();
+        readonly CMembresiaD cMembresiaD = new CMembresiaD();
+        readonly CSociosD cSociosD = new CSociosD();
+        private readonly FormContenedor formContenedor;
+        readonly ClsSocio oClsSocio = new ClsSocio();
+
 
         private ClsHuella cHuella = new ClsHuella();
 
@@ -27,7 +28,6 @@ namespace Control_Gym.Capa_de_presentacion
             InitializeComponent();
             this.formContenedor = formContenedor;
         }
-
 
         public void btnGuardar_Click(object sender, EventArgs e)
         {
@@ -108,34 +108,21 @@ namespace Control_Gym.Capa_de_presentacion
         {
             try
             {
-                ClsSocio clsSocio = new ClsSocio();
-                string nombre = txtNombreSocio.Text;
-                int id_socio = Convert.ToInt32(txtIdSocio.Text);
+                // Mostrar mensaje de confirmación
+                DialogResult resultado = MessageBox.Show(
+                    "¿Estás seguro de que deseas eliminar completamente al socio?",
+                    "Confirmar eliminación",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
 
-                bool MembresiaActiva = cSociosD.MembresiaActiva(id_socio);
-                bool HuellaActiva = cSociosD.VerificarSiYaTieneHuella(id_socio);
-
-                if (MembresiaActiva || HuellaActiva)
+                // Si el usuario confirma la eliminación
+                if (resultado == DialogResult.Yes)
                 {
-                    string mensaje = "No se puede eliminar el socio porque tiene:";
+                    ClsSocio clsSocio = new ClsSocio();
+                    int id_socio = Convert.ToInt32(txtIdSocio.Text);
 
-                    if (MembresiaActiva)
-                    {
-                        mensaje += "\n- Una Membresía activa";
-                    }
-
-                    if (HuellaActiva)
-                    {
-                        mensaje += "\n- Una Huella activa";
-                    }
-
-                    MessageBox.Show(mensaje, "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    limpiarCampos();
-                    CancelarModificar();
-                }
-                else
-                {
-                    clsSocio.EliminarDatos(id_socio, nombre);
+                    // Llamar al método de eliminación sin necesidad de verificar si tiene huella o membresía activa
+                    clsSocio.EliminarDatos(id_socio);
                     dgvSocios.DataSource = clsSocio.CargarDatos();
 
                     limpiarCampos();
@@ -148,30 +135,18 @@ namespace Control_Gym.Capa_de_presentacion
             }
         }
 
-        private void FormSocio_Load(object sender, EventArgs e)
+        private void CargarGrilla()
         {
-            try
-            {
-                OcultarAdvertencia();
-                ClsSocio clsSocio = new ClsSocio();
-
-                dgvSocios.DataSource = clsSocio.CargarDatos();
-                //dgvSocios.Columns[0].HeaderText = "ID";
-                dgvSocios.Columns[0].Visible = false;
-                dgvSocios.Columns[1].HeaderText = "DNI";
-                dgvSocios.Columns[2].HeaderText = "Nombre";
-                dgvSocios.Columns[3].HeaderText = "Apellido";
-                dgvSocios.Columns[4].HeaderText = "Teléfono";
-                dgvSocios.Columns[5].HeaderText = "Fecha de Nacimiento";
-                dgvSocios.Columns[6].HeaderText = "Domicilio";
-                dgvSocios.Columns[7].HeaderText = "E-mail";
-
-                CancelarModificar();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar socios: " + ex.Message);
-            }
+            dgvSocios.DataSource = oClsSocio.CargarDatos();
+            //dgvSocios.Columns[0].HeaderText = "ID";
+            dgvSocios.Columns[0].Visible = false;
+            dgvSocios.Columns[1].HeaderText = "DNI";
+            dgvSocios.Columns[2].HeaderText = "Nombre";
+            dgvSocios.Columns[3].HeaderText = "Apellido";
+            dgvSocios.Columns[4].HeaderText = "Teléfono";
+            dgvSocios.Columns[5].HeaderText = "Fecha de Nacimiento";
+            dgvSocios.Columns[6].HeaderText = "Domicilio";
+            dgvSocios.Columns[7].HeaderText = "E-mail";
         }
 
         private void dgvSocios_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -248,6 +223,7 @@ namespace Control_Gym.Capa_de_presentacion
 
         public void CancelarModificar()
         {
+            txtBuscarSocio.Clear();
             btnGuardar.Enabled = true;
             btnGuardar.Visible = false;
             btnCancelar.Visible = false;
@@ -258,7 +234,8 @@ namespace Control_Gym.Capa_de_presentacion
             btnCancelarRegHuella.Visible = false;
             txtDniSocio.ReadOnly = false;
 
-            Program.isRegistering = false;
+            Program.idSocioSeleccionado = -1;
+            Program.isRegistering = true;
             Program.isModifiying = false;
             Program.isIdentifying = false;
         }
@@ -457,7 +434,7 @@ namespace Control_Gym.Capa_de_presentacion
                     btnCancelarRegHuella.Visible = true;
                     dgvSocios.Enabled = false;
                     btnBorrar.Visible = false;
-                    textRes.Text = $"Por favor, presiona el mismo dedo {Program.REGISTER_FINGER_COUNT} veces";
+                    textRes.Text = $"Presione el mismo dedo {Program.REGISTER_FINGER_COUNT} veces";
                 }
                 else
                 {
@@ -470,39 +447,12 @@ namespace Control_Gym.Capa_de_presentacion
                     btnCancelarRegHuella.Visible = true;
                     dgvSocios.Enabled = false;
                     btnBorrar.Visible = false;
-                    textRes.Text = $"Por favor, presiona el mismo dedo {Program.REGISTER_FINGER_COUNT} veces";
+                    textRes.Text = $"Presione el mismo dedo {Program.REGISTER_FINGER_COUNT} veces";
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ocurrió un error al intentar registrar la huella: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void FormSocio_Activated(object sender, EventArgs e)
-        {
-            Program.isRegistering = true;
-            Program.isIdentifying = false;
-        }
-
-        private void FormSocio_Deactivate(object sender, EventArgs e)
-        {
-            Program.isRegistering = false;
-            Program.isIdentifying = true;
-        }
-
-        public void ActualizarHuella(Bitmap huellaBitmap)
-        {
-            if (picHuella.InvokeRequired)
-            {
-                picHuella.Invoke((MethodInvoker)delegate
-                {
-                    picHuella.Image = huellaBitmap;
-                });
-            }
-            else
-            {
-                picHuella.Image = huellaBitmap;
             }
         }
 
@@ -533,8 +483,6 @@ namespace Control_Gym.Capa_de_presentacion
             try
             {
                 textRes.Text = "";
-                Program.isRegistering = false;
-                Program.isModifiying = false;
                 btnRegistrarHuella.Visible = true;
                 btnRegistrarHuella.Enabled = true;
                 btnBorrarHuella.Visible = false;
@@ -544,10 +492,11 @@ namespace Control_Gym.Capa_de_presentacion
                 btnGuardar.Enabled = true;
                 picHuella.Image = null;
 
-
                 ResetearArrayDeHuellas();
 
-                Program.isIdentifying = true;
+                Program.isRegistering = false;
+                Program.isModifiying = false;
+                Program.isIdentifying = false;
             }
             catch (Exception ex)
             {
@@ -585,21 +534,25 @@ namespace Control_Gym.Capa_de_presentacion
                         CancelarModificar();
                         btnRegistrarHuella.Visible = true; // No tiene huella entonces muestra el boton para registrar.
                         btnBorrarHuella.Visible = false;
+
+                        Program.idSocioSeleccionado = Convert.ToInt32(txtIdSocio.Text);
                         Program.isRegistering = false;
-                        Program.isModifiying = false;
+                        Program.isModifiying = true;
                         Program.isIdentifying = false;
 
-                        MessageBox.Show("La huella ha sido borrada exitosamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        
-                        limpiarCampos();
+                        MessageBox.Show("La huella ha sido borrada exitosamente. Registrela nuevamente", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        btnRegistrarHuella_Click(null, EventArgs.Empty);
                     }
                     else
                     {
                         MessageBox.Show("Error al borrar las huellas", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        
                     }
                 }
                 else if (result == DialogResult.No)
                 {
+                    CancelarModificar();
+                    limpiarCampos();
                     MessageBox.Show("La operación ha sido cancelada.", "Cancelación", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -607,6 +560,30 @@ namespace Control_Gym.Capa_de_presentacion
             {
                 MessageBox.Show($"Ocurrió un error al intentar borrar la huella: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        public void LoadArtificial()
+        {
+            limpiarCampos();
+            CancelarModificar();
+            OcultarAdvertencia();
+            CargarGrilla();
+        }
+
+        private void FormSocio_Leave(object sender, EventArgs e)
+        {
+            CancelarModificar();
+            btnCancelarRegHuella_Click(null, EventArgs.Empty);
+        }
+
+        private void txtNombreSocio_Click(object sender, EventArgs e)
+        {
+            btnRegistrarHuella.Visible = true;
+        }
+
+        private void txtApellidoSocio_Click(object sender, EventArgs e)
+        {
+            btnRegistrarHuella.Visible = true;
         }
     }
 }

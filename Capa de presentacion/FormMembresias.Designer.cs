@@ -186,9 +186,9 @@
             this.lblDni2Membresia.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.lblDni2Membresia.Location = new System.Drawing.Point(66, 188);
             this.lblDni2Membresia.Name = "lblDni2Membresia";
-            this.lblDni2Membresia.Size = new System.Drawing.Size(33, 16);
+            this.lblDni2Membresia.Size = new System.Drawing.Size(55, 16);
             this.lblDni2Membresia.TabIndex = 14;
-            this.lblDni2Membresia.Text = "DNI";
+            this.lblDni2Membresia.Text = "Buscar";
             // 
             // groupBox2
             // 
@@ -355,7 +355,7 @@
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormMembresias";
-            this.Text = "FormMembresias";
+            this.Text = "+";
             this.Load += new System.EventHandler(this.FormMembresias_Load);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dvgMembresias)).EndInit();

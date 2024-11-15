@@ -107,6 +107,7 @@
             this.txtNombreSocio.Size = new System.Drawing.Size(125, 22);
             this.txtNombreSocio.TabIndex = 1;
             this.txtNombreSocio.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtNombreSocio.Click += new System.EventHandler(this.txtNombreSocio_Click);
             this.txtNombreSocio.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtNombreSocio_KeyDown);
             this.txtNombreSocio.MouseDown += new System.Windows.Forms.MouseEventHandler(this.txtNombreSocio_MouseDown);
             // 
@@ -119,6 +120,7 @@
             this.txtApellidoSocio.Size = new System.Drawing.Size(125, 22);
             this.txtApellidoSocio.TabIndex = 2;
             this.txtApellidoSocio.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtApellidoSocio.Click += new System.EventHandler(this.txtApellidoSocio_Click);
             this.txtApellidoSocio.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtApellidoSocio_KeyDown);
             this.txtApellidoSocio.MouseDown += new System.Windows.Forms.MouseEventHandler(this.txtApellidoSocio_MouseDown);
             // 
@@ -331,7 +333,6 @@
             this.panelContenedor.Controls.Add(this.lblDni);
             this.panelContenedor.Controls.Add(this.label1);
             this.panelContenedor.Controls.Add(this.lblEmail);
-            this.panelContenedor.Controls.Add(this.btnCancelar);
             this.panelContenedor.Controls.Add(this.lblDomicilio);
             this.panelContenedor.Controls.Add(this.dtpFechaNacimiento);
             this.panelContenedor.Controls.Add(this.lblFechaNacimiento);
@@ -339,7 +340,6 @@
             this.panelContenedor.Controls.Add(this.lblTelefono);
             this.panelContenedor.Controls.Add(this.lblDni2Membresia);
             this.panelContenedor.Controls.Add(this.lblApellido);
-            this.panelContenedor.Controls.Add(this.btnBorrar);
             this.panelContenedor.Controls.Add(this.lblNombre);
             this.panelContenedor.Controls.Add(this.txtBuscarSocio);
             this.panelContenedor.Controls.Add(this.txtTelefonoSocio);
@@ -348,9 +348,11 @@
             this.panelContenedor.Controls.Add(this.txtDomicilio);
             this.panelContenedor.Controls.Add(this.txtNombreSocio);
             this.panelContenedor.Controls.Add(this.txtApellidoSocio);
+            this.panelContenedor.Controls.Add(this.btnCancelar);
+            this.panelContenedor.Controls.Add(this.btnBorrar);
             this.panelContenedor.Controls.Add(this.btnModificar);
-            this.panelContenedor.Controls.Add(this.btnRegistrarHuella);
             this.panelContenedor.Controls.Add(this.btnGuardar);
+            this.panelContenedor.Controls.Add(this.btnRegistrarHuella);
             this.panelContenedor.Controls.Add(this.btnBorrarHuella);
             this.panelContenedor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelContenedor.Location = new System.Drawing.Point(0, 0);
@@ -361,6 +363,7 @@
             // btnCancelarRegHuella
             // 
             this.btnCancelarRegHuella.BackColor = System.Drawing.Color.Gray;
+            this.btnCancelarRegHuella.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCancelarRegHuella.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelarRegHuella.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelarRegHuella.ForeColor = System.Drawing.SystemColors.Control;
@@ -376,7 +379,8 @@
             // textRes
             // 
             this.textRes.AutoSize = true;
-            this.textRes.Location = new System.Drawing.Point(60, 510);
+            this.textRes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textRes.Location = new System.Drawing.Point(36, 493);
             this.textRes.Name = "textRes";
             this.textRes.Size = new System.Drawing.Size(0, 13);
             this.textRes.TabIndex = 54;
@@ -451,13 +455,14 @@
             this.lblDni2Membresia.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDni2Membresia.Location = new System.Drawing.Point(373, 5);
             this.lblDni2Membresia.Name = "lblDni2Membresia";
-            this.lblDni2Membresia.Size = new System.Drawing.Size(33, 16);
+            this.lblDni2Membresia.Size = new System.Drawing.Size(55, 16);
             this.lblDni2Membresia.TabIndex = 23;
-            this.lblDni2Membresia.Text = "DNI";
+            this.lblDni2Membresia.Text = "Buscar";
             // 
             // btnRegistrarHuella
             // 
             this.btnRegistrarHuella.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnRegistrarHuella.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnRegistrarHuella.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRegistrarHuella.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRegistrarHuella.ForeColor = System.Drawing.SystemColors.Control;
@@ -472,6 +477,7 @@
             // btnBorrarHuella
             // 
             this.btnBorrarHuella.BackColor = System.Drawing.Color.IndianRed;
+            this.btnBorrarHuella.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnBorrarHuella.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBorrarHuella.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBorrarHuella.ForeColor = System.Drawing.SystemColors.Control;
@@ -495,9 +501,7 @@
             this.MinimumSize = new System.Drawing.Size(536, 560);
             this.Name = "FormSocio";
             this.Text = "FormSocio";
-            this.Activated += new System.EventHandler(this.FormSocio_Activated);
-            this.Deactivate += new System.EventHandler(this.FormSocio_Deactivate);
-            this.Load += new System.EventHandler(this.FormSocio_Load);
+            this.Leave += new System.EventHandler(this.FormSocio_Leave);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSocios)).EndInit();
             this.panelContenedor.ResumeLayout(false);
             this.panelContenedor.PerformLayout();
@@ -509,7 +513,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.TextBox txtDniSocio;
         private System.Windows.Forms.TextBox txtNombreSocio;
         private System.Windows.Forms.TextBox txtApellidoSocio;
         private System.Windows.Forms.TextBox txtTelefonoSocio;
@@ -542,5 +545,6 @@
         public System.Windows.Forms.Button btnBorrar;
         public System.Windows.Forms.Button btnCancelar;
         public System.Windows.Forms.Button btnBorrarHuella;
+        public System.Windows.Forms.TextBox txtDniSocio;
     }
 }

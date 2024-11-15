@@ -15,6 +15,7 @@ namespace Control_Gym.Capa_logica
         public int cod_tipo_membresia { get; set; }
         public int id_socio { get; set; } //agrego id_socio
         public int dni_socio { get; set; }
+        public string nombre_completo { get; set; }
         public DateTime fecha_inicio { get; set; }
         public DateTime fecha_fin { get; set; }
         public string nombre_tipo { get; set; }
@@ -82,11 +83,11 @@ namespace Control_Gym.Capa_logica
             cMembresiaD.EliminarMembresia(id);
         }
 
-        public List<CMembresia> BuscarPorDNI(int dni)
+        public DataTable BuscarPorDNI(string criterioBusqueda)
         {
-            List<CMembresia> membresias = cMembresiaD.BuscarPorDNI(dni);
-            return membresias;
+            return cMembresiaD.BuscarPorDNI(criterioBusqueda);  // Retorna directamente el DataTable de la capa de datos
         }
+
 
         public void Renovar(CMembresia cMembresia)
         {

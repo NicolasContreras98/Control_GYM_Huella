@@ -272,5 +272,15 @@ namespace Control_Gym.Capa_de_presentacion
         {
 
         }
+
+        public void LoadArtificial()
+        {
+            CargarVentas();
+            CargarCuotas();
+
+            btnVerDetalle.Visible = false;
+            btnBorrarCuota.Visible = false;
+            btnBorrarVenta.Visible = false;
+        }
     }
 }

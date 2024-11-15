@@ -168,7 +168,6 @@ namespace Control_Gym.Capa_de_datos
             return tabla;
         }
 
-
         public void EditarMembresia(CMembresia cMembresia)
         {
             string query = "UPDATE membresias SET cod_tipo_membresia = @cod_tipo_membresia,  fecha_inicio = @fecha_inicio, fecha_fin = @fecha_fin WHERE cod_membresia = @cod_membresia";
@@ -227,48 +226,50 @@ namespace Control_Gym.Capa_de_datos
             }
         }
 
-
-
-        public List<CMembresia> BuscarPorDNI(int dni)
+        public DataTable BuscarPorDNI(string criterioBusqueda)
         {
+            string query = @"
+                SELECT 
+                    m.cod_membresia AS cod_membresia, 
+                    m.cod_tipo_membresia AS cod_tipo_membresia,
+                    s.dni_socio AS dni_socio,
+                    (s.nombre + ' ' + s.apellido) AS nombre_completo,
+                    m.fecha_inicio AS fecha_inicio,
+                    m.fecha_fin AS fecha_fin,
+                    t.nombre AS tipo_membresia,
+                    t.precio AS precio,
+                    t.cantidad_dias AS cantidad_dias
+                FROM membresias m
+                LEFT JOIN tipos_membresias t ON m.cod_tipo_membresia = t.cod_tipo_membresia
+                LEFT JOIN socios s ON m.id_socio = s.id_socio
+                WHERE s.nombre LIKE @criterio OR s.apellido LIKE @criterio OR s.dni_socio LIKE @criterio";
 
-            string query = "select cod_membresia as 'ID', membresias.cod_tipo_membresia as 'ID tipo',dni_socio as 'Dni socio', fecha_inicio as 'Fecha de inicio', fecha_fin as 'Fecha de fin', nombre as 'Tipo de membresia',precio as 'Precio', cantidad_dias as 'Dias de duración' from membresias inner join tipos_membresias on membresias.cod_tipo_membresia = tipos_membresias.cod_tipo_membresia where dni_socio ='" + dni + "'";
-            List<CMembresia> membresias = new List<CMembresia>();
             try
             {
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
-                SqlDataReader reader = comando.ExecuteReader();
+                comando.Parameters.AddWithValue("@criterio", "%" + criterioBusqueda + "%"); // Agregar el parámetro con comodines
 
-                while (reader.Read())
-                {
-                    CMembresia membresia = new CMembresia
-                    {
-                        cod_membresia = Convert.ToInt32(reader["ID"].ToString()),
-                        cod_tipo_membresia = Convert.ToInt32(reader["ID tipo"].ToString()),
-                        dni_socio = Convert.ToInt32(reader["Dni socio"].ToString()),
-                        fecha_inicio = DateTime.Parse(reader["Fecha de inicio"].ToString()),
-                        fecha_fin = DateTime.Parse(reader["Fecha de fin"].ToString()),
-                        nombre_tipo = reader["Tipo de membresia"].ToString(),
-                        precio_tipo = Convert.ToDecimal(reader["Precio"].ToString()),
-                        cantidad_dias = Convert.ToInt32(reader["Dias de duración"].ToString())
-                    };
+                SqlDataAdapter adapter = new SqlDataAdapter(comando);
+                DataTable dtMembresias = new DataTable();
+                adapter.Fill(dtMembresias);
 
-                    membresias.Add(membresia);
-                }
-
-                reader.Close();
-                return membresias;
+                return dtMembresias;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Hubo un error al mostrar las membresias: " + ex);
+                MessageBox.Show("Hubo un error al mostrar las membresías: " + ex.Message);
                 throw;
             }
             finally
             {
                 conexionBD.CerrarConexion();
-            }            
+            }
         }
+
+
+
+
+
         public void Renovar(CMembresia cMembresia)
         {
             string query = "UPDATE membresias SET fecha_inicio = @fecha_inicio, fecha_fin = @fecha_fin WHERE cod_membresia = @cod_membresia";

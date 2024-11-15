@@ -9,9 +9,9 @@ namespace Control_Gym
 {
     public partial class FormContenedor : Form
     {
-        private int dni_empleado;
-        private string nombre;
-        private string rol;
+        public int dni_empleado;
+        public string nombre;
+        public string rol;
 
         private FormChequeo formChequeo;
         private FormSocio formSocio;
@@ -61,6 +61,8 @@ namespace Control_Gym
             this.nombre = nombre;
             this.rol = rol;
 
+            formChequeo = new FormChequeo(this);
+
             ConfigurarAccesoSegunRol();
         }
 
@@ -84,7 +86,7 @@ namespace Control_Gym
             this.Controls.Add(roundedPictureBox);
         }
 
-        private void ConfigurarAccesoSegunRol()
+        public void ConfigurarAccesoSegunRol()
         {
             if (rol == "Empleado")
             {
@@ -220,6 +222,7 @@ namespace Control_Gym
                 }
 
                 AbrirFormEnPanel(formChequeo);
+                formChequeo.LoadArtificial();
 
                 Button boton = sender as Button;
                 CambiarColorBotonSeleccionado(boton);
@@ -240,6 +243,7 @@ namespace Control_Gym
                 }
 
                 AbrirFormEnPanel(formSocio);
+                formSocio.LoadArtificial();
 
                 Button boton = sender as Button;
                 CambiarColorBotonSeleccionado(boton);
@@ -260,6 +264,7 @@ namespace Control_Gym
                 }
 
                 AbrirFormEnPanel(formMembresias);
+                formMembresias.LoadArtificial();
 
                 Button boton = sender as Button;
                 CambiarColorBotonSeleccionado(boton);
@@ -280,6 +285,7 @@ namespace Control_Gym
                 }
 
                 AbrirFormEnPanel(formVentas);
+                formVentas.LoadArtificial();
 
                 Button boton = sender as Button;
                 CambiarColorBotonSeleccionado(boton);
@@ -300,6 +306,7 @@ namespace Control_Gym
                 }
 
                 AbrirFormEnPanel(formCaja);
+                formCaja.LoadArtificial();
 
                 Button boton = sender as Button;
                 CambiarColorBotonSeleccionado(boton);
@@ -349,9 +356,8 @@ namespace Control_Gym
 
         private void FormContenedor_Load(object sender, EventArgs e)
         {
-            try
-            {
-                FormChequeo formChequeo = new FormChequeo(this); // Pasar la referencia del formulario contenedor
+            try 
+            { 
                 AbrirFormEnPanel(formChequeo);
                 SeleccionarBoton(btnVerificacion);
                 labelDNI.Text = this.dni_empleado.ToString();
