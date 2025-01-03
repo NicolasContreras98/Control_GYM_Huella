@@ -547,13 +547,10 @@ namespace Control_Gym.Capa_de_presentacion
                     lblInicio.Text = fechaInicioFormateada;
                     lblFin.Text = fechaFinFormateada;
 
-                    DateTime fecha_fin = DateTime.ParseExact(socioEncontrado[0].Fecha_Fin, "dd 'de' MMMM", new CultureInfo("es-ES"));
-                    DateTime fecha_actual = DateTime.Today;
-
-                    TimeSpan diferencia = fecha_fin - fecha_actual;
-                    int dias_restantes = diferencia.Days + 1;
+                    int dias_restantes = socioEncontrado[0].Diferencia;
 
                     lblDiasRestantes.Text = dias_restantes.ToString();
+
 
                     if (socioEncontrado[0].Tipos_membresias != null)
                     {
@@ -651,15 +648,12 @@ namespace Control_Gym.Capa_de_presentacion
             lblInicio.Text = socioEncontrado[0].Fecha_Inicio ?? "";
             lblFin.Text = socioEncontrado[0].Fecha_Fin ?? "";
 
-            DateTime fecha_actual = DateTime.Today;
+            int dias_restantes = socioEncontrado[0].Diferencia;
+
+            lblDiasRestantes.Text = dias_restantes.ToString();
+
             if (!string.IsNullOrEmpty(socioEncontrado[0].Fecha_Fin) && !string.IsNullOrEmpty(socioEncontrado[0].Fecha_Inicio))
             {
-                DateTime fecha_fin = DateTime.ParseExact(socioEncontrado[0].Fecha_Fin, "dd 'de' MMMM", new CultureInfo("es-ES"));
-                TimeSpan diferencia = fecha_fin - fecha_actual;
-                int dias_restantes = diferencia.Days;
-
-                lblDiasRestantes.Text = dias_restantes.ToString();
-
                 if (dias_restantes <= 5 && dias_restantes >= 1)
                 {
                     pbNeutro.Visible = false;

@@ -15,6 +15,7 @@ namespace Control_Gym.Capa_logica
     {
         public int Id_socio { get; set; } //agrego id_socio
         public int Dni { get; set; }
+        public int Diferencia { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string Telefono { get; set; }
@@ -37,9 +38,10 @@ namespace Control_Gym.Capa_logica
             this.Domicilio = Domicilio;
             this.Email = Email;
             this.Tipos_membresias = tipos_membresias;
+            
         }
 
-        public ClsSocio(int id_socio, int dni, string nombre, string apellido, string fecha_Inicio, string fecha_Fin, List<CTipoMembresia> tipos_membresias)
+        public ClsSocio(int id_socio, int dni, string nombre, string apellido, string fecha_Inicio, string fecha_Fin, List<CTipoMembresia> tipos_membresias, int Diferencia)
         {
             this.Id_socio = id_socio;
             this.Dni = dni;
@@ -48,9 +50,10 @@ namespace Control_Gym.Capa_logica
             this.Fecha_Inicio = fecha_Inicio;
             this.Fecha_Fin = fecha_Fin;
             this.Tipos_membresias = tipos_membresias;
+            this.Diferencia = Diferencia;
         }
 
-        public ClsSocio(int id_socio, int dni, string nombre, string apellido, string fecha_Inicio, string fecha_Fin)
+        public ClsSocio(int id_socio, int dni, string nombre, string apellido, string fecha_Inicio, string fecha_Fin, int Diferencia)
         {
             this.Id_socio = id_socio;
             this.Dni = dni;
@@ -58,6 +61,7 @@ namespace Control_Gym.Capa_logica
             this.Apellido = apellido;
             this.Fecha_Inicio = fecha_Inicio;
             this.Fecha_Fin = fecha_Fin;
+            this.Diferencia = Diferencia;
         }
 
         public ClsSocio()

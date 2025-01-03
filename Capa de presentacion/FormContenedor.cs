@@ -91,8 +91,9 @@ namespace Control_Gym
             if (rol == "Empleado")
             {
                 // Deshabilitar botones o funcionalidades para empleados
-                btnAdministracion.Enabled = false;
+                btnMembresias.Enabled = false;
                 btnCaja.Enabled = false;
+                btnAdministracion.Enabled = false;
                 // Otros accesos restringidos
             }
             else if (rol == "Administrador")
