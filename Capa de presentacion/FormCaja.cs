@@ -1,14 +1,8 @@
 ﻿using Control_Gym.Capa_de_datos;
 using Control_Gym.Capa_logica;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Control_Gym.Capa_de_presentacion
@@ -37,35 +31,47 @@ namespace Control_Gym.Capa_de_presentacion
 
         private void CargarVentas()
         {
-            dgvVentas.DataSource = cVenta.traerVentas();
+            DataTable tablaVentas = cVenta.TraerVentas();
+            dgvVentas.DataSource = tablaVentas;
+
+            // Configuración de las columnas
             dgvVentas.Columns[0].HeaderText = "N° Venta";
             dgvVentas.Columns[1].HeaderText = "DNI Cliente";
             dgvVentas.Columns[2].HeaderText = "DNI Empleado";
             dgvVentas.Columns[3].HeaderText = "Fecha";
             dgvVentas.Columns[4].HeaderText = "Total";
+
             dgvVentas.AutoResizeColumns();
             dgvVentas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
+            // Actualización de los totales
             lblVentasResult.Text = cVenta.ObtenerTotal().ToString();
             lblTotalMesResult.Text = cVenta.ObtenerTotalMesActual().ToString();
             lblTotalHoyResult.Text = cVenta.ObtenerTotalHoy().ToString();
         }
 
+
         private void CargarCuotas()
         {
-            dgvCuotas.DataSource = cCuotaD.TraerCuotas();
+            DataTable tablaCuotas = cCuotaD.TraerCuotas();
+            dgvCuotas.DataSource = tablaCuotas;
+
+            // Configuración de las columnas
             dgvCuotas.Columns[0].HeaderText = "Cod. Cuota";
-            dgvCuotas.Columns[1].HeaderText = "Fecha de pago";
-            dgvCuotas.Columns[2].HeaderText = "DNI del socio";
-            dgvCuotas.Columns[3].HeaderText = "Tipo de membresia";
+            dgvCuotas.Columns[1].HeaderText = "Fecha de Pago";
+            dgvCuotas.Columns[2].HeaderText = "DNI Socio";
+            dgvCuotas.Columns[3].HeaderText = "Tipo de Membresía";
             dgvCuotas.Columns[4].HeaderText = "Monto";
+
             dgvCuotas.AutoResizeColumns();
             dgvCuotas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
+            // Actualización de totales
             lblTotalCuotasResult.Text = cCuotaD.ObtenerTotal().ToString();
             lblTotalMesCuotaResult.Text = cCuotaD.ObtenerTotalMesActual().ToString();
             lblTotalHoyCuotasResult.Text = cCuotaD.ObtenerTotalHoy().ToString();
         }
+
 
         private void btnVerDetalle_Click(object sender, EventArgs e)
         {
@@ -204,11 +210,6 @@ namespace Control_Gym.Capa_de_presentacion
         }
 
         private void lblTotalHoyCuotasResult_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnBorrarCuota_Click_1(object sender, EventArgs e)
         {
 
         }

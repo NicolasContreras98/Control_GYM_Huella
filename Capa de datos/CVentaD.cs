@@ -42,41 +42,27 @@ namespace Control_Gym.Capa_de_datos
 
         }
 
-        public List<CVenta> traerVentas()
+        public DataTable TraerVentas()
         {
-            List<CVenta> ventas = new List<CVenta>();
+            string query = "SELECT * FROM ventas";
+            DataTable tablaVentas = new DataTable();
+
             try
             {
-                conexionBD.AbrirConexion();
-                string query = "select * from ventas";
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
                 SqlDataReader reader = comando.ExecuteReader();
-                {
-                    while (reader.Read())
-                    {
-                        CVenta venta = new CVenta
-                        {
-                            num_venta = Convert.ToInt32(reader["num_venta"]),
-                            dni_cliente = Convert.ToInt32(reader["dni_cliente"]),
-                            dni_empleado = Convert.ToInt32(reader["dni_empleado"]),
-                            fecha = Convert.ToDateTime(reader["fecha"]),
-                            total = Convert.ToDecimal(reader["total"]),
-                        };
-
-                        ventas.Add(venta);
-                    }
-                }
-                return ventas;
+                tablaVentas.Load(reader);
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Error al traer las ventas");
-                return null;
+                MessageBox.Show("Error al traer las ventas: " + ex.Message);
             }
             finally
             {
                 conexionBD.CerrarConexion();
             }
+
+            return tablaVentas;
         }
 
         public bool RealizarVenta(int dniCliente, int dniEmpleado, decimal descuento, decimal total, List<CDetalleVenta> detallesVenta)

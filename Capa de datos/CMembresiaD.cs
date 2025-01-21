@@ -43,32 +43,56 @@ namespace Control_Gym.Capa_de_datos
 
         public int CrearMembresia(CMembresia cMembresia)
         {
-            string query = "INSERT INTO membresias(cod_tipo_membresia, id_socio, fecha_inicio, fecha_fin) VALUES (@cod_tipo_membresia, @id_socio, @fecha_inicio, @fecha_fin); SELECT SCOPE_IDENTITY();";
+            // Consulta para insertar una nueva membresía y devolver el ID generado
+            string query = @"
+        INSERT INTO membresias (cod_tipo_membresia, id_socio, fecha_inicio, fecha_fin) 
+        VALUES (@cod_tipo_membresia, @id_socio, @fecha_inicio, @fecha_fin); 
+        SELECT SCOPE_IDENTITY();";
 
             try
             {
-                SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
+                // Crear el comando SQL y establecer la conexión
+                using (SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion()))
+                {
+                    // Asignar parámetros a la consulta
+                    comando.Parameters.AddWithValue("@cod_tipo_membresia", cMembresia.cod_tipo_membresia);
+                    comando.Parameters.AddWithValue("@id_socio", cMembresia.id_socio);
+                    comando.Parameters.AddWithValue("@fecha_inicio", cMembresia.fecha_inicio.Date); // Solo la fecha
+                    comando.Parameters.AddWithValue("@fecha_fin", cMembresia.fecha_fin.Date);
 
-                comando.Parameters.Add(new SqlParameter("@cod_tipo_membresia", cMembresia.cod_tipo_membresia));
-                comando.Parameters.Add(new SqlParameter("@id_socio", cMembresia.id_socio));
-                comando.Parameters.Add(new SqlParameter("@fecha_inicio", cMembresia.fecha_inicio));
-                comando.Parameters.Add(new SqlParameter("@fecha_fin", cMembresia.fecha_fin));
+                    // Ejecutar la consulta y obtener el ID generado
+                    int idMembresia = Convert.ToInt32(comando.ExecuteScalar());
 
-                int idMembresia = Convert.ToInt32(comando.ExecuteScalar());
-                cCuotaD.CrearCuota(idMembresia);
+                    // Crear la cuota correspondiente
+                    try
+                    {
+                        cCuotaD.CrearCuota(idMembresia);
+                    }
+                    catch (Exception exCuota)
+                    {
+                        throw new Exception($"Error al crear la cuota para la membresía ID {idMembresia}: {exCuota.Message}", exCuota);
+                    }
 
-                return idMembresia;
+                    return idMembresia; // Devolver el ID generado
+                }
             }
-            catch (Exception)
+            catch (SqlException exSql)
             {
-                MessageBox.Show("Error al crear la membresia.");
-                return -1; 
+                MessageBox.Show($"Error SQL al crear la membresía: {exSql.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error general al crear la membresía: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return -1;
             }
             finally
             {
+                // Asegurarse de cerrar la conexión a la base de datos
                 conexionBD.CerrarConexion();
             }
         }
+
 
 
         public bool SocioExiste(int dni)
@@ -182,12 +206,14 @@ namespace Control_Gym.Capa_de_datos
                 comando.Parameters.Add(new SqlParameter("@fecha_fin", cMembresia.fecha_fin));
                 comando.Parameters.Add(new SqlParameter("@cod_membresia", cMembresia.cod_membresia));
 
+                cCuotaD.CrearCuota(cMembresia.cod_membresia);
+
                 comando.ExecuteNonQuery();
                 MessageBox.Show("Membresía actualizada correctamente");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al actualizar la membresía: " + ex.Message);
+                MessageBox.Show("CD: Error al actualizar la membresía: " + ex.Message);
             }
             finally
             {

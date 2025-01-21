@@ -1,6 +1,7 @@
 ﻿using Control_Gym.Capa_de_datos;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,11 +43,13 @@ namespace Control_Gym.Capa_logica
             return ventaExitosa;
         }
 
-        public List<CVenta> traerVentas()
+        public DataTable TraerVentas()
         {
-            List<CVenta> ventas = cVentaD.traerVentas();
-            return ventas;
+            // Llamamos directamente al método que devuelve el DataTable
+            return cVentaD.TraerVentas();
         }
+
+
         public List<CDetalleVenta> traerDetalles(int num_venta)
         {
             List<CDetalleVenta> detalles = cVentaD.traerDetalles(num_venta);

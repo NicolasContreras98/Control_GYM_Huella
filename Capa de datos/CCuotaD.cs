@@ -1,6 +1,7 @@
 ﻿using Control_Gym.Capa_logica;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
@@ -12,12 +13,13 @@ namespace Control_Gym.Capa_de_datos
 
         public void CrearCuota(int cod_membresia)
         {
-            string query = "INSERT INTO CUOTAS(cod_membresia, fecha_pago) VALUES(@cod_membresia, @fecha_pago)";
+            string query = "INSERT INTO CUOTAS(cod_membresia, fecha_pago) VALUES(@cod_membresia, CAST(@fecha_pago AS DATE))";
             try
             {   
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
                 comando.Parameters.Add(new SqlParameter("@cod_membresia", cod_membresia));
-                comando.Parameters.Add(new SqlParameter("@fecha_pago", DateTime.Now.ToString("yyyy/dd/MM")));
+                comando.Parameters.Add(new SqlParameter("@fecha_pago", DateTime.Now));
+
 
                 comando.ExecuteNonQuery();
             }
@@ -27,41 +29,39 @@ namespace Control_Gym.Capa_de_datos
             }
         }
 
-        public List<CCuota> TraerCuotas()
+        public DataTable TraerCuotas()
         {
-            List<CCuota> cuotas = new List<CCuota>();
-            string query = "select c.cod_cuota, c.fecha_pago, s.id_socio, t.nombre, t.precio from cuotas c inner join membresias m on c.cod_membresia = m.cod_membresia inner join tipos_membresias t on m.cod_tipo_membresia = t.cod_tipo_membresia inner join socios s on m.id_socio = s.id_socio;";
+            string query = @"
+                            SELECT 
+                                c.cod_cuota, 
+                                c.fecha_pago, 
+                                s.dni_socio, 
+                                t.nombre, 
+                                t.precio 
+                            FROM cuotas c
+                            INNER JOIN membresias m ON c.cod_membresia = m.cod_membresia
+                            INNER JOIN tipos_membresias t ON m.cod_tipo_membresia = t.cod_tipo_membresia
+                            INNER JOIN socios s ON m.id_socio = s.id_socio;
+                            ";
+
+            DataTable tabla = new DataTable();
+
             try
             {
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
                 SqlDataReader reader = comando.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    CCuota cuota = new CCuota
-                    {
-                        cod_cuota = Convert.ToInt32(reader["cod_cuota"].ToString()),
-                        fecha_pago = DateTime.Parse(reader["fecha_pago"].ToString()),
-                        idSocio = Convert.ToInt32(reader["id_socio"].ToString()), // CAMBIO id_socio en lugar de dni_socio
-                        nombre_membresia = reader["nombre"].ToString(),
-                        precio = Convert.ToDecimal(reader["precio"].ToString())
-                    };
-
-                    cuotas.Add(cuota);
-                }
-
-                reader.Close();
-                return cuotas;
+                tabla.Load(reader);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Hubo un error al mostrar las cuotas: " + ex);
-                throw;
+                MessageBox.Show("Error al traer las cuotas: " + ex.Message);
             }
             finally
             {
                 conexionBD.CerrarConexion();
             }
+
+            return tabla;
         }
 
 
@@ -197,7 +197,5 @@ namespace Control_Gym.Capa_de_datos
                 }
             }
         }
-
-
     }
 }

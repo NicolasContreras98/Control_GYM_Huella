@@ -138,7 +138,7 @@
             this.btnCrearMembresia.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnCrearMembresia.Location = new System.Drawing.Point(3, 27);
             this.btnCrearMembresia.Name = "btnCrearMembresia";
-            this.btnCrearMembresia.Size = new System.Drawing.Size(75, 30);
+            this.btnCrearMembresia.Size = new System.Drawing.Size(86, 30);
             this.btnCrearMembresia.TabIndex = 3;
             this.btnCrearMembresia.Text = "Agregar";
             this.btnCrearMembresia.UseVisualStyleBackColor = false;
@@ -148,8 +148,8 @@
             // 
             this.panel1.Controls.Add(this.btnEliminarMembresia);
             this.panel1.Controls.Add(this.btnCancelarMembresia);
-            this.panel1.Controls.Add(this.btnActualizarMembresia);
             this.panel1.Controls.Add(this.btnCrearMembresia);
+            this.panel1.Controls.Add(this.btnActualizarMembresia);
             this.panel1.Location = new System.Drawing.Point(519, 54);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(286, 111);

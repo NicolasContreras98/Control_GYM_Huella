@@ -308,7 +308,7 @@
             this.btnBorrarCuota.TabIndex = 18;
             this.btnBorrarCuota.Text = "Eliminar";
             this.btnBorrarCuota.UseVisualStyleBackColor = false;
-            this.btnBorrarCuota.Click += new System.EventHandler(this.btnBorrarCuota_Click_1);
+            this.btnBorrarCuota.Click += new System.EventHandler(this.btnBorrarCuota_Click);
             // 
             // label11
             // 

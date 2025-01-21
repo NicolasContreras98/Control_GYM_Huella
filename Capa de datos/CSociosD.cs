@@ -210,7 +210,6 @@ namespace Control_Gym.Capa_de_datos
 
         public DataTable CargarDatos()
         {
-          
             string query = "SELECT * FROM socios";
             DataTable tabla = new DataTable();
             try 
