@@ -61,6 +61,7 @@ namespace Control_Gym.Capa_de_presentacion
 
                 if (dvgMembresias.Columns["nombre_completo"] != null)
                     dvgMembresias.Columns["nombre_completo"].HeaderText = "Nombre completo";
+                    dvgMembresias.Columns["nombre_completo"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 
                 if (dvgMembresias.Columns["fecha_inicio"] != null)
                     dvgMembresias.Columns["fecha_inicio"].HeaderText = "Fecha inicio";
@@ -77,7 +78,7 @@ namespace Control_Gym.Capa_de_presentacion
                 if (dvgMembresias.Columns["cantidad_dias"] != null)
                 {
                     dvgMembresias.Columns["cantidad_dias"].HeaderText = "Días de duración";
-                    dvgMembresias.Columns["cantidad_dias"].Width = 120;
+                    dvgMembresias.Columns["cantidad_dias"].Width = 80;
                 }
             }
             catch (Exception ex)
@@ -199,7 +200,6 @@ namespace Control_Gym.Capa_de_presentacion
                 MessageBox.Show("Error inesperado: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
         private void btnActualizarMembresia_Click(object sender, EventArgs e)
         {
@@ -330,9 +330,6 @@ namespace Control_Gym.Capa_de_presentacion
                 }
             }
         }
-
-
-
 
         private void btnCancelarMembresia_Click(object sender, EventArgs e)
         {

@@ -5,6 +5,7 @@ using Sample;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -27,6 +28,7 @@ namespace Control_Gym.Capa_de_presentacion
         private CSociosD cSociosD = new CSociosD();
         public FormSocio objFormSocios = new FormSocio();
         private FormContenedor formContenedor;
+        private ConexionBD conexionBD = ConexionBD.Instancia;
 
         public IntPtr formHandle = IntPtr.Zero;
         private bool isTimeToDie = false;
@@ -86,13 +88,13 @@ namespace Control_Gym.Capa_de_presentacion
             }
             else
             {
-                MessageBox.Show(
+                /*MessageBox.Show(
                 "No se pudo inicializar el dispositivo. Parece que está desconectado.\n\n" +
                 "Por favor, verifica que el dispositivo esté correctamente conectado y encendido. " +
                 "Si el problema persiste, intenta reiniciar la aplicación o contacta al soporte técnico.",
                 "Error de Inicialización",
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Warning);
+                MessageBoxIcon.Warning);*/
             }
         }
 
@@ -537,6 +539,9 @@ namespace Control_Gym.Capa_de_presentacion
                     lblTipoMembresia.Visible = true;
                     cmbTipoMembresia.Visible = true;
 
+                    // Registrar la asistencia del socio
+                    RegistrarAsistencia(idSocioEncontrado);
+
                     ClsSocio[] socioEncontrado = cSociosD.ObtenerDatosSocio(idSocioEncontrado);
                     lblNombreCompleto.Text = $"{socioEncontrado[0].Nombre} {socioEncontrado[0].Apellido}";
 
@@ -550,7 +555,6 @@ namespace Control_Gym.Capa_de_presentacion
                     int dias_restantes = socioEncontrado[0].Diferencia;
 
                     lblDiasRestantes.Text = dias_restantes.ToString();
-
 
                     if (socioEncontrado[0].Tipos_membresias != null)
                     {
@@ -597,6 +601,24 @@ namespace Control_Gym.Capa_de_presentacion
             catch (Exception ex)
             {
                 MessageBox.Show($"Ocurrió un error inesperado durante la verificación de la huella digital: {ex.Message}. Por favor, intente de nuevo o contacte a soporte técnico si el problema persiste.", "Error de verificación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void RegistrarAsistencia(int idSocio)
+        {
+            try
+            {
+                string query = "INSERT INTO asistencias (id_socio) VALUES (@id_socio)";
+                using (SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion()))
+                {
+                    comando.Parameters.AddWithValue("@id_socio", idSocio);
+                    comando.ExecuteNonQuery();
+                }
+                conexionBD.CerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al registrar la asistencia: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

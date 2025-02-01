@@ -161,7 +161,7 @@ namespace Control_Gym.Capa_de_presentacion
                 if (diasRestantes > 0)
                 {
                     string mensaje = $"Iniciaste sesión como {rol}. Usted tiene {diasRestantes} días de licencia restantes.";
-                    MessageBox.Show(mensaje, "Licencia ACTIVA", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    //MessageBox.Show(mensaje, "Licencia ACTIVA", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
                 else
                 {

@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Control_Gym.Capa_logica;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Windows.Forms;
-using Control_Gym.Capa_logica;
 
 namespace Control_Gym.Capa_de_datos
 {
@@ -27,7 +28,7 @@ namespace Control_Gym.Capa_de_datos
 
                 if (resultado >= 1)
                 {
-                    return true;    
+                    return true;
                 }
                 else
                 {
@@ -93,33 +94,31 @@ namespace Control_Gym.Capa_de_datos
             }
         }
 
-
-
         public bool SocioExiste(int dni)
         {
             string query = "SELECT COUNT(*) FROM socios WHERE dni_socio = '" + dni + "'";
-			try
-			{
-				SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
-				int resultado = (int)comando.ExecuteScalar();
-				if(resultado == 0)
-				{
-					return false;
-				}
-				else
-				{
-					return true;
-				}
-			}
-			catch (Exception)
-			{
-				MessageBox.Show("Error al verificar si el socio existe.");
-				return false;
-			}
-			finally
-			{
-				conexionBD.CerrarConexion();
-			}
+            try
+            {
+                SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
+                int resultado = (int)comando.ExecuteScalar();
+                if (resultado == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error al verificar si el socio existe.");
+                return false;
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
         }
 
         public bool EmailExiste(string email)
@@ -154,20 +153,28 @@ namespace Control_Gym.Capa_de_datos
         {
             // Consulta que incluye el nombre completo del socio y su DNI junto con los datos de membresía
             string query = @"
-                            SELECT 
-                                m.cod_membresia,
-                                m.cod_tipo_membresia,
-                                s.dni_socio,
-                                (s.nombre + ' ' + s.apellido) AS nombre_completo,
-                                m.fecha_inicio,
-                                m.fecha_fin,
-                                t.nombre AS tipo_membresia,
-                                t.precio,
-                                t.cantidad_dias
-                            FROM membresias m
-                            LEFT JOIN tipos_membresias t ON m.cod_tipo_membresia = t.cod_tipo_membresia
-                            LEFT JOIN socios s ON m.id_socio = s.id_socio;
-                            ";
+        SELECT 
+            m.cod_membresia,
+            m.cod_tipo_membresia,
+            s.dni_socio,
+            (s.nombre + ' ' + s.apellido) AS nombre_completo,
+            m.fecha_inicio,
+            m.fecha_fin,
+            t.nombre AS tipo_membresia,
+            t.precio,
+            t.cantidad_dias
+        FROM membresias m
+        INNER JOIN (
+            SELECT 
+                id_socio, 
+                MAX(fecha_inicio) AS UltimaFechaInicio
+            FROM membresias
+            GROUP BY id_socio
+        ) ultima_membresia ON m.id_socio = ultima_membresia.id_socio 
+            AND m.fecha_inicio = ultima_membresia.UltimaFechaInicio
+        LEFT JOIN tipos_membresias t ON m.cod_tipo_membresia = t.cod_tipo_membresia
+        LEFT JOIN socios s ON m.id_socio = s.id_socio;
+    ";
 
             DataTable tabla = new DataTable();
 
@@ -292,77 +299,126 @@ namespace Control_Gym.Capa_de_datos
             }
         }
 
-
-
-
-
-        public void Renovar(CMembresia cMembresia)
+        public Dictionary<string, int> ObtenerTotalMembresias(int? mes = null, int? año = null, bool agruparPorDia = false)
         {
-            string query = "UPDATE membresias SET fecha_inicio = @fecha_inicio, fecha_fin = @fecha_fin WHERE cod_membresia = @cod_membresia";
-            string query3 = "select cantidad_dias from tipos_membresias t inner join membresias m on t.cod_tipo_membresia = m.cod_tipo_membresia where cod_membresia ='"+ cMembresia.cod_membresia +"'";
+            Dictionary<string, int> datos = new Dictionary<string, int>();
 
-            try
+            string query = @"
+        SELECT 
+            FORMAT(c.fecha_pago, @Formato, 'es-ES') AS Etiqueta, 
+            SUM(tm.precio) AS TotalMembresiasVendidas
+        FROM cuotas c
+        JOIN membresias m ON c.cod_membresia = m.cod_membresia
+        JOIN tipos_membresias tm ON m.cod_tipo_membresia = tm.cod_tipo_membresia
+        WHERE 1 = 1"; // Condición inicial para facilitar la concatenación de filtros
+
+            // Agregar filtros según los parámetros proporcionados
+            if (mes.HasValue)
             {
-                SqlCommand updateMembresia = new SqlCommand(query, conexionBD.AbrirConexion());
-                SqlCommand canttDiasPorTipo = new SqlCommand(query3, conexionBD.AbrirConexion());
-                int cantidad_dias = (int)canttDiasPorTipo.ExecuteScalar();
-                cMembresia.fecha_inicio = DateTime.Now;
-                DateTime fechaInicio = cMembresia.fecha_inicio;
-                DateTime fechaFin = fechaInicio.AddDays(cantidad_dias);
-                cMembresia.fecha_fin = fechaFin;
-
-                updateMembresia.Parameters.Add(new SqlParameter("@fecha_inicio", cMembresia.fecha_inicio.ToString("yyyy/MM/dd")));
-                updateMembresia.Parameters.Add(new SqlParameter("@fecha_fin", cMembresia.fecha_fin.ToString("yyyy/MM/dd")));
-                updateMembresia.Parameters.Add(new SqlParameter("@cod_membresia", cMembresia.cod_membresia));
-
-
-                cCuotaD.CrearCuota(cMembresia.cod_membresia);
-                updateMembresia.ExecuteNonQuery();
-                MessageBox.Show("Membresía renovada correctamente");
+                query += " AND DATEPART(MONTH, c.fecha_pago) = @Mes";
             }
-            catch (Exception ex)
+            if (año.HasValue)
             {
-                MessageBox.Show("Error al renovar la membresía: " + ex.Message);
+                query += " AND DATEPART(YEAR, c.fecha_pago) = @Año";
             }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
-        }
 
-        public Dictionary<string, int> ObtenerTotalMembresiasPorMes()
-        {
-            Dictionary<string, int> membresiasPorMes = new Dictionary<string, int>();
+            // Determinar el formato de agrupación
+            string formato = agruparPorDia ? "dd MMMM" : "MMMM yyyy";
 
-            string query = "SELECT DATENAME(MONTH, m.fecha_inicio) AS Mes, SUM(tm.precio) AS TotalMembresiasVendidas " +
-                         "FROM membresias m " +
-                         "JOIN tipos_membresias tm ON m.cod_tipo_membresia = tm.cod_tipo_membresia " +
-                         "GROUP BY DATENAME(MONTH, m.fecha_inicio), DATEPART(MONTH, m.fecha_inicio) " +
-                         "ORDER BY DATEPART(MONTH, m.fecha_inicio)";
+            query += @"
+        GROUP BY FORMAT(c.fecha_pago, @Formato, 'es-ES'), DATEPART(YEAR, c.fecha_pago), DATEPART(MONTH, c.fecha_pago)
+        ORDER BY DATEPART(YEAR, c.fecha_pago), DATEPART(MONTH, c.fecha_pago);";
 
             SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
+
+            // Agregar parámetros si se proporcionan
+            if (mes.HasValue)
+            {
+                comando.Parameters.AddWithValue("@Mes", mes.Value);
+            }
+            if (año.HasValue)
+            {
+                comando.Parameters.AddWithValue("@Año", año.Value);
+            }
+            comando.Parameters.AddWithValue("@Formato", formato);
+
             SqlDataReader reader = comando.ExecuteReader();
 
             while (reader.Read())
             {
-                membresiasPorMes.Add(reader["Mes"].ToString(), Convert.ToInt32(reader["TotalMembresiasVendidas"]));
+                datos.Add(reader["Etiqueta"].ToString(), Convert.ToInt32(reader["TotalMembresiasVendidas"]));
             }
 
             conexionBD.CerrarConexion();
-            return membresiasPorMes;
+            return datos;
         }
 
-        public int ObtenerCantidadSociosConMembresia()
+        public int ObtenerCantidadSocios(int? mes = null, int? año = null)
         {
-            int cantidadSocios = 0;
+            string query = @"
+        SELECT COUNT(DISTINCT m.id_socio) AS CantidadSocios
+        FROM membresias m
+        WHERE 1 = 1"; // Condición inicial para facilitar la concatenación de filtros
 
-            string query = "SELECT COUNT(DISTINCT id_socio) FROM membresias WHERE fecha_fin > GETDATE()";
+            // Agregar filtros según los parámetros proporcionados
+            if (mes.HasValue)
+            {
+                query += " AND DATEPART(MONTH, m.fecha_inicio) = @Mes";
+            }
+            if (año.HasValue)
+            {
+                query += " AND DATEPART(YEAR, m.fecha_inicio) = @Año";
+            }
 
             SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
-            cantidadSocios = Convert.ToInt32(comando.ExecuteScalar());
 
+            // Agregar parámetros si se proporcionan
+            if (mes.HasValue)
+            {
+                comando.Parameters.AddWithValue("@Mes", mes.Value);
+            }
+            if (año.HasValue)
+            {
+                comando.Parameters.AddWithValue("@Año", año.Value);
+            }
+
+            int cantidadSocios = Convert.ToInt32(comando.ExecuteScalar());
             conexionBD.CerrarConexion();
             return cantidadSocios;
+        }
+
+        public int ObtenerCantidadCuotas(int? mes = null, int? año = null)
+        {
+            string query = @"
+        SELECT COUNT(*) AS CantidadCuotas
+        FROM cuotas c
+        WHERE 1 = 1"; // Condición inicial para facilitar la concatenación de filtros
+
+            // Agregar filtros según los parámetros proporcionados
+            if (mes.HasValue)
+            {
+                query += " AND DATEPART(MONTH, c.fecha_pago) = @Mes";
+            }
+            if (año.HasValue)
+            {
+                query += " AND DATEPART(YEAR, c.fecha_pago) = @Año";
+            }
+
+            SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
+
+            // Agregar parámetros si se proporcionan
+            if (mes.HasValue)
+            {
+                comando.Parameters.AddWithValue("@Mes", mes.Value);
+            }
+            if (año.HasValue)
+            {
+                comando.Parameters.AddWithValue("@Año", año.Value);
+            }
+
+            int cantidadCuotas = Convert.ToInt32(comando.ExecuteScalar());
+            conexionBD.CerrarConexion();
+            return cantidadCuotas;
         }
     }
 }

@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormContenedor));
             this.MenuVertical = new System.Windows.Forms.Panel();
+            this.btnAsistencia = new System.Windows.Forms.Button();
             this.btnVerificacion = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -41,11 +42,10 @@
             this.lblNombre = new System.Windows.Forms.Label();
             this.lblDNI = new System.Windows.Forms.Label();
             this.lbluser = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.lblusuario = new System.Windows.Forms.Label();
             this.btnMembresias = new System.Windows.Forms.Button();
             this.btnSocios = new System.Windows.Forms.Button();
-            this.btnClientes = new System.Windows.Forms.Button();
+            this.btnVentas = new System.Windows.Forms.Button();
             this.btnAdministracion = new System.Windows.Forms.Button();
             this.BarraTitulo = new System.Windows.Forms.Panel();
             this.iconminimizar = new System.Windows.Forms.PictureBox();
@@ -55,7 +55,6 @@
             this.panelContenedor = new System.Windows.Forms.Panel();
             this.MenuVertical.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.roundedPictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.BarraTitulo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconminimizar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconcerrar)).BeginInit();
@@ -66,6 +65,7 @@
             // MenuVertical
             // 
             this.MenuVertical.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.MenuVertical.Controls.Add(this.btnAsistencia);
             this.MenuVertical.Controls.Add(this.btnVerificacion);
             this.MenuVertical.Controls.Add(this.label2);
             this.MenuVertical.Controls.Add(this.label3);
@@ -77,17 +77,34 @@
             this.MenuVertical.Controls.Add(this.lblNombre);
             this.MenuVertical.Controls.Add(this.lblDNI);
             this.MenuVertical.Controls.Add(this.lbluser);
-            this.MenuVertical.Controls.Add(this.pictureBox2);
             this.MenuVertical.Controls.Add(this.lblusuario);
             this.MenuVertical.Controls.Add(this.btnMembresias);
             this.MenuVertical.Controls.Add(this.btnSocios);
-            this.MenuVertical.Controls.Add(this.btnClientes);
+            this.MenuVertical.Controls.Add(this.btnVentas);
             this.MenuVertical.Controls.Add(this.btnAdministracion);
             this.MenuVertical.Dock = System.Windows.Forms.DockStyle.Left;
             this.MenuVertical.Location = new System.Drawing.Point(0, 0);
             this.MenuVertical.Name = "MenuVertical";
             this.MenuVertical.Size = new System.Drawing.Size(206, 600);
             this.MenuVertical.TabIndex = 0;
+            // 
+            // btnAsistencia
+            // 
+            this.btnAsistencia.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAsistencia.FlatAppearance.BorderSize = 0;
+            this.btnAsistencia.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(38)))));
+            this.btnAsistencia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAsistencia.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAsistencia.ForeColor = System.Drawing.Color.White;
+            this.btnAsistencia.Image = ((System.Drawing.Image)(resources.GetObject("btnAsistencia.Image")));
+            this.btnAsistencia.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAsistencia.Location = new System.Drawing.Point(0, 293);
+            this.btnAsistencia.Name = "btnAsistencia";
+            this.btnAsistencia.Size = new System.Drawing.Size(233, 54);
+            this.btnAsistencia.TabIndex = 27;
+            this.btnAsistencia.Text = "ASISTENCIA";
+            this.btnAsistencia.UseVisualStyleBackColor = true;
+            this.btnAsistencia.Click += new System.EventHandler(this.btnAsistencia_Click);
             // 
             // btnVerificacion
             // 
@@ -184,7 +201,7 @@
             this.btnCaja.ForeColor = System.Drawing.Color.White;
             this.btnCaja.Image = ((System.Drawing.Image)(resources.GetObject("btnCaja.Image")));
             this.btnCaja.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCaja.Location = new System.Drawing.Point(0, 345);
+            this.btnCaja.Location = new System.Drawing.Point(0, 407);
             this.btnCaja.Name = "btnCaja";
             this.btnCaja.Size = new System.Drawing.Size(233, 54);
             this.btnCaja.TabIndex = 3;
@@ -225,17 +242,6 @@
             this.lbluser.Size = new System.Drawing.Size(73, 16);
             this.lbluser.TabIndex = 16;
             this.lbluser.Text = "Usuario  :";
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(68, 485);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(64, 63);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 15;
-            this.pictureBox2.TabStop = false;
             // 
             // lblusuario
             // 
@@ -286,23 +292,23 @@
             this.btnSocios.UseVisualStyleBackColor = false;
             this.btnSocios.Click += new System.EventHandler(this.btnSocios_Click);
             // 
-            // btnClientes
+            // btnVentas
             // 
-            this.btnClientes.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnClientes.FlatAppearance.BorderSize = 0;
-            this.btnClientes.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(38)))));
-            this.btnClientes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClientes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClientes.ForeColor = System.Drawing.Color.White;
-            this.btnClientes.Image = ((System.Drawing.Image)(resources.GetObject("btnClientes.Image")));
-            this.btnClientes.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnClientes.Location = new System.Drawing.Point(0, 291);
-            this.btnClientes.Name = "btnClientes";
-            this.btnClientes.Size = new System.Drawing.Size(233, 54);
-            this.btnClientes.TabIndex = 2;
-            this.btnClientes.Text = "VENTAS";
-            this.btnClientes.UseVisualStyleBackColor = true;
-            this.btnClientes.Click += new System.EventHandler(this.btnClientes_Click);
+            this.btnVentas.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnVentas.FlatAppearance.BorderSize = 0;
+            this.btnVentas.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(38)))));
+            this.btnVentas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnVentas.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVentas.ForeColor = System.Drawing.Color.White;
+            this.btnVentas.Image = ((System.Drawing.Image)(resources.GetObject("btnVentas.Image")));
+            this.btnVentas.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnVentas.Location = new System.Drawing.Point(0, 353);
+            this.btnVentas.Name = "btnVentas";
+            this.btnVentas.Size = new System.Drawing.Size(233, 54);
+            this.btnVentas.TabIndex = 2;
+            this.btnVentas.Text = "VENTAS";
+            this.btnVentas.UseVisualStyleBackColor = true;
+            this.btnVentas.Click += new System.EventHandler(this.btnVentas_Click);
             // 
             // btnAdministracion
             // 
@@ -314,7 +320,7 @@
             this.btnAdministracion.ForeColor = System.Drawing.Color.White;
             this.btnAdministracion.Image = ((System.Drawing.Image)(resources.GetObject("btnAdministracion.Image")));
             this.btnAdministracion.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAdministracion.Location = new System.Drawing.Point(0, 399);
+            this.btnAdministracion.Location = new System.Drawing.Point(0, 461);
             this.btnAdministracion.Name = "btnAdministracion";
             this.btnAdministracion.Size = new System.Drawing.Size(233, 54);
             this.btnAdministracion.TabIndex = 4;
@@ -416,7 +422,6 @@
             this.MenuVertical.ResumeLayout(false);
             this.MenuVertical.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.roundedPictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.BarraTitulo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.iconminimizar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconcerrar)).EndInit();
@@ -437,7 +442,7 @@
         private System.Windows.Forms.PictureBox iconcerrar;
         private System.Windows.Forms.Button btnMembresias;
         private System.Windows.Forms.Button btnSocios;
-        private System.Windows.Forms.Button btnClientes;
+        private System.Windows.Forms.Button btnVentas;
         private System.Windows.Forms.Button btnAdministracion;
         private System.Windows.Forms.Label lbluser;
         private System.Windows.Forms.Label lblusuario;
@@ -450,8 +455,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label labelNombre;
         private System.Windows.Forms.Label labelDNI;
-        private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button btnVerificacion;
+        private System.Windows.Forms.Button btnAsistencia;
     }
 }
 

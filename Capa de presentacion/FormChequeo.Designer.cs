@@ -257,7 +257,7 @@
             // picFPImg
             // 
             this.picFPImg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picFPImg.Location = new System.Drawing.Point(597, 2);
+            this.picFPImg.Location = new System.Drawing.Point(597, 1);
             this.picFPImg.Name = "picFPImg";
             this.picFPImg.Size = new System.Drawing.Size(208, 214);
             this.picFPImg.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -287,7 +287,7 @@
             this.groupBox1.Controls.Add(this.lblTipoMembresia);
             this.groupBox1.Controls.Add(this.lblDiasRestantes);
             this.groupBox1.Font = new System.Drawing.Font("Sitka Banner", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(2, 2);
+            this.groupBox1.Location = new System.Drawing.Point(0, 1);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(589, 214);
             this.groupBox1.TabIndex = 22;

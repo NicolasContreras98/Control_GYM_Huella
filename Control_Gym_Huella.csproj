@@ -95,6 +95,12 @@
     <Compile Include="Capa de presentacion\FormAgregarCliente.Designer.cs">
       <DependentUpon>FormAgregarCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="Capa de presentacion\FormAsistencia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Capa de presentacion\FormAsistencia.Designer.cs">
+      <DependentUpon>FormAsistencia.cs</DependentUpon>
+    </Compile>
     <Compile Include="Capa de presentacion\FormCaja.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -200,6 +206,9 @@
     <EmbeddedResource Include="Capa de presentacion\FormAgregarCliente.resx">
       <DependentUpon>FormAgregarCliente.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Capa de presentacion\FormAsistencia.resx">
+      <DependentUpon>FormAsistencia.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Capa de presentacion\FormCaja.resx">
       <DependentUpon>FormCaja.cs</DependentUpon>
     </EmbeddedResource>
@@ -265,6 +274,11 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Content Include="Iconos\add-user-2-32.png" />
+    <Content Include="Iconos\buscar.png" />
+    <Content Include="Iconos\calendar-32.png" />
+    <Content Include="Iconos\cart-73-32.png" />
+    <Content Include="Iconos\close-window-32.png" />
     <Content Include="Iconos\control-gym-logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -274,6 +288,19 @@
     <EmbeddedResource Include="Iconos\exito.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <Content Include="Iconos\fingerprint.png" />
+    <Content Include="Iconos\icono_logo.png" />
+    <Content Include="Iconos\maximize-window-32.png" />
+    <Content Include="Iconos\menu-4-32.png" />
+    <Content Include="Iconos\minimize-window-32.png" />
+    <Content Include="Iconos\money-bag-32.png" />
+    <Content Include="Iconos\NEUTRO.png" />
+    <Content Include="Iconos\NO.png" />
+    <Content Include="Iconos\report-3-32.png" />
+    <Content Include="Iconos\restore-window-32.png" />
+    <Content Include="Iconos\Settings.png" />
+    <Content Include="Iconos\Warning.png" />
+    <Content Include="Iconos\YES.png" />
     <Content Include="icono_logo.ico" />
     <None Include="Iconos\caja.png" />
   </ItemGroup>

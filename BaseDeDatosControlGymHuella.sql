@@ -141,6 +141,14 @@ CREATE TABLE cuotas (
 );
 GO
 
+CREATE TABLE asistencias (
+    id_asistencia INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    id_socio INT NOT NULL,
+    fecha_asistencia DATETIME NOT NULL DEFAULT GETDATE(),
+    FOREIGN KEY (id_socio) REFERENCES socios(id_socio)
+);
+GO
+
 -- Crear tipo para detalles de ventas
 CREATE TYPE detalles_ventas_type AS TABLE (
     cod_producto BIGINT,

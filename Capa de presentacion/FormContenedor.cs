@@ -19,6 +19,7 @@ namespace Control_Gym
         private FormVentas formVentas;
         private FormCaja formCaja;
         private FormAdministracion formAdministracion;
+        private FormAsistencia formAsistencia;
 
         private Color colorDefault = Color.FromArgb(80, 80, 80);
         private Color colorSeleccionado = Color.FromArgb(192, 64, 0);
@@ -94,6 +95,7 @@ namespace Control_Gym
                 btnMembresias.Enabled = false;
                 btnCaja.Enabled = false;
                 btnAdministracion.Enabled = false;
+                btnAsistencia.Enabled = false;
                 // Otros accesos restringidos
             }
             else if (rol == "Administrador")
@@ -276,7 +278,28 @@ namespace Control_Gym
             }
         }
 
-        private void btnClientes_Click(object sender, EventArgs e)
+        private void btnAsistencia_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (formAsistencia == null || formAsistencia.IsDisposed)
+                {
+                    formAsistencia = new FormAsistencia();
+                }
+
+                AbrirFormEnPanel(formAsistencia);
+                formAsistencia.LoadArtificial();
+
+                Button boton = sender as Button;
+                CambiarColorBotonSeleccionado(boton);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al abrir el formulario de asistencia: " + ex.Message);
+            }
+        }
+
+        private void btnVentas_Click(object sender, EventArgs e)
         {
             try
             {
