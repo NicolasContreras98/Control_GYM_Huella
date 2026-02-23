@@ -135,7 +135,7 @@
             this.labelTiposMembresia.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.labelTiposMembresia.Font = new System.Drawing.Font("Century Gothic", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTiposMembresia.ForeColor = System.Drawing.Color.White;
-            this.labelTiposMembresia.Location = new System.Drawing.Point(13, 4);
+            this.labelTiposMembresia.Location = new System.Drawing.Point(14, 4);
             this.labelTiposMembresia.Name = "labelTiposMembresia";
             this.labelTiposMembresia.Size = new System.Drawing.Size(153, 20);
             this.labelTiposMembresia.TabIndex = 15;
