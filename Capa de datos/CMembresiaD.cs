@@ -15,81 +15,282 @@ namespace Control_Gym.Capa_de_datos
 
         public bool TieneTipoMembresia(int id_socio, int cod_tipo)
         {
-            string query = "select COUNT(cod_membresia) from membresias where id_socio = @id_socio and cod_tipo_membresia = @cod_tipo_membresia;";
+            string query = @"SELECT COUNT(*) 
+                     FROM membresias 
+                     WHERE id_socio = @id_socio 
+                     AND cod_tipo_membresia = @cod_tipo";
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand(query, conexionBD.AbrirConexion());
+                cmd.Parameters.AddWithValue("@id_socio", id_socio);
+                cmd.Parameters.AddWithValue("@cod_tipo", cod_tipo);
+
+                int resultado = Convert.ToInt32(cmd.ExecuteScalar());
+                return resultado > 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al verificar membresía: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
+
+        public DataTable TraerMembresias()
+        {
+            // Consulta que incluye el nombre completo del socio y su DNI junto con los datos de membresía
+            string query = @"
+        SELECT 
+            m.cod_membresia,
+            m.cod_tipo_membresia,
+            s.dni_socio,
+            (s.nombre + ' ' + s.apellido) AS nombre_completo,
+            m.fecha_inicio,
+            m.fecha_fin,
+            t.nombre AS tipo_membresia,
+            t.precio,
+            t.cantidad_dias
+        FROM membresias m
+        INNER JOIN (
+            SELECT 
+                id_socio, 
+                MAX(fecha_inicio) AS UltimaFechaInicio
+            FROM membresias
+            GROUP BY id_socio
+        ) ultima_membresia ON m.id_socio = ultima_membresia.id_socio 
+            AND m.fecha_inicio = ultima_membresia.UltimaFechaInicio
+        LEFT JOIN tipos_membresias t ON m.cod_tipo_membresia = t.cod_tipo_membresia
+        LEFT JOIN socios s ON m.id_socio = s.id_socio;
+    ";
+
+            DataTable tabla = new DataTable();
+
+            try
+            {
+                SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
+                SqlDataReader reader = comando.ExecuteReader();
+
+                // Cargar los datos en el DataTable
+                tabla.Load(reader);
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hubo un error al mostrar las membresías: " + ex.Message);
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return tabla;
+        }
+
+        public int CrearMembresia(CMembresia cMembresia)
+        {
+            string query = @"
+    INSERT INTO membresias (cod_tipo_membresia, id_socio, fecha_inicio, fecha_fin) 
+    VALUES (@cod_tipo_membresia, @id_socio, @fecha_inicio, @fecha_fin); 
+    SELECT SCOPE_IDENTITY();";
+
+            int idMembresia = -1;
+
+            SqlConnection conn = null;
+            SqlTransaction tx = null;
+
+            try
+            {
+                conn = conexionBD.AbrirConexion();
+                tx = conn.BeginTransaction();
+
+                // 1. Insertar membresía
+                SqlCommand cmd = new SqlCommand(query, conn, tx);
+                cmd.Parameters.AddWithValue("@cod_tipo_membresia", cMembresia.cod_tipo_membresia);
+                cmd.Parameters.AddWithValue("@id_socio", cMembresia.id_socio);
+                cmd.Parameters.AddWithValue("@fecha_inicio", cMembresia.fecha_inicio.Date);
+                cmd.Parameters.AddWithValue("@fecha_fin", cMembresia.fecha_fin.Date);
+
+                idMembresia = Convert.ToInt32(cmd.ExecuteScalar());
+
+                // 2. Registrar cuota
+                SqlCommand cmdCuota = new SqlCommand("sp_RegistrarCuota", conn, tx);
+                cmdCuota.CommandType = CommandType.StoredProcedure;
+                cmdCuota.Parameters.AddWithValue("@cod_membresia", idMembresia);
+                cmdCuota.ExecuteNonQuery();
+
+                tx.Commit();
+            }
+            catch (Exception ex)
+            {
+                if (tx != null)
+                    tx.Rollback();
+
+                MessageBox.Show("Error al crear membresía: " + ex.Message);
+                idMembresia = -1;
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return idMembresia;
+        }
+
+        public void ActualizarMembresia(CMembresia cMembresia)
+        {
+            string query = @"UPDATE membresias 
+                     SET cod_tipo_membresia = @cod_tipo_membresia,  
+                         fecha_inicio = @fecha_inicio, 
+                         fecha_fin = @fecha_fin 
+                     WHERE cod_membresia = @cod_membresia";
+
+            SqlConnection conn = null;
+            SqlTransaction tx = null;
+
+            try
+            {
+                conn = conexionBD.AbrirConexion();
+                tx = conn.BeginTransaction();
+
+                // 1. Actualizar membresía
+                SqlCommand comando = new SqlCommand(query, conn, tx);
+                comando.Parameters.AddWithValue("@cod_tipo_membresia", cMembresia.cod_tipo_membresia);
+                comando.Parameters.AddWithValue("@fecha_inicio", cMembresia.fecha_inicio);
+                comando.Parameters.AddWithValue("@fecha_fin", cMembresia.fecha_fin);
+                comando.Parameters.AddWithValue("@cod_membresia", cMembresia.cod_membresia);
+
+                comando.ExecuteNonQuery();
+
+                // 2. Registrar cuota
+                SqlCommand cmdCuota = new SqlCommand("sp_RegistrarCuota", conn, tx);
+                cmdCuota.CommandType = CommandType.StoredProcedure;
+                cmdCuota.Parameters.AddWithValue("@cod_membresia", cMembresia.cod_membresia);
+
+                cmdCuota.ExecuteNonQuery();
+
+                tx.Commit();
+
+                MessageBox.Show("Membresía actualizada correctamente");
+            }
+            catch (Exception ex)
+            {
+                if (tx != null)
+                    tx.Rollback();
+
+                MessageBox.Show("Error en base de datos: " + ex.Message);
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
+
+        public bool RenovarMembresia(int codMembresia)
+        {
+            SqlConnection conn = null;
+            SqlTransaction trans = null;
+
+            try
+            {
+                conn = conexionBD.AbrirConexion();
+                trans = conn.BeginTransaction();
+
+                int dias = 0;
+                DateTime fechaFinActual;
+
+                // 1. Obtener datos actuales
+                using (SqlCommand cmd = new SqlCommand(@"
+            SELECT tm.cantidad_dias, m.fecha_fin
+            FROM membresias m
+            INNER JOIN tipos_membresias tm 
+                ON m.cod_tipo_membresia = tm.cod_tipo_membresia
+            WHERE m.cod_membresia = @cod_membresia", conn, trans))
+                {
+                    cmd.Parameters.AddWithValue("@cod_membresia", codMembresia);
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (!dr.Read())
+                            throw new Exception("No se encontró la membresía");
+
+                        dias = Convert.ToInt32(dr["cantidad_dias"]);
+                        fechaFinActual = Convert.ToDateTime(dr["fecha_fin"]);
+                    }
+                }
+
+                DateTime ahora = DateTime.Now;
+
+                // 2. Lógica
+                DateTime nuevaFechaInicio = (fechaFinActual < ahora) ? ahora : fechaFinActual;
+                DateTime nuevaFechaFin = nuevaFechaInicio.AddDays(dias);
+
+                // 3. Update
+                using (SqlCommand cmdUpdate = new SqlCommand(@"
+            UPDATE membresias
+            SET fecha_inicio = @fecha_inicio,
+                fecha_fin = @fecha_fin,
+                estado = 'Activa'
+            WHERE cod_membresia = @cod_membresia", conn, trans))
+                {
+                    cmdUpdate.Parameters.AddWithValue("@fecha_inicio", nuevaFechaInicio);
+                    cmdUpdate.Parameters.AddWithValue("@fecha_fin", nuevaFechaFin);
+                    cmdUpdate.Parameters.AddWithValue("@cod_membresia", codMembresia);
+
+                    cmdUpdate.ExecuteNonQuery();
+                }
+
+                // 4. Registrar cuota
+                using (SqlCommand cmdCuota = new SqlCommand("sp_RegistrarCuota", conn, trans))
+                {
+                    cmdCuota.CommandType = CommandType.StoredProcedure;
+                    cmdCuota.Parameters.AddWithValue("@cod_membresia", codMembresia);
+                    cmdCuota.ExecuteNonQuery();
+                }
+
+                trans.Commit();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (trans != null)
+                    trans.Rollback(); // ✔ CORRECTO
+
+                MessageBox.Show("Error al renovar membresía: " + ex.Message);
+                return false;
+            }
+        }
+
+        public void EliminarMembresia(int id)
+        {
+            string query = "DELETE FROM membresias WHERE cod_membresia = @cod_membresia";
 
             try
             {
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
 
-                comando.Parameters.Add(new SqlParameter("@id_socio", id_socio));
-                comando.Parameters.Add(new SqlParameter("@cod_tipo_membresia", cod_tipo));
+                comando.Parameters.Add(new SqlParameter("@cod_membresia", id));
 
-                int resultado = (int)comando.ExecuteScalar();
+                int filasAfectadas = comando.ExecuteNonQuery();
 
-                if (resultado >= 1)
+                if (filasAfectadas > 0)
                 {
-                    return true;
+                    MessageBox.Show("La membresía ha sido eliminada correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    return false;
+                    MessageBox.Show("No se encontró ninguna membresía con el ID proporcionado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Hubo un error." + ex);
-                return false;
-            }
-        }
-
-        public int CrearMembresia(CMembresia cMembresia)
-        {
-            // Consulta para insertar una nueva membresía y devolver el ID generado
-            string query = @"
-        INSERT INTO membresias (cod_tipo_membresia, id_socio, fecha_inicio, fecha_fin) 
-        VALUES (@cod_tipo_membresia, @id_socio, @fecha_inicio, @fecha_fin); 
-        SELECT SCOPE_IDENTITY();";
-
-            try
-            {
-                // Crear el comando SQL y establecer la conexión
-                using (SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion()))
-                {
-                    // Asignar parámetros a la consulta
-                    comando.Parameters.AddWithValue("@cod_tipo_membresia", cMembresia.cod_tipo_membresia);
-                    comando.Parameters.AddWithValue("@id_socio", cMembresia.id_socio);
-                    comando.Parameters.AddWithValue("@fecha_inicio", cMembresia.fecha_inicio.Date); // Solo la fecha
-                    comando.Parameters.AddWithValue("@fecha_fin", cMembresia.fecha_fin.Date);
-
-                    // Ejecutar la consulta y obtener el ID generado
-                    int idMembresia = Convert.ToInt32(comando.ExecuteScalar());
-
-                    // Crear la cuota correspondiente
-                    try
-                    {
-                        cCuotaD.CrearCuota(idMembresia);
-                    }
-                    catch (Exception exCuota)
-                    {
-                        throw new Exception($"Error al crear la cuota para la membresía ID {idMembresia}: {exCuota.Message}", exCuota);
-                    }
-
-                    return idMembresia; // Devolver el ID generado
-                }
-            }
-            catch (SqlException exSql)
-            {
-                MessageBox.Show($"Error SQL al crear la membresía: {exSql.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return -1;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error general al crear la membresía: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return -1;
+                MessageBox.Show("Error al eliminar la membresía: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
-                // Asegurarse de cerrar la conexión a la base de datos
                 conexionBD.CerrarConexion();
             }
         }
@@ -147,116 +348,6 @@ namespace Control_Gym.Capa_de_datos
                 conexionBD.CerrarConexion();
             }
 
-        }
-
-        public DataTable TraerMembresias()
-        {
-            // Consulta que incluye el nombre completo del socio y su DNI junto con los datos de membresía
-            string query = @"
-        SELECT 
-            m.cod_membresia,
-            m.cod_tipo_membresia,
-            s.dni_socio,
-            (s.nombre + ' ' + s.apellido) AS nombre_completo,
-            m.fecha_inicio,
-            m.fecha_fin,
-            t.nombre AS tipo_membresia,
-            t.precio,
-            t.cantidad_dias
-        FROM membresias m
-        INNER JOIN (
-            SELECT 
-                id_socio, 
-                MAX(fecha_inicio) AS UltimaFechaInicio
-            FROM membresias
-            GROUP BY id_socio
-        ) ultima_membresia ON m.id_socio = ultima_membresia.id_socio 
-            AND m.fecha_inicio = ultima_membresia.UltimaFechaInicio
-        LEFT JOIN tipos_membresias t ON m.cod_tipo_membresia = t.cod_tipo_membresia
-        LEFT JOIN socios s ON m.id_socio = s.id_socio;
-    ";
-
-            DataTable tabla = new DataTable();
-
-            try
-            {
-                SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
-                SqlDataReader reader = comando.ExecuteReader();
-
-                // Cargar los datos en el DataTable
-                tabla.Load(reader);
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Hubo un error al mostrar las membresías: " + ex.Message);
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
-
-            return tabla;
-        }
-
-        public void EditarMembresia(CMembresia cMembresia)
-        {
-            string query = "UPDATE membresias SET cod_tipo_membresia = @cod_tipo_membresia,  fecha_inicio = @fecha_inicio, fecha_fin = @fecha_fin WHERE cod_membresia = @cod_membresia";
-
-            try
-            {
-                SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
-
-                comando.Parameters.Add(new SqlParameter("@cod_tipo_membresia", cMembresia.cod_tipo_membresia));
-                //comando.Parameters.Add(new SqlParameter("@id_socio", cMembresia.id_socio));
-                comando.Parameters.Add(new SqlParameter("@fecha_inicio", cMembresia.fecha_inicio));
-                comando.Parameters.Add(new SqlParameter("@fecha_fin", cMembresia.fecha_fin));
-                comando.Parameters.Add(new SqlParameter("@cod_membresia", cMembresia.cod_membresia));
-
-                cCuotaD.CrearCuota(cMembresia.cod_membresia);
-
-                comando.ExecuteNonQuery();
-                MessageBox.Show("Membresía actualizada correctamente");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("CD: Error al actualizar la membresía: " + ex.Message);
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
-        }
-
-        public void EliminarMembresia(int id)
-        {
-            string query = "DELETE FROM membresias WHERE cod_membresia = @cod_membresia";
-
-            try
-            {
-                SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
-
-                comando.Parameters.Add(new SqlParameter("@cod_membresia", id));
-
-                int filasAfectadas = comando.ExecuteNonQuery();
-
-                if (filasAfectadas > 0)
-                {
-                    MessageBox.Show("La membresía ha sido eliminada correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("No se encontró ninguna membresía con el ID proporcionado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al eliminar la membresía: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
         }
 
         public DataTable BuscarPorDNI(string criterioBusqueda)

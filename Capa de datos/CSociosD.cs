@@ -103,7 +103,6 @@ namespace Control_Gym.Capa_de_datos
             }
         }
 
-
         public ClsSocio[] ObtenerDatosSocio(int idSocio, int cod_tipo_membresia)
         {
             string query = "SELECT s.nombre, s.apellido, s.dni_socio, m.cod_tipo_membresia, m.fecha_inicio, m.fecha_fin, DATEDIFF(DAY, GETDATE(), m.fecha_fin) as diferencia  FROM socios s LEFT JOIN membresias m ON s.id_socio = m.id_socio WHERE s.id_socio = @id_socio AND m.cod_tipo_membresia = @cod_tipo_membresia";
@@ -236,7 +235,7 @@ namespace Control_Gym.Capa_de_datos
 
         public void EliminarDatos(int id_socio)
         {
-            string query = "EXEC EliminarSocio @id_socio";  // Llamamos al procedimiento almacenado
+            string query = "EXEC sp_EliminarSocio @id_socio";  // Llamamos al procedimiento almacenado
             try
             {
                 SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());

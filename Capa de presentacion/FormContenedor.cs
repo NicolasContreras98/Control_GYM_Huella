@@ -20,11 +20,55 @@ namespace Control_Gym
         private FormCaja formCaja;
         private FormAdministracion formAdministracion;
         private FormAsistencia formAsistencia;
+        private FormAjustes formAjustes;
 
         private Color colorDefault = Color.FromArgb(80, 80, 80);
         private Color colorSeleccionado = Color.FromArgb(192, 64, 0);
 
         private Button botonSeleccionado = null;
+
+        public FormContenedor(int dni_empleado, string nombre, string rol)
+        {
+            InitializeComponent();
+            this.dni_empleado = dni_empleado;
+            this.nombre = nombre;
+            this.rol = rol;
+
+            formChequeo = new FormChequeo(this);
+
+            string relativePath = @"Iconos\control-gym-logo.png";
+            string absolutePath = Path.Combine(Application.StartupPath, relativePath);
+
+            RoundedPictureBox roundedPictureBox = new RoundedPictureBox
+            {
+                CornerRadius = 80, // Establece el radio de las esquinas
+                Image = Image.FromFile(absolutePath),
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                Width = 200,
+                Height = 200,
+                Location = new Point(5, 5)
+            };
+
+            this.Controls.Add(roundedPictureBox);
+
+            ConfigurarAccesoSegunRol();
+        }
+
+        private void FormContenedor_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                formChequeo.LoadArtificial();
+                AbrirFormEnPanel(formChequeo);
+                SeleccionarBoton(btnVerificacion);
+                labelDNI.Text = this.dni_empleado.ToString();
+                labelNombre.Text = this.nombre;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar el formulario de contenedor: " + ex.Message);
+            }
+        }
 
         public void SeleccionarBoton(Button boton)
         {
@@ -55,38 +99,6 @@ namespace Control_Gym
             }
         }
 
-        public FormContenedor(int dni_empleado, string nombre, string rol)
-        {
-            InitializeComponent();
-            this.dni_empleado = dni_empleado;
-            this.nombre = nombre;
-            this.rol = rol;
-
-            formChequeo = new FormChequeo(this);
-
-            ConfigurarAccesoSegunRol();
-        }
-
-        public FormContenedor()
-        {
-            InitializeComponent();
-
-            string relativePath = @"Iconos\control-gym-logo.png";
-            string absolutePath = Path.Combine(Application.StartupPath, relativePath);
-
-            RoundedPictureBox roundedPictureBox = new RoundedPictureBox
-            {
-                CornerRadius = 80, // Establece el radio de las esquinas
-                Image = Image.FromFile(absolutePath),
-                SizeMode = PictureBoxSizeMode.StretchImage,
-                Width = 200,
-                Height = 200,
-                Location = new Point(5, 5)
-            };
-
-            this.Controls.Add(roundedPictureBox);
-        }
-
         public void ConfigurarAccesoSegunRol()
         {
             if (rol == "Empleado")
@@ -96,6 +108,7 @@ namespace Control_Gym
                 btnCaja.Enabled = false;
                 btnAdministracion.Enabled = false;
                 btnAsistencia.Enabled = false;
+                btnAjustes.Enabled = false;
                 // Otros accesos restringidos
             }
             else if (rol == "Administrador")
@@ -178,7 +191,6 @@ namespace Control_Gym
                 MessageBox.Show("Error al cerrar la ventana: " + ex.Message);
             }
         }
-
 
         public void AbrirFormEnPanel(Form formHijo)
         {
@@ -354,6 +366,7 @@ namespace Control_Gym
                 }
 
                 AbrirFormEnPanel(formAdministracion);
+                formAdministracion.LoadArtificial();
 
                 Button boton = sender as Button;
                 CambiarColorBotonSeleccionado(boton);
@@ -364,7 +377,27 @@ namespace Control_Gym
             }
         }
 
-        // Método para cambiar el color de fondo del botón seleccionado
+        private void btnAjustes_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (formAjustes == null || formAjustes.IsDisposed)
+                {
+                    formAjustes = new FormAjustes();
+                }
+
+                AbrirFormEnPanel(formAjustes);
+                formAjustes.LoadArtificial();
+
+                Button boton = sender as Button;
+                CambiarColorBotonSeleccionado(boton);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al abrir el formulario de administración: " + ex.Message);
+            }
+        }
+
         private void CambiarColorBotonSeleccionado(Button boton)
         {
             // Restablecer el color de fondo de los demás botones
@@ -378,18 +411,12 @@ namespace Control_Gym
             botonSeleccionado = boton;
         }
 
-        private void FormContenedor_Load(object sender, EventArgs e)
+        private void pbCerrarSesion_Click(object sender, EventArgs e)
         {
-            try 
-            { 
-                AbrirFormEnPanel(formChequeo);
-                SeleccionarBoton(btnVerificacion);
-                labelDNI.Text = this.dni_empleado.ToString();
-                labelNombre.Text = this.nombre;
-            }
-            catch (Exception ex)
+            if (MessageBox.Show("¿Desea cerrar sesión?", "Cerrar sesión",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                MessageBox.Show("Error al cargar el formulario de contenedor: " + ex.Message);
+                Application.Restart();
             }
         }
     }

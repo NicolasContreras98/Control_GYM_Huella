@@ -36,6 +36,7 @@
             this.btnCancelarMembresia = new System.Windows.Forms.Button();
             this.btnCrearMembresia = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnRenovar = new System.Windows.Forms.Button();
             this.dvgMembresias = new System.Windows.Forms.DataGridView();
             this.txtBuscarDni = new System.Windows.Forms.TextBox();
             this.lblDni2Membresia = new System.Windows.Forms.Label();
@@ -146,6 +147,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnRenovar);
             this.panel1.Controls.Add(this.btnEliminarMembresia);
             this.panel1.Controls.Add(this.btnCancelarMembresia);
             this.panel1.Controls.Add(this.btnCrearMembresia);
@@ -154,6 +156,21 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(286, 111);
             this.panel1.TabIndex = 19;
+            // 
+            // btnRenovar
+            // 
+            this.btnRenovar.BackColor = System.Drawing.Color.MidnightBlue;
+            this.btnRenovar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRenovar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRenovar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRenovar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnRenovar.Location = new System.Drawing.Point(3, 63);
+            this.btnRenovar.Name = "btnRenovar";
+            this.btnRenovar.Size = new System.Drawing.Size(86, 30);
+            this.btnRenovar.TabIndex = 7;
+            this.btnRenovar.Text = "Renovar";
+            this.btnRenovar.UseVisualStyleBackColor = false;
+            this.btnRenovar.Click += new System.EventHandler(this.btnRenovar_Click);
             // 
             // dvgMembresias
             // 
@@ -394,5 +411,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnFechaHoy;
         private System.Windows.Forms.Label lblSocioAgregado;
+        private System.Windows.Forms.Button btnRenovar;
     }
 }

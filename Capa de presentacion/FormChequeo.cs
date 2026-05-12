@@ -22,12 +22,14 @@ namespace Control_Gym.Capa_de_presentacion
     {
         private const int TEMPLATE_SIZE = 2048;
         private const int MESSAGE_CAPTURED_OK = 0x0400 + 6;
+        public int dni_global = 0;
 
         private CTipoMembresia cTipoMembresia = new CTipoMembresia();
         private CHuellaD cHuellaD = new CHuellaD();
         private CSociosD cSociosD = new CSociosD();
         public FormSocio objFormSocios = new FormSocio();
         private FormContenedor formContenedor;
+        private CChequeoD cChequeoD = new CChequeoD();
         private ConexionBD conexionBD = ConexionBD.Instancia;
 
         public IntPtr formHandle = IntPtr.Zero;
@@ -42,8 +44,11 @@ namespace Control_Gym.Capa_de_presentacion
         private Thread captureThread = null;
         readonly Random random = new Random();
         int idSocioEncontrado = -1;
+        string metodo = Properties.Settings.Default.MetodoVerificacion;
+        private bool busquedaRealizada = false;
 
         [DllImport("user32.dll", EntryPoint = "SendMessageA")]
+
         public static extern int SendMessage(IntPtr hwnd, int wMsg, IntPtr wParam, IntPtr lParam);
 
         public FormChequeo(FormContenedor contenedor)
@@ -59,8 +64,61 @@ namespace Control_Gym.Capa_de_presentacion
                 InitializeDevice();
                 formHandle = this.Handle;
                 lblAviso.Visible = false;
+
+                Program.isRegistering = false;
+                Program.isModifiying = false;
+                Program.isIdentifying = true;
+
+
+                if (string.IsNullOrEmpty(metodo))
+                    metodo = "Lector de huellas";
+                    picFPImg.Visible = true;
+
+                bool modoTeclado = metodo == "Teclado numérico";
+
+                txtDni.Visible = modoTeclado;
+                panelBorde.Visible = modoTeclado;
+                picFPImg.Visible = !modoTeclado;
+                picTeclado.Visible = modoTeclado;
+
+                if (modoTeclado)
+                    txtDni.Focus();
             }
-            catch(Exception ex) 
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        public void LoadArtificial()
+        {
+            try
+            {
+                InitializeDevice();
+                formHandle = this.Handle;
+                lblAviso.Visible = false;
+
+                Program.isRegistering = false;
+                Program.isModifiying = false;
+                Program.isIdentifying = true;
+
+
+                if (string.IsNullOrEmpty(metodo))
+                    metodo = "Lector de huellas";
+                    picFPImg.Visible = true;
+
+                bool modoTeclado = metodo == "Teclado numérico";
+
+                txtDni.Visible = modoTeclado;
+                panelBorde.Visible = modoTeclado;
+                picFPImg.Visible = !modoTeclado;
+                picTeclado.Visible = modoTeclado;
+
+
+                if (modoTeclado)
+                    txtDni.Focus();
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -726,18 +784,125 @@ namespace Control_Gym.Capa_de_presentacion
             pbNeutro.Visible = true;
         }
 
-        public void LoadArtificial()
-        {
-            Program.isRegistering = false;
-            Program.isModifiying = false;
-            Program.isIdentifying = true;
-        }
-
         private void FormChequeo_Leave(object sender, EventArgs e)
         {
             Program.isRegistering = false;
             Program.isModifiying = false;
             Program.isIdentifying = false;
+        }
+
+        private void txtDni_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (txtDni.Text.Length == 8 && !busquedaRealizada)
+                {
+                    busquedaRealizada = true;
+
+                    if (int.TryParse(txtDni.Text, out int dni))
+                    {
+                        BuscarSocioPorDni(dni);
+                    }
+                }
+                else if (txtDni.Text.Length < 8)
+                {
+                    busquedaRealizada = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al procesar el DNI: " + ex.Message);
+            }
+        }
+
+        private void BuscarSocioPorDni(int dni)
+        {
+            try
+            {
+                dni_global = dni;
+                txtDni.Clear();
+
+                string[] resultado = cChequeoD.BuscarPorDni(dni);
+                int cant_tipo_membresia = cChequeoD.ContarTiposMembresia(dni);
+
+                bool verificacionExitosa = resultado.Length > 0;
+
+                if (verificacionExitosa)
+                {
+                    lblAviso.Visible = false;
+                    timer1.Stop();
+                    timer1.Start();
+
+                    lblTipoMembresia.Visible = false;
+                    cmbTipoMembresia.Visible = false;
+
+                    if (cant_tipo_membresia > 1)
+                    {
+                        lblTipoMembresia.Visible = true;
+                        cmbTipoMembresia.Visible = true;
+                    }
+
+                    List<CTipoMembresia> tipos = cTipoMembresia.traerTiposDelSocio(dni);
+                    cmbTipoMembresia.DataSource = tipos;
+
+                    ClsSocio[] socio = cChequeoD.TraerDatosDeSocioPorDni(dni);
+
+                    int idSocio = socio[0].Id_socio;
+
+                    lblNombreCompleto.Text = socio[0].Nombre + " " + socio[0].Apellido;
+
+                    lblInicio.Text = resultado[0];
+                    lblFin.Text = resultado[1];
+
+                    int dias = Convert.ToInt32(resultado[2]);
+                    lblDiasRestantes.Text = dias.ToString();
+
+                    if (dias <= 5 && dias >= 1)
+                    {
+                        pbNeutro.Visible = false;
+                        pbYes.Visible = false;
+                        pbNo.Visible = false;
+                        pbWarning.Visible = true;
+
+                        RegistrarAsistencia(idSocio);
+                        PlayEmbeddedSound("exito");
+                    }
+                    else if (dias > 5)
+                    {
+                        pbNeutro.Visible = false;
+                        pbYes.Visible = true;
+                        pbNo.Visible = false;
+                        pbWarning.Visible = false;
+
+                        RegistrarAsistencia(idSocio);
+                        PlayEmbeddedSound("exito");
+                    }
+                    else
+                    {
+                        pbNeutro.Visible = false;
+                        pbYes.Visible = false;
+                        pbWarning.Visible = false;
+                        pbNo.Visible = true;
+
+                        PlayEmbeddedSound("error");
+                    }
+                }
+                else
+                {
+                    limpiarLabels();
+                    lblAviso.Visible = true;
+
+                    PlayEmbeddedSound("error");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Ocurrió un error inesperado durante la verificación del DNI: {ex.Message}.",
+                    "Error de verificación",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
     }
 }

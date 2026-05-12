@@ -73,9 +73,9 @@ namespace Control_Gym.Capa_logica
         }
 
 
-        public void EditarMembresia(CMembresia cMembresia)
+        public void ActualizarMembresia(CMembresia cMembresia)
         {
-            cMembresiaD.EditarMembresia(cMembresia);
+            cMembresiaD.ActualizarMembresia(cMembresia);
         }
 
         public void EliminarMembresia(int id)

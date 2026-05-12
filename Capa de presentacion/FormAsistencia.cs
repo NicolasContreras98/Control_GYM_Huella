@@ -48,7 +48,7 @@ namespace Control_Gym.Capa_de_presentacion
 
         SELECT 
             CONVERT(DATE, a.fecha_asistencia) AS 'Fecha',
-            CONVERT(TIME, a.fecha_asistencia) AS 'Hora',
+            CONVERT(VARCHAR(5), a.fecha_asistencia, 108) AS 'Hora',
             s.dni_socio AS 'DNI Socio',
             (s.nombre + ' ' + s.apellido) AS 'Nombre Completo',
             tm.nombre AS 'Tipo de Membresía',
@@ -105,7 +105,7 @@ namespace Control_Gym.Capa_de_presentacion
         )
         SELECT 
             CONVERT(DATE, a.fecha_asistencia) AS 'Fecha',
-            CONVERT(TIME, a.fecha_asistencia) AS 'Hora',
+            CONVERT(VARCHAR(5), a.fecha_asistencia, 108) AS 'Hora',
             s.dni_socio AS 'DNI Socio',
             (s.nombre + ' ' + s.apellido) AS 'Nombre Completo',
             t.nombre AS 'Tipo de Membresía',
@@ -159,7 +159,7 @@ namespace Control_Gym.Capa_de_presentacion
             string query = @"
                     SELECT 
                         CONVERT(DATE, a.fecha_asistencia) AS 'Fecha',
-                        CONVERT(TIME, a.fecha_asistencia) AS 'Hora',
+                        CONVERT(VARCHAR(5), a.fecha_asistencia, 108) AS 'Hora',
                         s.dni_socio AS 'DNI Socio',
                         (s.nombre + ' ' + s.apellido) AS 'Nombre Completo',
                         tm.nombre AS 'Tipo de Membresía',

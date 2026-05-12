@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormContenedor));
             this.MenuVertical = new System.Windows.Forms.Panel();
+            this.pbCerrarSesion = new System.Windows.Forms.PictureBox();
+            this.btnAjustes = new System.Windows.Forms.Button();
             this.btnAsistencia = new System.Windows.Forms.Button();
             this.btnVerificacion = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -54,6 +56,7 @@
             this.iconmaximizar = new System.Windows.Forms.PictureBox();
             this.panelContenedor = new System.Windows.Forms.Panel();
             this.MenuVertical.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbCerrarSesion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.roundedPictureBox1)).BeginInit();
             this.BarraTitulo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconminimizar)).BeginInit();
@@ -65,6 +68,8 @@
             // MenuVertical
             // 
             this.MenuVertical.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.MenuVertical.Controls.Add(this.pbCerrarSesion);
+            this.MenuVertical.Controls.Add(this.btnAjustes);
             this.MenuVertical.Controls.Add(this.btnAsistencia);
             this.MenuVertical.Controls.Add(this.btnVerificacion);
             this.MenuVertical.Controls.Add(this.label2);
@@ -88,6 +93,36 @@
             this.MenuVertical.Size = new System.Drawing.Size(206, 600);
             this.MenuVertical.TabIndex = 0;
             // 
+            // pbCerrarSesion
+            // 
+            this.pbCerrarSesion.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.pbCerrarSesion.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbCerrarSesion.Image = ((System.Drawing.Image)(resources.GetObject("pbCerrarSesion.Image")));
+            this.pbCerrarSesion.Location = new System.Drawing.Point(166, 561);
+            this.pbCerrarSesion.Name = "pbCerrarSesion";
+            this.pbCerrarSesion.Size = new System.Drawing.Size(40, 34);
+            this.pbCerrarSesion.TabIndex = 29;
+            this.pbCerrarSesion.TabStop = false;
+            this.pbCerrarSesion.Click += new System.EventHandler(this.pbCerrarSesion_Click);
+            // 
+            // btnAjustes
+            // 
+            this.btnAjustes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAjustes.FlatAppearance.BorderSize = 0;
+            this.btnAjustes.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(38)))));
+            this.btnAjustes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAjustes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAjustes.ForeColor = System.Drawing.Color.White;
+            this.btnAjustes.Image = ((System.Drawing.Image)(resources.GetObject("btnAjustes.Image")));
+            this.btnAjustes.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAjustes.Location = new System.Drawing.Point(0, 498);
+            this.btnAjustes.Name = "btnAjustes";
+            this.btnAjustes.Size = new System.Drawing.Size(233, 54);
+            this.btnAjustes.TabIndex = 28;
+            this.btnAjustes.Text = "AJUSTES";
+            this.btnAjustes.UseVisualStyleBackColor = true;
+            this.btnAjustes.Click += new System.EventHandler(this.btnAjustes_Click);
+            // 
             // btnAsistencia
             // 
             this.btnAsistencia.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -98,7 +133,7 @@
             this.btnAsistencia.ForeColor = System.Drawing.Color.White;
             this.btnAsistencia.Image = ((System.Drawing.Image)(resources.GetObject("btnAsistencia.Image")));
             this.btnAsistencia.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAsistencia.Location = new System.Drawing.Point(0, 293);
+            this.btnAsistencia.Location = new System.Drawing.Point(0, 271);
             this.btnAsistencia.Name = "btnAsistencia";
             this.btnAsistencia.Size = new System.Drawing.Size(233, 54);
             this.btnAsistencia.TabIndex = 27;
@@ -117,7 +152,7 @@
             this.btnVerificacion.ForeColor = System.Drawing.Color.White;
             this.btnVerificacion.Image = ((System.Drawing.Image)(resources.GetObject("btnVerificacion.Image")));
             this.btnVerificacion.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVerificacion.Location = new System.Drawing.Point(-6, 133);
+            this.btnVerificacion.Location = new System.Drawing.Point(-6, 111);
             this.btnVerificacion.Name = "btnVerificacion";
             this.btnVerificacion.Size = new System.Drawing.Size(233, 54);
             this.btnVerificacion.TabIndex = 26;
@@ -153,7 +188,7 @@
             this.labelNombre.AutoSize = true;
             this.labelNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelNombre.ForeColor = System.Drawing.Color.White;
-            this.labelNombre.Location = new System.Drawing.Point(108, 576);
+            this.labelNombre.Location = new System.Drawing.Point(81, 576);
             this.labelNombre.Name = "labelNombre";
             this.labelNombre.Size = new System.Drawing.Size(61, 16);
             this.labelNombre.TabIndex = 23;
@@ -165,7 +200,7 @@
             this.labelDNI.AutoSize = true;
             this.labelDNI.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelDNI.ForeColor = System.Drawing.Color.White;
-            this.labelDNI.Location = new System.Drawing.Point(109, 559);
+            this.labelDNI.Location = new System.Drawing.Point(82, 559);
             this.labelDNI.Name = "labelDNI";
             this.labelDNI.Size = new System.Drawing.Size(33, 16);
             this.labelDNI.TabIndex = 22;
@@ -201,7 +236,7 @@
             this.btnCaja.ForeColor = System.Drawing.Color.White;
             this.btnCaja.Image = ((System.Drawing.Image)(resources.GetObject("btnCaja.Image")));
             this.btnCaja.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCaja.Location = new System.Drawing.Point(0, 407);
+            this.btnCaja.Location = new System.Drawing.Point(0, 385);
             this.btnCaja.Name = "btnCaja";
             this.btnCaja.Size = new System.Drawing.Size(233, 54);
             this.btnCaja.TabIndex = 3;
@@ -215,7 +250,7 @@
             this.lblNombre.AutoSize = true;
             this.lblNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNombre.ForeColor = System.Drawing.Color.White;
-            this.lblNombre.Location = new System.Drawing.Point(93, 576);
+            this.lblNombre.Location = new System.Drawing.Point(83, 576);
             this.lblNombre.Name = "lblNombre";
             this.lblNombre.Size = new System.Drawing.Size(0, 16);
             this.lblNombre.TabIndex = 18;
@@ -226,7 +261,7 @@
             this.lblDNI.AutoSize = true;
             this.lblDNI.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDNI.ForeColor = System.Drawing.Color.White;
-            this.lblDNI.Location = new System.Drawing.Point(93, 559);
+            this.lblDNI.Location = new System.Drawing.Point(83, 559);
             this.lblDNI.Name = "lblDNI";
             this.lblDNI.Size = new System.Drawing.Size(0, 16);
             this.lblDNI.TabIndex = 17;
@@ -237,7 +272,7 @@
             this.lbluser.AutoSize = true;
             this.lbluser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbluser.ForeColor = System.Drawing.Color.White;
-            this.lbluser.Location = new System.Drawing.Point(32, 575);
+            this.lbluser.Location = new System.Drawing.Point(5, 575);
             this.lbluser.Name = "lbluser";
             this.lbluser.Size = new System.Drawing.Size(73, 16);
             this.lbluser.TabIndex = 16;
@@ -249,7 +284,7 @@
             this.lblusuario.AutoSize = true;
             this.lblusuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblusuario.ForeColor = System.Drawing.Color.White;
-            this.lblusuario.Location = new System.Drawing.Point(48, 558);
+            this.lblusuario.Location = new System.Drawing.Point(21, 558);
             this.lblusuario.Name = "lblusuario";
             this.lblusuario.Size = new System.Drawing.Size(57, 16);
             this.lblusuario.TabIndex = 14;
@@ -265,7 +300,7 @@
             this.btnMembresias.ForeColor = System.Drawing.Color.White;
             this.btnMembresias.Image = ((System.Drawing.Image)(resources.GetObject("btnMembresias.Image")));
             this.btnMembresias.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnMembresias.Location = new System.Drawing.Point(0, 237);
+            this.btnMembresias.Location = new System.Drawing.Point(0, 215);
             this.btnMembresias.Name = "btnMembresias";
             this.btnMembresias.Size = new System.Drawing.Size(233, 54);
             this.btnMembresias.TabIndex = 1;
@@ -284,7 +319,7 @@
             this.btnSocios.ForeColor = System.Drawing.Color.White;
             this.btnSocios.Image = ((System.Drawing.Image)(resources.GetObject("btnSocios.Image")));
             this.btnSocios.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSocios.Location = new System.Drawing.Point(0, 183);
+            this.btnSocios.Location = new System.Drawing.Point(0, 161);
             this.btnSocios.Name = "btnSocios";
             this.btnSocios.Size = new System.Drawing.Size(233, 54);
             this.btnSocios.TabIndex = 0;
@@ -302,7 +337,7 @@
             this.btnVentas.ForeColor = System.Drawing.Color.White;
             this.btnVentas.Image = ((System.Drawing.Image)(resources.GetObject("btnVentas.Image")));
             this.btnVentas.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVentas.Location = new System.Drawing.Point(0, 353);
+            this.btnVentas.Location = new System.Drawing.Point(0, 331);
             this.btnVentas.Name = "btnVentas";
             this.btnVentas.Size = new System.Drawing.Size(233, 54);
             this.btnVentas.TabIndex = 2;
@@ -320,7 +355,7 @@
             this.btnAdministracion.ForeColor = System.Drawing.Color.White;
             this.btnAdministracion.Image = ((System.Drawing.Image)(resources.GetObject("btnAdministracion.Image")));
             this.btnAdministracion.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAdministracion.Location = new System.Drawing.Point(0, 461);
+            this.btnAdministracion.Location = new System.Drawing.Point(0, 439);
             this.btnAdministracion.Name = "btnAdministracion";
             this.btnAdministracion.Size = new System.Drawing.Size(233, 54);
             this.btnAdministracion.TabIndex = 4;
@@ -421,6 +456,7 @@
             this.Load += new System.EventHandler(this.FormContenedor_Load);
             this.MenuVertical.ResumeLayout(false);
             this.MenuVertical.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbCerrarSesion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.roundedPictureBox1)).EndInit();
             this.BarraTitulo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.iconminimizar)).EndInit();
@@ -457,6 +493,8 @@
         private System.Windows.Forms.Label labelDNI;
         private System.Windows.Forms.Button btnVerificacion;
         private System.Windows.Forms.Button btnAsistencia;
+        private System.Windows.Forms.Button btnAjustes;
+        private System.Windows.Forms.PictureBox pbCerrarSesion;
     }
 }
 

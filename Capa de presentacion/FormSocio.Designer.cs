@@ -79,7 +79,7 @@
             this.dgvSocios.Name = "dgvSocios";
             this.dgvSocios.ReadOnly = true;
             this.dgvSocios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSocios.Size = new System.Drawing.Size(559, 502);
+            this.dgvSocios.Size = new System.Drawing.Size(559, 495);
             this.dgvSocios.TabIndex = 50;
             this.dgvSocios.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSocios_RowHeaderMouseClick);
             // 
@@ -199,11 +199,11 @@
             this.lblFechaNacimiento.AutoSize = true;
             this.lblFechaNacimiento.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFechaNacimiento.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblFechaNacimiento.Location = new System.Drawing.Point(7, 214);
+            this.lblFechaNacimiento.Location = new System.Drawing.Point(1, 214);
             this.lblFechaNacimiento.Name = "lblFechaNacimiento";
-            this.lblFechaNacimiento.Size = new System.Drawing.Size(112, 16);
+            this.lblFechaNacimiento.Size = new System.Drawing.Size(117, 16);
             this.lblFechaNacimiento.TabIndex = 12;
-            this.lblFechaNacimiento.Text = "Fecha de Nac :";
+            this.lblFechaNacimiento.Text = "Fecha de Crea :";
             // 
             // lblDomicilio
             // 
@@ -501,6 +501,7 @@
             this.MinimumSize = new System.Drawing.Size(536, 560);
             this.Name = "FormSocio";
             this.Text = "FormSocio";
+            this.Load += new System.EventHandler(this.FormSocio_Load);
             this.Leave += new System.EventHandler(this.FormSocio_Leave);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSocios)).EndInit();
             this.panelContenedor.ResumeLayout(false);

@@ -14,6 +14,7 @@ namespace Control_Gym.Capa_de_presentacion
         readonly CSociosD cSociosD = new CSociosD();
         private readonly FormContenedor formContenedor;
         readonly ClsSocio oClsSocio = new ClsSocio();
+        string metodo = Properties.Settings.Default.MetodoVerificacion;
 
 
         private ClsHuella cHuella = new ClsHuella();
@@ -21,6 +22,24 @@ namespace Control_Gym.Capa_de_presentacion
         public FormSocio()
         {
             InitializeComponent();
+        }
+
+        private void FormSocio_Load(object sender, EventArgs e)
+        {
+            MostrarOcultarElementos();
+            limpiarCampos();
+            CancelarModificar();
+            OcultarAdvertencia();
+            CargarGrilla();
+        }
+
+        public void LoadArtificial()
+        {
+            MostrarOcultarElementos();
+            limpiarCampos();
+            CancelarModificar();
+            OcultarAdvertencia();
+            CargarGrilla();
         }
 
         public FormSocio(FormContenedor formContenedor)
@@ -33,7 +52,21 @@ namespace Control_Gym.Capa_de_presentacion
         {
             try
             {
-                if (txtDniSocio.Text != "" && txtNombreSocio.Text != "" && txtApellidoSocio.Text != "" && Program.HuellaTemplate != null)
+                string metodo = Properties.Settings.Default.MetodoVerificacion;
+
+                bool huellaOk = true;
+                byte[] huella = null;
+
+                if (metodo == "Huella")
+                {
+                    huellaOk = Program.HuellaTemplate != null;
+                    huella = Program.HuellaTemplate;
+                }
+
+                if (txtDniSocio.Text != "" &&
+                    txtNombreSocio.Text != "" &&
+                    txtApellidoSocio.Text != "" &&
+                    huellaOk)
                 {
                     int dni = Convert.ToInt32(txtDniSocio.Text);
                     string nombre = txtNombreSocio.Text.Trim();
@@ -42,33 +75,36 @@ namespace Control_Gym.Capa_de_presentacion
                     string telefono = txtTelefonoSocio.Text;
                     string domicilio = txtDomicilio.Text.Trim();
                     string email = txtEmail.Text.Trim();
-                    byte[] huella = Program.HuellaTemplate; // Usar la variable de la huella capturada
 
                     bool existeDNI = cMembresiaD.SocioExiste(dni);
                     bool existeEmail = cMembresiaD.EmailExiste(email);
 
                     if (existeDNI)
                     {
-                        MessageBox.Show("El DNI ya está en uso. No se puede crear el socio.", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox.Show("El DNI ya está en uso.", "Alerta",
+                            MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        return;
                     }
-                    else
-                    {
-                        oClsSocio.GuardarSocio(dni, nombre, apellido, fechaNacimiento, telefono, domicilio, email, huella);
-                        dgvSocios.DataSource = oClsSocio.CargarDatos();
 
-                        limpiarCampos();
-                        CancelarModificar();
-                        ResetearArrayDeHuellas();
-                        
-                        formContenedor.SeleccionarBotonMembresias();
-                        formContenedor.AbrirFormMembresias(dni);
+                    oClsSocio.GuardarSocio(
+                        dni, nombre, apellido, fechaNacimiento,
+                        telefono, domicilio, email, huella);
 
-                        this.Close();
-                    }
+                    dgvSocios.DataSource = oClsSocio.CargarDatos();
+
+                    limpiarCampos();
+                    CancelarModificar();
+                    ResetearArrayDeHuellas();
+
+                    formContenedor.SeleccionarBotonMembresias();
+                    formContenedor.AbrirFormMembresias(dni);
+
+                    this.Close();
                 }
                 else
                 {
-                    MessageBox.Show("Por favor complete los campos obligatorios", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Por favor complete los campos obligatorios",
+                        "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
             catch (Exception ex)
@@ -144,25 +180,33 @@ namespace Control_Gym.Capa_de_presentacion
             dgvSocios.Columns[2].HeaderText = "Nombre";
             dgvSocios.Columns[3].HeaderText = "Apellido";
             dgvSocios.Columns[4].HeaderText = "Teléfono";
-            dgvSocios.Columns[5].HeaderText = "Fecha de Nacimiento";
+            dgvSocios.Columns[5].HeaderText = "Fecha de Creación";
             dgvSocios.Columns[6].HeaderText = "Domicilio";
             dgvSocios.Columns[7].HeaderText = "E-mail";
+
+            dgvSocios.AutoResizeColumns();
+            dgvSocios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void dgvSocios_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             txtIdSocio.Text = dgvSocios.SelectedCells[0].Value.ToString(); //AGREGO id_socio DEL INPUT INVISIBLE PARA QUE SE HAGAN
                                                                            //LAS CONDICIONES POR ESTE CAMPO EN LUGAR DEL DNI (POR EJ. EN EL WHERE DEL BORRAR)
-            if (cSociosD.VerificarSiYaTieneHuella(Convert.ToInt32(txtIdSocio.Text)))
+
+            if (metodo == "Lector de huellas")
             {
-                btnBorrarHuella.Visible = true;
-                btnRegistrarHuella.Visible = false;
+                if (cSociosD.VerificarSiYaTieneHuella(Convert.ToInt32(txtIdSocio.Text)))
+                {
+                    btnBorrarHuella.Visible = true;
+                    btnRegistrarHuella.Visible = false;
+                }
+                else
+                {
+                    btnRegistrarHuella.Visible = true; // No tiene huella entonces muestra el boton para registrar.
+                    btnBorrarHuella.Visible = false;
+                }
             }
-            else
-            {
-                btnRegistrarHuella.Visible = true; // No tiene huella entonces muestra el boton para registrar.
-                btnBorrarHuella.Visible = false;
-            }
+                
 
             btnGuardar.Visible = false;
             btnCancelar.Visible = true;
@@ -306,7 +350,9 @@ namespace Control_Gym.Capa_de_presentacion
             Program.isIdentifying = false; 
             Program.isRegistering = true;
 
-            btnRegistrarHuella.Visible = true;
+            btnGuardar.Visible = true;
+            btnCancelar.Visible = true;
+
 
             if (txtDniSocio.ReadOnly)
             {
@@ -562,14 +608,6 @@ namespace Control_Gym.Capa_de_presentacion
             }
         }
 
-        public void LoadArtificial()
-        {
-            limpiarCampos();
-            CancelarModificar();
-            OcultarAdvertencia();
-            CargarGrilla();
-        }
-
         private void FormSocio_Leave(object sender, EventArgs e)
         {
             CancelarModificar();
@@ -578,12 +616,41 @@ namespace Control_Gym.Capa_de_presentacion
 
         private void txtNombreSocio_Click(object sender, EventArgs e)
         {
-            btnRegistrarHuella.Visible = true;
+            if (Properties.Settings.Default.MetodoVerificacion == "Lector de huellas")
+            {
+                btnRegistrarHuella.Visible = true;
+            }
         }
 
         private void txtApellidoSocio_Click(object sender, EventArgs e)
         {
-            btnRegistrarHuella.Visible = true;
+            if (Properties.Settings.Default.MetodoVerificacion == "Lector de huellas")
+            {
+                btnRegistrarHuella.Visible = true;
+            }
+        }
+
+        public void MostrarOcultarElementos()
+        {
+            if (string.IsNullOrEmpty(metodo))
+            {
+                metodo = "Lector de huellas";
+            }
+
+            if (metodo == "Teclado numérico")
+            {
+                btnRegistrarHuella.Visible = false;
+                btnBorrarHuella.Visible = false;
+                btnCancelarRegHuella.Visible = false;
+                picHuella.Visible = false;
+            }
+            else
+            {
+                btnRegistrarHuella.Visible = true;
+                btnBorrarHuella.Visible = true;
+                btnCancelarRegHuella.Visible = true;
+                picHuella.Visible = true;
+            }
         }
     }
 }

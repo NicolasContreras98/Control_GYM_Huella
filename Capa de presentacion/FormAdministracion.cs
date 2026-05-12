@@ -20,6 +20,30 @@ namespace Control_Gym
             CambiarColorBotonPanelYLabel(btnEmpleados, panelEmpleados, labelEmpleados);
         }
 
+        public void LoadArtificial()
+        {
+            try
+            {
+                AbrirFormEnPanel(new FormEmpleados());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar el formulario de empleados: " + ex.Message);
+            }
+        }
+
+        private void FormAdministracion_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                AbrirFormEnPanel(new FormEmpleados());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar el formulario de empleados: " + ex.Message);
+            }
+        }
+
         private void ResetearColoresBotones()
         {
             btnEmpleados.BackColor = Color.FromArgb(64, 64, 64);
@@ -46,7 +70,6 @@ namespace Control_Gym
             labelProductos.BackColor = Color.FromArgb(64, 64, 64);
             labelTiposProducto.BackColor = Color.FromArgb(64, 64, 64);
         }
-
 
         private void CambiarColorBotonPanelYLabel(Button boton, Panel panel, Label label)
         {
@@ -142,18 +165,6 @@ namespace Control_Gym
             catch (Exception ex)
             {
                 MessageBox.Show("Error al abrir el formulario de tipos de productos: " + ex.Message);
-            }
-        }
-
-        private void FormAdministracion_Load(object sender, EventArgs e)
-        {
-            try
-            {
-                AbrirFormEnPanel(new FormEmpleados());
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar el formulario de empleados: " + ex.Message);
             }
         }
 

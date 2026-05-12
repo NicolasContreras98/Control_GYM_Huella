@@ -95,6 +95,12 @@
     <Compile Include="Capa de presentacion\FormAgregarCliente.Designer.cs">
       <DependentUpon>FormAgregarCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="Capa de presentacion\FormAjustes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Capa de presentacion\FormAjustes.Designer.cs">
+      <DependentUpon>FormAjustes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Capa de presentacion\FormAsistencia.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -205,6 +211,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Capa de presentacion\FormAgregarCliente.resx">
       <DependentUpon>FormAgregarCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Capa de presentacion\FormAjustes.resx">
+      <DependentUpon>FormAjustes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Capa de presentacion\FormAsistencia.resx">
       <DependentUpon>FormAsistencia.cs</DependentUpon>

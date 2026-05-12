@@ -14,6 +14,124 @@ namespace Control_Gym.Capa_de_datos
     {
         private ConexionBD conexionBD = ConexionBD.Instancia;
 
+        // ============================================
+        // CONTAR TIPOS DE MEMBRESIA POR DNI
+        // ============================================
+        public int ContarTiposMembresia(int dni)
+        {
+            string query = @"SELECT COUNT(*)
+                     FROM membresias m
+                     INNER JOIN socios s ON m.id_socio = s.id_socio
+                     WHERE s.dni_socio = @dni";
+
+            try
+            {
+                using (SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion()))
+                {
+                    comando.Parameters.AddWithValue("@dni", dni);
+                    return (int)comando.ExecuteScalar();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al contar tipos de membresía: " + ex.Message);
+                return 0;
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
+
+        // ============================================
+        // BUSCAR POR DNI (SIN TIPO)
+        // ============================================
+        public string[] BuscarPorDni(int dni)
+        {
+            List<string> result = new List<string>();
+
+            string query = @"SELECT TOP 1 m.fecha_inicio, m.fecha_fin
+                     FROM socios s
+                     INNER JOIN membresias m ON s.id_socio = m.id_socio
+                     WHERE s.dni_socio = @dni
+                     ORDER BY m.fecha_fin DESC";
+
+            try
+            {
+                using (SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion()))
+                {
+                    comando.Parameters.AddWithValue("@dni", dni);
+
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            DateTime fechaInicio = Convert.ToDateTime(reader["fecha_inicio"]);
+                            DateTime fechaFin = Convert.ToDateTime(reader["fecha_fin"]);
+
+                            int diasRestantes = (fechaFin - DateTime.Now).Days + 1;
+
+                            result.Add(fechaInicio.ToString("dd/MM"));
+                            result.Add(fechaFin.ToString("dd/MM"));
+                            result.Add(diasRestantes.ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al buscar por DNI: " + ex.Message);
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return result.ToArray();
+        }
+
+        // ============================================
+        // TRAER DATOS DEL SOCIO POR DNI
+        // ============================================
+        public ClsSocio[] TraerDatosDeSocioPorDni(int dni)
+        {
+            ClsSocio[] array = new ClsSocio[1];
+
+            string query = @"SELECT id_socio, nombre, apellido
+                     FROM socios
+                     WHERE dni_socio = @dni";
+
+            try
+            {
+                using (SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion()))
+                {
+                    comando.Parameters.AddWithValue("@dni", dni);
+
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            int idSocio = Convert.ToInt32(reader["id_socio"]);
+                            string nombre = reader["nombre"].ToString();
+                            string apellido = reader["apellido"].ToString();
+
+                            array[0] = new ClsSocio(idSocio, nombre, apellido);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al traer datos del socio: " + ex.Message);
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return array;
+        }
+
         public int ContarTiposMembresia(byte[] huella)
         {
             string query = "select COUNT(huella) from membresias where huella = @huella";
@@ -81,47 +199,47 @@ namespace Control_Gym.Capa_de_datos
             return result.ToArray();
         }
 
-        //public string[] buscarPorDni(int dni, int cod_tipo_membresia)
-        //{
-        //    List<string> result = new List<string>();
+        public string[] buscarPorDni(int dni, int cod_tipo_membresia)
+        {
+            List<string> result = new List<string>();
 
-        //    string query = "SELECT fecha_inicio, fecha_fin  FROM Membresias WHERE dni_socio = @dni and cod_tipo_membresia = @cod_tipo_membresia";
+            string query = "SELECT fecha_inicio, fecha_fin  FROM Membresias WHERE dni_socio = @dni and cod_tipo_membresia = @cod_tipo_membresia";
 
-        //    try
-        //    {
-        //        SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
-        //        comando.Parameters.AddWithValue("@dni", dni);
-        //        comando.Parameters.AddWithValue("@cod_tipo_membresia", cod_tipo_membresia);
+            try
+            {
+                SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
+                comando.Parameters.AddWithValue("@dni", dni);
+                comando.Parameters.AddWithValue("@cod_tipo_membresia", cod_tipo_membresia);
 
-        //        SqlDataReader reader = comando.ExecuteReader();
+                SqlDataReader reader = comando.ExecuteReader();
 
-        //        while (reader.Read())
-        //        {
-        //            DateTime fecha_inicio = DateTime.Parse(reader["fecha_inicio"].ToString());
-        //            DateTime fecha_fin = DateTime.Parse(reader["fecha_fin"].ToString());
-        //            DateTime fecha_actual = DateTime.Now;
-        //            TimeSpan diferencia = fecha_fin - fecha_actual;
-        //            int dias_restantes = diferencia.Days;
+                while (reader.Read())
+                {
+                    DateTime fecha_inicio = DateTime.Parse(reader["fecha_inicio"].ToString());
+                    DateTime fecha_fin = DateTime.Parse(reader["fecha_fin"].ToString());
+                    DateTime fecha_actual = DateTime.Now;
+                    TimeSpan diferencia = fecha_fin - fecha_actual;
+                    int dias_restantes = diferencia.Days;
 
-        //            result.Add(fecha_inicio.ToString("dd/MM"));
-        //            result.Add(fecha_fin.ToString("dd/MM"));
-        //            result.Add(dias_restantes.ToString());
+                    result.Add(fecha_inicio.ToString("dd/MM"));
+                    result.Add(fecha_fin.ToString("dd/MM"));
+                    result.Add(dias_restantes.ToString());
 
-        //        }
-        //        reader.Close();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("Hubo un error al buscar el DNI: " + ex);
-        //        throw;
-        //    }
-        //    finally
-        //    {
-        //        conexionBD.CerrarConexion();
-        //    }
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hubo un error al buscar el DNI: " + ex);
+                throw;
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
 
-        //    return result.ToArray();
-        //}
+            return result.ToArray();
+        }
 
         public string[] buscarPorHuella(byte[] huella)
         {

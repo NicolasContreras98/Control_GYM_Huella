@@ -21,12 +21,44 @@ namespace Control_Gym.Capa_de_presentacion
 
         private void FormCaja_Load(object sender, EventArgs e)
         {
+
+        }
+
+        public void LoadArtificial()
+        {
             CargarVentas();
             CargarCuotas();
+            CargarTotalesVentas();
+
+            CargarAnios();
+            CargarMeses();
+
 
             btnVerDetalle.Visible = false;
             btnBorrarCuota.Visible = false;
             btnBorrarVenta.Visible = false;
+        }
+
+        private void CargarCuotas()
+        {
+            dgvCuotas.DataSource = cCuotaD.ObtenerCuotas("HOY");
+
+            // Ocultar ID
+            dgvCuotas.Columns["Id"].Visible = false;
+
+            // Formato fecha
+            dgvCuotas.Columns["Fecha de pago"].DefaultCellStyle.Format = "dd/MM/yyyy";
+
+            // Formato moneda SIN símbolo $
+            dgvCuotas.Columns["Monto"].DefaultCellStyle.Format = "N0";
+
+            // Alineaciones
+            dgvCuotas.Columns["DNI"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvCuotas.Columns["Monto"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvCuotas.Columns["Fecha de pago"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            dgvCuotas.AutoResizeColumns();
+            dgvCuotas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void CargarVentas()
@@ -50,29 +82,6 @@ namespace Control_Gym.Capa_de_presentacion
             lblTotalHoyResult.Text = cVenta.ObtenerTotalHoy().ToString();
         }
 
-
-        private void CargarCuotas()
-        {
-            DataTable tablaCuotas = cCuotaD.TraerCuotas();
-            dgvCuotas.DataSource = tablaCuotas;
-
-            // Configuración de las columnas
-            dgvCuotas.Columns[0].HeaderText = "Cod. Cuota";
-            dgvCuotas.Columns[1].HeaderText = "Fecha de Pago";
-            dgvCuotas.Columns[2].HeaderText = "DNI Socio";
-            dgvCuotas.Columns[3].HeaderText = "Tipo de Membresía";
-            dgvCuotas.Columns[4].HeaderText = "Monto";
-
-            dgvCuotas.AutoResizeColumns();
-            dgvCuotas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-            // Actualización de totales
-            lblTotalCuotasResult.Text = cCuotaD.ObtenerTotal().ToString();
-            lblTotalMesCuotaResult.Text = cCuotaD.ObtenerTotalMesActual().ToString();
-            lblTotalHoyCuotasResult.Text = cCuotaD.ObtenerTotalHoy().ToString();
-        }
-
-
         private void btnVerDetalle_Click(object sender, EventArgs e)
         {
             if (dgvVentas.SelectedRows.Count > 0)
@@ -83,7 +92,7 @@ namespace Control_Gym.Capa_de_presentacion
 
                 DialogResult result = formDetalle.ShowDialog();
 
-                btnVerDetalle.Visible=false;
+                btnVerDetalle.Visible = false;
             }
         }
 
@@ -140,7 +149,7 @@ namespace Control_Gym.Capa_de_presentacion
                 if (int.TryParse(txtCod_cuota.Text, out codCuota))
                 {
                     EliminarCuota(codCuota);
-                    CargarCuotas(); // Recarga los datos en el DataGridView de las cuotas
+                    dgvCuotas.DataSource = cCuotaD.ObtenerCuotas("HOY");
                 }
                 else
                 {
@@ -209,79 +218,88 @@ namespace Control_Gym.Capa_de_presentacion
             formInformes.ShowDialog();
         }
 
-        private void lblTotalHoyCuotasResult_Click(object sender, EventArgs e)
+        private void CargarAnios()
         {
+            cbAñoCUOTA.Items.Clear();
 
+            int añoActual = DateTime.Now.Year;
+
+            for (int i = añoActual - 5; i <= añoActual; i++)
+            {
+                cbAñoCUOTA.Items.Add(i);
+            }
+
+            cbAñoCUOTA.SelectedItem = añoActual;
         }
 
-        private void lblTotalMesCuotaResult_Click(object sender, EventArgs e)
+        private void CargarMeses()
         {
+            cbMesCUOTA.Items.Clear();
 
+            cbMesCUOTA.Items.Add("Enero");
+            cbMesCUOTA.Items.Add("Febrero");
+            cbMesCUOTA.Items.Add("Marzo");
+            cbMesCUOTA.Items.Add("Abril");
+            cbMesCUOTA.Items.Add("Mayo");
+            cbMesCUOTA.Items.Add("Junio");
+            cbMesCUOTA.Items.Add("Julio");
+            cbMesCUOTA.Items.Add("Agosto");
+            cbMesCUOTA.Items.Add("Septiembre");
+            cbMesCUOTA.Items.Add("Octubre");
+            cbMesCUOTA.Items.Add("Noviembre");
+            cbMesCUOTA.Items.Add("Diciembre");
+
+            cbMesCUOTA.SelectedIndex = DateTime.Now.Month - 1;
         }
 
-        private void label6_Click(object sender, EventArgs e)
+        private void CargarTotalesVentas()
         {
+            DataTable tabla = cCuotaD.TraerTotales();
 
+            if (tabla.Rows.Count > 0)
+            {
+                lblTotalCuotasResult.Text = tabla.Rows[0]["TotalGeneral"].ToString();
+                lblTotalMesCuotaResult.Text = tabla.Rows[0]["TotalMes"].ToString();
+                lblTotalHoyCuotasResult.Text = tabla.Rows[0]["TotalHoy"].ToString();
+            }
         }
 
-        private void lblTotalCuotasResult_Click(object sender, EventArgs e)
+        private void cbAñoCUOTA_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (cbAñoCUOTA.SelectedItem == null)
+                return;
 
+            int año = Convert.ToInt32(cbAñoCUOTA.SelectedItem);
+
+            // Ignora el mes completamente
+            dgvCuotas.DataSource = cCuotaD.ObtenerCuotas("AÑO", null, año);
         }
 
-        private void label5_Click(object sender, EventArgs e)
+        private void cbMesCUOTA_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (cbMesCUOTA.SelectedItem == null)
+                return;
 
+            if (cbAñoCUOTA.SelectedItem == null)
+            {
+                MessageBox.Show("Primero selecciona un año");
+                return;
+            }
+
+            int mes = cbMesCUOTA.SelectedIndex + 1;
+            int año = Convert.ToInt32(cbAñoCUOTA.SelectedItem);
+
+            dgvCuotas.DataSource = cCuotaD.ObtenerCuotas("MES", mes, año);
         }
 
-        private void label4_Click(object sender, EventArgs e)
+        private void btnHoyCUOTA_Click(object sender, EventArgs e)
         {
-
+            dgvCuotas.DataSource = cCuotaD.ObtenerCuotas("HOY");
         }
 
-        private void label9_Click(object sender, EventArgs e)
+        private void btnUlt7diasCUOTA_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void label10_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label11_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtCod_cuota_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgvVentas_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblTotalHoyResult_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        public void LoadArtificial()
-        {
-            CargarVentas();
-            CargarCuotas();
-
-            btnVerDetalle.Visible = false;
-            btnBorrarCuota.Visible = false;
-            btnBorrarVenta.Visible = false;
+            dgvCuotas.DataSource = cCuotaD.ObtenerCuotas("ULTIMOS7DIAS");
         }
     }
 }

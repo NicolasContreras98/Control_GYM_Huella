@@ -74,6 +74,13 @@ namespace Control_Gym.Capa_logica
             this.Apellido = apellido;
         }
 
+        public ClsSocio(int idSocio, string nombre, string apellido)
+        {
+            Id_socio = idSocio;
+            Nombre = nombre;
+            Apellido = apellido;
+        }
+
         public void GuardarSocio(int dni, string nombre, string apellido, DateTime fechaNacimiento, string telefono, string domicilio, string email, byte[] huella)
         { 
             CSociosD CSociosD = new CSociosD();

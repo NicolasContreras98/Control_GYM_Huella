@@ -15,6 +15,7 @@ namespace Control_Gym.Capa_de_presentacion
         private readonly ConexionBD conexionBD = ConexionBD.Instancia;
         private readonly CTipoMembresia cTipoMembresia = new CTipoMembresia();
         private readonly CMembresia cMembresia = new CMembresia();
+        private readonly CMembresiaD cMembresiaD = new CMembresiaD();
         private readonly CSociosD cSociosD = new CSociosD();
         private readonly int dni_socio;
 
@@ -29,21 +30,61 @@ namespace Control_Gym.Capa_de_presentacion
             InitializeComponent();
         }
 
+        private void FormMembresias_Load(object sender, EventArgs e)
+        {
+            dtpFechaFin.Value = dtpFechaFin.Value.AddDays(cMembresia.cantidad_dias);
+            dvgMembresias.CellFormatting += dvgMembresias_CellFormatting;
+
+            CargarGrilla();
+            CancelarModificar();
+
+
+            if (dni_socio == 0)
+            {
+                txtDniMembresia.Text = "";
+            }
+            else
+            {
+                txtDniMembresia.Text = dni_socio.ToString();
+            }
+        }
+
+        public void LoadArtificial()
+        {
+            dtpFechaFin.Value = dtpFechaFin.Value.AddDays(cMembresia.cantidad_dias);
+            dvgMembresias.CellFormatting += dvgMembresias_CellFormatting;
+
+            CargarGrilla();
+            CancelarModificar();
+
+
+            if (dni_socio == 0)
+            {
+                txtDniMembresia.Text = "";
+            }
+            else
+            {
+                txtDniMembresia.Text = dni_socio.ToString();
+            }
+        }
+
         private void CargarGrilla()
         {
             try
             {
-                // Cargar los tipos de membresía para el ComboBox
-                List<CTipoMembresia> tipos = cTipoMembresia.traerTipos();
+                List<CTipoMembresia> tipos = cTipoMembresia.traerTipos() ?? new List<CTipoMembresia>();
+
                 cbTipoMembresia.DataSource = tipos;
                 cbTipoMembresia.DisplayMember = "nombre";
                 cbTipoMembresia.ValueMember = "cod_tipo_membresia";
 
-                // Obtener el DataTable de membresías desde la capa lógica
                 DataTable tablaMembresias = cMembresia.TraerMembresias();
+
+                if (tablaMembresias == null)
+                    throw new Exception("Error al obtener membresías");
+
                 dvgMembresias.DataSource = tablaMembresias;
 
-                // Verificar y configurar las columnas del DataGridView si existen
                 if (dvgMembresias.Columns["cod_membresia"] != null)
                 {
                     dvgMembresias.Columns["cod_membresia"].HeaderText = "ID";
@@ -60,8 +101,10 @@ namespace Control_Gym.Capa_de_presentacion
                     dvgMembresias.Columns["dni_socio"].HeaderText = "DNI";
 
                 if (dvgMembresias.Columns["nombre_completo"] != null)
+                {
                     dvgMembresias.Columns["nombre_completo"].HeaderText = "Nombre completo";
                     dvgMembresias.Columns["nombre_completo"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                }
 
                 if (dvgMembresias.Columns["fecha_inicio"] != null)
                     dvgMembresias.Columns["fecha_inicio"].HeaderText = "Fecha inicio";
@@ -74,6 +117,7 @@ namespace Control_Gym.Capa_de_presentacion
 
                 if (dvgMembresias.Columns["precio"] != null)
                     dvgMembresias.Columns["precio"].HeaderText = "Precio";
+                    dvgMembresias.Columns["precio"].DefaultCellStyle.Format = "N0";
 
                 if (dvgMembresias.Columns["cantidad_dias"] != null)
                 {
@@ -87,33 +131,16 @@ namespace Control_Gym.Capa_de_presentacion
             }
         }
 
-        private void FormMembresias_Load(object sender, EventArgs e)
-        {
-            dtpFechaFin.Value = dtpFechaFin.Value.AddDays(cMembresia.cantidad_dias);
-            dvgMembresias.CellFormatting += dvgMembresias_CellFormatting;
-            CargarGrilla();
-            CancelarModificar();
-
-            if (dni_socio == 0)
-            {
-                txtDniMembresia.Text = "";
-            }
-            else
-            {
-                txtDniMembresia.Text = dni_socio.ToString();
-            }
-        }
-
         public void CancelarModificar()
         {
             txtBuscarDni.Clear();
-            btnCrearMembresia.Visible = false;
+            txtDniMembresia.ReadOnly = false;
             btnActualizarMembresia.Visible = false;
+            btnRenovar.Visible = false;
             btnEliminarMembresia.Visible = false;
             btnCancelarMembresia.Visible = false;
             lblSocioAgregado.Visible = false;
-
-            txtDniMembresia.ReadOnly = false;
+            btnCrearMembresia.Visible = false;
         }
 
         public void LimpiarCampos()
@@ -137,67 +164,58 @@ namespace Control_Gym.Capa_de_presentacion
         {
             try
             {
-                // Validar que los campos obligatorios no estén vacíos
-                if (string.IsNullOrWhiteSpace(txtDniMembresia.Text) || string.IsNullOrWhiteSpace(cbTipoMembresia.Text))
+                if (string.IsNullOrWhiteSpace(txtDniMembresia.Text) || cbTipoMembresia.SelectedIndex == -1)
                 {
                     MessageBox.Show("Por favor complete todos los campos", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
 
-                // Obtener datos ingresados por el usuario
-                int cod_tipo_membresia = cbTipoMembresia.SelectedIndex + 1;
                 int dni = Convert.ToInt32(txtDniMembresia.Text);
+                int cod_tipo_membresia = cbTipoMembresia.SelectedIndex + 1;
 
-                // Verificar si el socio existe
                 ClsSocio socio = cSociosD.TraerIdSocioPorDni(dni);
+
                 if (socio == null)
                 {
-                    MessageBox.Show("El socio con el DNI especificado no existe en la base de datos.", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("El socio no existe.", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     LimpiarCampos();
                     return;
                 }
 
-                // Validar si el socio tiene una membresía activa del mismo tipo
-                CMembresiaD cMembresiaD = new CMembresiaD();
-                bool tieneTipoMembresia = cMembresiaD.TieneTipoMembresia(socio.Id_socio, cod_tipo_membresia);
-                if (tieneTipoMembresia)
+                bool tieneTipo = cMembresiaD.TieneTipoMembresia(socio.Id_socio, cod_tipo_membresia);
+
+                if (tieneTipo)
                 {
                     MessageBox.Show("El socio ya tiene una membresía de ese tipo.", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     LimpiarCampos();
                     return;
                 }
 
-                // Crear la nueva membresía
-                try
+                CMembresia membresia = new CMembresia(
+                    cod_tipo_membresia,
+                    dni,
+                    socio.Id_socio,
+                    dtpFechaInicio.Value,
+                    dtpFechaFin.Value
+                );
+
+                int idGenerado = cMembresiaD.CrearMembresia(membresia);
+
+                if (idGenerado > 0)
                 {
-                    CMembresia cMembresia = new CMembresia(
-                        cod_tipo_membresia,
-                        dni,
-                        socio.Id_socio,
-                        DateTime.Parse(dtpFechaInicio.Value.ToString("yyyy-MM-dd")),
-                        DateTime.Parse(dtpFechaFin.Value.ToString("yyyy-MM-dd"))
-                    );
-
-                    cMembresiaD.CrearMembresia(cMembresia);
-
-                    // Actualizar UI
                     LimpiarCampos();
                     CargarGrilla();
                     CancelarModificar();
                     MostrarSocioAgregado();
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al crear la membresía en la base de datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
             }
             catch (FormatException)
             {
-                MessageBox.Show("Por favor ingrese un DNI válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("DNI inválido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error inesperado: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
 
@@ -205,34 +223,40 @@ namespace Control_Gym.Capa_de_presentacion
         {
             try
             {
-                if (txtDniMembresia.Text != "")
+                if (string.IsNullOrWhiteSpace(txtDniMembresia.Text))
                 {
-                    int dni = Convert.ToInt32(txtDniMembresia.Text);
-                    ClsSocio socio = cSociosD.TraerIdSocioPorDni(dni);
+                    MessageBox.Show("Por favor ingrese el DNI", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
 
-                    CMembresia cMembresiaG = new CMembresia(Convert.ToInt32(txtCodMembresia.Text), cTipoMembresia.cod_tipo_membresia, dni, socio.Id_socio, DateTime.Parse(dtpFechaInicio.Value.ToString("yyyy/MM/dd")), DateTime.Parse(dtpFechaFin.Value.ToString("yyyy/MM/dd")));
-                    CMembresiaD cMembresiaD = new CMembresiaD();
-                    bool existe = cMembresiaD.SocioExiste(cMembresiaG.dni_socio);
-                    if (existe)
-                    {
-                        cMembresia.EditarMembresia(cMembresiaG);
-                        CargarGrilla();
-                        LimpiarCampos();
-                        CancelarModificar();
-                    }
-                    else
-                    {
-                        MessageBox.Show("El socio con el DNI especificado no existe en la base de datos. Primero haga el alta del socio.", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    }
-                }
-                else
+                int dni = Convert.ToInt32(txtDniMembresia.Text);
+
+                ClsSocio socio = cSociosD.TraerIdSocioPorDni(dni);
+
+                if (socio == null)
                 {
-                    MessageBox.Show("Por favor ingrese el DNI", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("El socio no existe.", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
                 }
+
+                CMembresia membresia = new CMembresia(
+                    Convert.ToInt32(txtCodMembresia.Text),
+                    cTipoMembresia.cod_tipo_membresia,
+                    dni,
+                    socio.Id_socio,
+                    dtpFechaInicio.Value,
+                    dtpFechaFin.Value
+                );
+
+                cMembresiaD.ActualizarMembresia(membresia);
+
+                CargarGrilla();
+                LimpiarCampos();
+                CancelarModificar();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("CP: Error al actualizar la membresía: " + ex.Message);
+                MessageBox.Show("Error al actualizar la membresía: " + ex.Message);
             }
         }
 
@@ -354,6 +378,7 @@ namespace Control_Gym.Capa_de_presentacion
                     btnCancelarMembresia.Visible = true;
                     btnActualizarMembresia.Visible = true;
                     btnEliminarMembresia.Visible = true;
+                    btnRenovar.Visible = true;
 
                     txtDniMembresia.ReadOnly = true;
 
@@ -512,9 +537,39 @@ namespace Control_Gym.Capa_de_presentacion
             }
         }
 
-        public void LoadArtificial()
+        private void btnRenovar_Click(object sender, EventArgs e)
         {
-            CargarGrilla();
+            try
+            {
+                CMembresiaD dMembresia = new CMembresiaD();
+                int codMembresia = Convert.ToInt32(txtCodMembresia.Text);
+
+                DateTime fechaFin = dtpFechaFin.Value;
+
+                if (fechaFin > DateTime.Now)
+                {
+                    DialogResult r = MessageBox.Show(
+                        "La membresía aún no está vencida. ¿Desea renovarla igual?",
+                        "Confirmar renovación",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (r == DialogResult.No)
+                        return;
+                }
+
+                bool ok = dMembresia.RenovarMembresia(codMembresia);
+
+                if (ok)
+                {
+                    MessageBox.Show("Membresía renovada correctamente");
+                    CargarGrilla();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
     }
 }
