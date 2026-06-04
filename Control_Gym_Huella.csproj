@@ -188,6 +188,7 @@
     <Compile Include="Capa de presentacion\RoundedPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Capa de presentacion\SesionUsuario.cs" />
     <Compile Include="Capa logica\CAcceso.cs" />
     <Compile Include="Capa logica\CCuota.cs" />
     <Compile Include="Capa logica\CDetalleVenta.cs" />

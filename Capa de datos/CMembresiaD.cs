@@ -189,7 +189,7 @@ namespace Control_Gym.Capa_de_datos
             }
         }
 
-        public bool RenovarMembresia(int codMembresia)
+        public bool RenovarMembresia(int codMembresia, DateTime fechaElegida)
         {
             SqlConnection conn = null;
             SqlTransaction trans = null;
@@ -222,10 +222,19 @@ namespace Control_Gym.Capa_de_datos
                     }
                 }
 
-                DateTime ahora = DateTime.Now;
+                DateTime nuevaFechaInicio;
 
-                // 2. Lógica
-                DateTime nuevaFechaInicio = (fechaFinActual < ahora) ? ahora : fechaFinActual;
+                // SI está vencida → usar fecha elegida (ej: hoy)
+                if (fechaFinActual < DateTime.Now)
+                {
+                    nuevaFechaInicio = fechaElegida;
+                }
+                else
+                {
+                    // SI NO está vencida → acumular desde el vencimiento
+                    nuevaFechaInicio = fechaFinActual;
+                }
+
                 DateTime nuevaFechaFin = nuevaFechaInicio.AddDays(dias);
 
                 // 3. Update

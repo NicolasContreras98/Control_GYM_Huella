@@ -1,8 +1,9 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-using Control_Gym.Capa_de_datos;
+﻿using Control_Gym.Capa_de_datos;
 using Control_Gym.Capa_logica;
+using System;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
 
 
 
@@ -29,8 +30,8 @@ namespace Control_Gym.Capa_de_presentacion
             MostrarOcultarElementos();
             limpiarCampos();
             CancelarModificar();
-            OcultarAdvertencia();
             CargarGrilla();
+            ConfigurarAccesoSegunRol();
         }
 
         public void LoadArtificial()
@@ -38,14 +39,28 @@ namespace Control_Gym.Capa_de_presentacion
             MostrarOcultarElementos();
             limpiarCampos();
             CancelarModificar();
-            OcultarAdvertencia();
             CargarGrilla();
+            ConfigurarAccesoSegunRol();
+            cbEstado.SelectedIndex = 0;
         }
 
         public FormSocio(FormContenedor formContenedor)
         {
             InitializeComponent();
             this.formContenedor = formContenedor;
+        }
+
+        public void ConfigurarAccesoSegunRol()
+        {
+            if (SesionUsuario.Rol == "Empleado")
+            {
+                btnBorrar.Enabled = false;
+                btnModificar.Enabled = false;
+            }
+            else if (SesionUsuario.Rol == "Administrador")
+            {
+                // Administrador tiene acceso completo, no hay que deshabilitar nada
+            }
         }
 
         public void btnGuardar_Click(object sender, EventArgs e)
@@ -63,16 +78,27 @@ namespace Control_Gym.Capa_de_presentacion
                     huella = Program.HuellaTemplate;
                 }
 
-                if (txtDniSocio.Text != "" &&
-                    txtNombreSocio.Text != "" &&
-                    txtApellidoSocio.Text != "" &&
+                if (txtDni.Text != "" &&
+                    txtNombre.Text != "" &&
+                    txtApellido.Text != "" &&
                     huellaOk)
                 {
-                    int dni = Convert.ToInt32(txtDniSocio.Text);
-                    string nombre = txtNombreSocio.Text.Trim();
-                    string apellido = txtApellidoSocio.Text.Trim();
+                    string dniTexto = txtDni.Text.Trim();
+
+                    // Validar que tenga exactamente 8 dígitos numéricos
+                    if (dniTexto.Length != 8 || !dniTexto.All(char.IsDigit))
+                    {
+                        MessageBox.Show("El DNI debe contener exactamente 8 dígitos numéricos.",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    int dni = Convert.ToInt32(dniTexto);
+                    string nombre = txtNombre.Text.Trim();
+                    string apellido = txtApellido.Text.Trim();
+                    bool estado = cbEstado.SelectedIndex == 0; // ACTIVO = true
                     DateTime fechaNacimiento = dtpFechaNacimiento.Value;
-                    string telefono = txtTelefonoSocio.Text;
+                    string telefono = txtTelefono.Text;
                     string domicilio = txtDomicilio.Text.Trim();
                     string email = txtEmail.Text.Trim();
 
@@ -87,7 +113,7 @@ namespace Control_Gym.Capa_de_presentacion
                     }
 
                     oClsSocio.GuardarSocio(
-                        dni, nombre, apellido, fechaNacimiento,
+                        dni, nombre, apellido,estado, fechaNacimiento,
                         telefono, domicilio, email, huella);
 
                     dgvSocios.DataSource = oClsSocio.CargarDatos();
@@ -119,16 +145,19 @@ namespace Control_Gym.Capa_de_presentacion
             {
                 ClsSocio clsSocio = new ClsSocio();
                 int id_socio = Convert.ToInt32(txtIdSocio.Text); //AGREGO id_socio 
-                int dni = Convert.ToInt32(txtDniSocio.Text);
-                string nombre = txtNombreSocio.Text;
-                string apellido = txtApellidoSocio.Text;
+                int dni = Convert.ToInt32(txtDni.Text);
+                string nombre = txtNombre.Text;
+                string apellido = txtApellido.Text;
+                bool estado = cbEstado.SelectedIndex == 0;
                 DateTime fechaNacimiento = dtpFechaNacimiento.Value;
-                string telefono = txtTelefonoSocio.Text;
+                string telefono = txtTelefono.Text;
                 string domicilio = txtDomicilio.Text;
                 string email = txtEmail.Text;
 
                 ClsSocio oclsSocio = new ClsSocio();
-                oclsSocio.ModificarSocio(id_socio, nombre, apellido, fechaNacimiento, telefono, domicilio, email); //SACO dni PARA QUE VERIFIQUE POR id_socio
+                oclsSocio.ModificarSocio(id_socio, nombre, apellido,
+                                         estado, fechaNacimiento, telefono, domicilio, email);
+
                 dgvSocios.DataSource = clsSocio.CargarDatos();
 
                 limpiarCampos();
@@ -144,23 +173,54 @@ namespace Control_Gym.Capa_de_presentacion
         {
             try
             {
-                // Mostrar mensaje de confirmación
-                DialogResult resultado = MessageBox.Show(
-                    "¿Estás seguro de que deseas eliminar completamente al socio?",
-                    "Confirmar eliminación",
+                if (string.IsNullOrEmpty(txtIdSocio.Text))
+                {
+                    MessageBox.Show("Seleccione un socio.");
+                    return;
+                }
+
+                int idSocio = Convert.ToInt32(txtIdSocio.Text);
+
+                bool eliminarAsistencias = false;
+                bool eliminarHuellas = false;
+                bool eliminarMembresias = false;
+                bool eliminarCuotas = false;
+
+                if (MessageBox.Show("¿Eliminar ASISTENCIAS del socio?", "Confirmar",
+                    MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    eliminarAsistencias = true;
+
+                if (MessageBox.Show("¿Eliminar HUELLAS DIGITALES?", "Confirmar",
+                    MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    eliminarHuellas = true;
+
+                if (MessageBox.Show("¿Eliminar MEMBRESÍAS?", "Confirmar",
+                    MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    eliminarMembresias = true;
+
+                if (MessageBox.Show("¿Eliminar CUOTAS?", "Confirmar",
+                    MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    eliminarCuotas = true;
+
+                DialogResult final = MessageBox.Show(
+                    "CONFIRMA EL BORRADO DEFINITIVO DEL SOCIO",
+                    "ELIMINACIÓN FINAL",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning);
 
-                // Si el usuario confirma la eliminación
-                if (resultado == DialogResult.Yes)
+                if (final == DialogResult.Yes)
                 {
                     ClsSocio clsSocio = new ClsSocio();
-                    int id_socio = Convert.ToInt32(txtIdSocio.Text);
 
-                    // Llamar al método de eliminación sin necesidad de verificar si tiene huella o membresía activa
-                    clsSocio.EliminarDatos(id_socio);
+                    clsSocio.EliminarDatos(
+                        idSocio,
+                        eliminarAsistencias,
+                        eliminarHuellas,
+                        eliminarMembresias,
+                        eliminarCuotas
+                    );
+
                     dgvSocios.DataSource = clsSocio.CargarDatos();
-
                     limpiarCampos();
                     CancelarModificar();
                 }
@@ -179,10 +239,11 @@ namespace Control_Gym.Capa_de_presentacion
             dgvSocios.Columns[1].HeaderText = "DNI";
             dgvSocios.Columns[2].HeaderText = "Nombre";
             dgvSocios.Columns[3].HeaderText = "Apellido";
-            dgvSocios.Columns[4].HeaderText = "Teléfono";
-            dgvSocios.Columns[5].HeaderText = "Fecha de Creación";
-            dgvSocios.Columns[6].HeaderText = "Domicilio";
-            dgvSocios.Columns[7].HeaderText = "E-mail";
+            dgvSocios.Columns[4].HeaderText = "Estado";
+            dgvSocios.Columns[5].HeaderText = "Teléfono";
+            dgvSocios.Columns[6].HeaderText = "Fecha de Creación";
+            dgvSocios.Columns[7].HeaderText = "Domicilio";
+            dgvSocios.Columns[8].HeaderText = "E-mail";
 
             dgvSocios.AutoResizeColumns();
             dgvSocios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -218,15 +279,16 @@ namespace Control_Gym.Capa_de_presentacion
             Program.isIdentifying = false;
             Program.isModifiying = true;
 
-            txtDniSocio.Text = dgvSocios.SelectedCells[1].Value.ToString();
-            txtNombreSocio.Text = dgvSocios.SelectedCells[2].Value.ToString();
-            txtApellidoSocio.Text = dgvSocios.SelectedCells[3].Value.ToString();
-            txtTelefonoSocio.Text = dgvSocios.SelectedCells[4].Value.ToString();
-            dtpFechaNacimiento.Text = dgvSocios.SelectedCells[5].Value.ToString();
-            txtDomicilio.Text = dgvSocios.SelectedCells[6].Value.ToString();
-            txtEmail.Text = dgvSocios.SelectedCells[7].Value.ToString();
+            txtDni.Text = dgvSocios.SelectedCells[1].Value.ToString();
+            txtNombre.Text = dgvSocios.SelectedCells[2].Value.ToString();
+            txtApellido.Text = dgvSocios.SelectedCells[3].Value.ToString();
+            cbEstado.Text = dgvSocios.SelectedCells[4].Value.ToString();
+            txtTelefono.Text = dgvSocios.SelectedCells[5].Value.ToString();
+            dtpFechaNacimiento.Text = dgvSocios.SelectedCells[6].Value.ToString();
+            txtDomicilio.Text = dgvSocios.SelectedCells[7].Value.ToString();
+            txtEmail.Text = dgvSocios.SelectedCells[8].Value.ToString();
 
-            txtDniSocio.ReadOnly = true;
+            
             Program.idSocioSeleccionado = Convert.ToInt32(txtIdSocio.Text);
         }
 
@@ -276,7 +338,7 @@ namespace Control_Gym.Capa_de_presentacion
             btnBorrarHuella.Visible = false;
             btnRegistrarHuella.Visible = false;
             btnCancelarRegHuella.Visible = false;
-            txtDniSocio.ReadOnly = false;
+            txtDni.ReadOnly = false;
 
             Program.idSocioSeleccionado = -1;
             Program.isRegistering = true;
@@ -286,32 +348,20 @@ namespace Control_Gym.Capa_de_presentacion
 
         public void limpiarCampos()
         {
-            txtDniSocio.Text = "";
-            txtNombreSocio.Text = "";
-            txtApellidoSocio.Text = "";
-            txtTelefonoSocio.Text = "";
+            txtDni.Text = "";
+            txtNombre.Text = "";
+            txtApellido.Text = "";
+            txtTelefono.Text = "";
             dtpFechaNacimiento.Text = "";
             txtDomicilio.Text = "";
             txtEmail.Text = "";
-        }
-
-        private void MostrarAdvertencia()
-        {
-            label1.Visible = true;
-            label2.Visible = true;
-        }
-
-        private void OcultarAdvertencia()
-        {
-            label1.Visible = false;
-            label2.Visible = false;
         }
 
         private void txtDniSocio_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (char.IsDigit(e.KeyChar))
             {
-                string currentText = txtDniSocio.Text;
+                string currentText = txtDni.Text;
 
                 if (currentText.Length + 1 > 8)
                 {
@@ -354,13 +404,12 @@ namespace Control_Gym.Capa_de_presentacion
             btnCancelar.Visible = true;
 
 
-            if (txtDniSocio.ReadOnly)
+            if (txtDni.ReadOnly)
             {
                 MessageBox.Show("No se puede modificar el DNI", "alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             else
             {
-                MostrarAdvertencia();
             }
         }
 
@@ -462,7 +511,6 @@ namespace Control_Gym.Capa_de_presentacion
 
         private void txtDniSocio_Leave(object sender, EventArgs e)
         {
-            OcultarAdvertencia();
         }
 
         public void btnRegistrarHuella_Click(object sender, EventArgs e)

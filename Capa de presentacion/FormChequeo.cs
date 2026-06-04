@@ -370,7 +370,7 @@ namespace Control_Gym.Capa_de_presentacion
                             formSocio.btnCancelar.Visible = false;
                             formSocio.dgvSocios.Enabled = true;
                             formSocio.picHuella.Image = null;
-                            formSocio.txtDniSocio.ReadOnly = false;
+                            formSocio.txtDni.ReadOnly = false;
 
                             // Llamada a limpiarCampos en un bloque try-catch
                             try

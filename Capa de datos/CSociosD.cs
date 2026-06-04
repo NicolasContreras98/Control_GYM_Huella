@@ -148,8 +148,7 @@ namespace Control_Gym.Capa_de_datos
             }
         }
 
-
-        public void GuardarSocio(int dni, string nombre, string apellido, DateTime fechaNacimiento, string telefono, string domicilio, string email, byte[] huella)
+        public void GuardarSocio(int dni, string nombre, string apellido,bool estado, DateTime fechaNacimiento, string telefono, string domicilio, string email, byte[] huella)
         {
             string procedimiento = "sp_GuardarSocioConHuella";  // Nombre del procedimiento almacenado
             try
@@ -161,6 +160,7 @@ namespace Control_Gym.Capa_de_datos
                 comando.Parameters.AddWithValue("@dni", dni);
                 comando.Parameters.AddWithValue("@nombre", nombre);
                 comando.Parameters.AddWithValue("@apellido", apellido);
+                comando.Parameters.AddWithValue("@estado", estado);
                 comando.Parameters.AddWithValue("@fechaNacimiento", fechaNacimiento);
                 comando.Parameters.AddWithValue("@telefono", telefono);
                 comando.Parameters.AddWithValue("@domicilio", domicilio);
@@ -178,9 +178,18 @@ namespace Control_Gym.Capa_de_datos
             }
         }
 
-        public void ModificarSocio(int id_socio, string nombre, string apellido, DateTime fechaNacimiento, string telefono, string domicilio, string email)
+        public void ModificarSocio(int id_socio, string nombre, string apellido,bool estado ,DateTime fechaNacimiento, string telefono, string domicilio, string email)
         {
-            string query = "UPDATE socios SET nombre = @nombre, apellido = @apellido, fecha_nac = @fechaNacimiento, telefono = @telefono, domicilio = @domicilio, email = @email WHERE id_socio = @id_socio";
+            string query = @"
+                            UPDATE socios 
+                            SET nombre = @nombre, 
+                                apellido = @apellido, 
+                                estado = @estado,
+                                fecha_nac = @fechaNacimiento, 
+                                telefono = @telefono, 
+                                domicilio = @domicilio, 
+                                email = @email 
+                            WHERE id_socio = @id_socio";
 
             try
             {
@@ -189,6 +198,7 @@ namespace Control_Gym.Capa_de_datos
                 comando.Parameters.AddWithValue("@id_socio", id_socio); //CAMBIO dni POR id_socio
                 comando.Parameters.AddWithValue("@nombre", nombre);
                 comando.Parameters.AddWithValue("@apellido", apellido);
+                comando.Parameters.AddWithValue("@estado", estado);
                 comando.Parameters.AddWithValue("@fechaNacimiento", fechaNacimiento);
                 comando.Parameters.AddWithValue("@telefono", telefono);
                 comando.Parameters.AddWithValue("@domicilio", domicilio);
@@ -209,7 +219,22 @@ namespace Control_Gym.Capa_de_datos
 
         public DataTable CargarDatos()
         {
-            string query = "SELECT * FROM socios";
+            string query = @"
+                            SELECT 
+                                id_socio,
+                                dni_socio,
+                                nombre,
+                                apellido,
+                                CASE 
+                                    WHEN estado = 1 THEN 'ACTIVO'
+                                    ELSE 'INACTIVO'
+                                END AS estado,
+                                telefono,
+                                fecha_nac,
+                                domicilio,
+                                email
+                            FROM socios";
+
             DataTable tabla = new DataTable();
             try 
             {
@@ -233,25 +258,26 @@ namespace Control_Gym.Capa_de_datos
             return tabla;
         }
 
-        public void EliminarDatos(int id_socio)
+        public void EliminarDatos(int id_socio, bool asistencias, bool huellas, bool membresias, bool cuotas)
         {
-            string query = "EXEC sp_EliminarSocio @id_socio";  // Llamamos al procedimiento almacenado
-            try
-            {
-                SqlCommand comando = new SqlCommand(query, conexionBD.AbrirConexion());
-                comando.Parameters.AddWithValue("@id_socio", id_socio);
-                comando.ExecuteNonQuery();
-                Program.isModifiying = false;
-                Program.idSocioSeleccionado = -1;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al eliminar un socio: " + ex.Message);
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
+            string query = @"EXEC sp_EliminarSocio 
+                        @id_socio,
+                        @eliminarAsistencias,
+                        @eliminarHuellas,
+                        @eliminarMembresias,
+                        @eliminarCuotas";
+
+            SqlCommand cmd = new SqlCommand(query, conexionBD.AbrirConexion());
+
+            cmd.Parameters.AddWithValue("@id_socio", id_socio);
+            cmd.Parameters.AddWithValue("@eliminarAsistencias", asistencias);
+            cmd.Parameters.AddWithValue("@eliminarHuellas", huellas);
+            cmd.Parameters.AddWithValue("@eliminarMembresias", membresias);
+            cmd.Parameters.AddWithValue("@eliminarCuotas", cuotas);
+
+            cmd.ExecuteNonQuery();
+
+            conexionBD.CerrarConexion();
         }
 
 

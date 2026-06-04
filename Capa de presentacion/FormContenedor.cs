@@ -9,10 +9,6 @@ namespace Control_Gym
 {
     public partial class FormContenedor : Form
     {
-        public int dni_empleado;
-        public string nombre;
-        public string rol;
-
         private FormChequeo formChequeo;
         private FormSocio formSocio;
         private FormMembresias formMembresias;
@@ -22,17 +18,14 @@ namespace Control_Gym
         private FormAsistencia formAsistencia;
         private FormAjustes formAjustes;
 
-        private Color colorDefault = Color.FromArgb(80, 80, 80);
-        private Color colorSeleccionado = Color.FromArgb(192, 64, 0);
+        private readonly Color colorDefault = Color.FromArgb(80, 80, 80);
+        private readonly Color colorSeleccionado = Color.FromArgb(192, 64, 0);
 
         private Button botonSeleccionado = null;
 
-        public FormContenedor(int dni_empleado, string nombre, string rol)
+        public FormContenedor()
         {
             InitializeComponent();
-            this.dni_empleado = dni_empleado;
-            this.nombre = nombre;
-            this.rol = rol;
 
             formChequeo = new FormChequeo(this);
 
@@ -61,8 +54,8 @@ namespace Control_Gym
                 formChequeo.LoadArtificial();
                 AbrirFormEnPanel(formChequeo);
                 SeleccionarBoton(btnVerificacion);
-                labelDNI.Text = this.dni_empleado.ToString();
-                labelNombre.Text = this.nombre;
+                labelDNI.Text = SesionUsuario.DniEmpleado.ToString();
+                labelNombre.Text = SesionUsuario.Nombre;
             }
             catch (Exception ex)
             {
@@ -101,7 +94,7 @@ namespace Control_Gym
 
         public void ConfigurarAccesoSegunRol()
         {
-            if (rol == "Empleado")
+            if (SesionUsuario.Rol == "Empleado")
             {
                 // Deshabilitar botones o funcionalidades para empleados
                 btnMembresias.Enabled = false;
@@ -111,7 +104,7 @@ namespace Control_Gym
                 btnAjustes.Enabled = false;
                 // Otros accesos restringidos
             }
-            else if (rol == "Administrador")
+            else if (SesionUsuario.Rol == "Administrador")
             {
                 // Administrador tiene acceso completo, no hay que deshabilitar nada
             }
@@ -317,7 +310,7 @@ namespace Control_Gym
             {
                 if (formVentas == null || formVentas.IsDisposed)
                 {
-                    formVentas = new FormVentas(dni_empleado, nombre);
+                    formVentas = new FormVentas(SesionUsuario.DniEmpleado, SesionUsuario.Nombre);
                 }
 
                 AbrirFormEnPanel(formVentas);
@@ -347,8 +340,8 @@ namespace Control_Gym
                 Button boton = sender as Button;
                 CambiarColorBotonSeleccionado(boton);
 
-                labelDNI.Text = this.dni_empleado.ToString();
-                labelNombre.Text = this.nombre;
+                labelDNI.Text = SesionUsuario.DniEmpleado.ToString();
+                labelNombre.Text = SesionUsuario.Nombre;
             }
             catch (Exception ex)
             {

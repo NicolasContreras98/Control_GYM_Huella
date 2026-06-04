@@ -558,7 +558,7 @@ namespace Control_Gym.Capa_de_presentacion
                         return;
                 }
 
-                bool ok = dMembresia.RenovarMembresia(codMembresia);
+                bool ok = dMembresia.RenovarMembresia(codMembresia, dtpFechaInicio.Value);
 
                 if (ok)
                 {

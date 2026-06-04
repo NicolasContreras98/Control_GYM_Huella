@@ -81,19 +81,21 @@ namespace Control_Gym.Capa_logica
             Apellido = apellido;
         }
 
-        public void GuardarSocio(int dni, string nombre, string apellido, DateTime fechaNacimiento, string telefono, string domicilio, string email, byte[] huella)
+        public void GuardarSocio(int dni, string nombre, string apellido,bool estado, DateTime fechaNacimiento, string telefono, string domicilio, string email, byte[] huella)
         { 
             CSociosD CSociosD = new CSociosD();
-            CSociosD.GuardarSocio(dni, nombre, apellido, fechaNacimiento, telefono, domicilio, email, huella);
+            CSociosD.GuardarSocio(dni, nombre, apellido,estado, fechaNacimiento, telefono, domicilio, email, huella);
         }
-        public void ModificarSocio(int id_socio, string nombre, string apellido, DateTime fechaNacimiento, string telefono, string domicilio, string email)
+
+        public void ModificarSocio(int id_socio, string nombre, string apellido, bool estado,
+     DateTime fechaNacimiento, string telefono, string domicilio, string email)
         {
             CSociosD cSociosD = new CSociosD();
-            cSociosD.ModificarSocio(id_socio, nombre, apellido, fechaNacimiento, telefono, domicilio, email);
+            cSociosD.ModificarSocio(id_socio, nombre, apellido, estado, fechaNacimiento, telefono, domicilio, email);
         }
+
         public DataTable CargarDatos()
         {
-           
             CSociosD cSociosD = new CSociosD();
             DataTable tabla = new DataTable();
             tabla = cSociosD.CargarDatos();
@@ -101,13 +103,20 @@ namespace Control_Gym.Capa_logica
             return tabla;
         }
 
-        public void EliminarDatos(int id_socio)
+        public void EliminarDatos(int id_socio, bool asistencias, bool huellas, bool membresias, bool cuotas)
         {
             CSociosD cSociosD = new CSociosD();
-            cSociosD.EliminarDatos(id_socio);  //CAMBUI dni POR id_socio 
+
+            cSociosD.EliminarDatos(
+                id_socio,
+                asistencias,
+                huellas,
+                membresias,
+                cuotas
+            );
         }
 
-         public DataTable Filtrar(string dni)
+        public DataTable Filtrar(string dni)
         {
 
             CSociosD cSociosD = new CSociosD();

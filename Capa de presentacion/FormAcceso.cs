@@ -54,11 +54,13 @@ namespace Control_Gym.Capa_de_presentacion
                         // Pasar el rol al método VerificarLicenciaEmpleado
                         if (VerificarLicenciaEmpleado(Convert.ToInt32(txtDniEmpleado.Text), rol))
                         {
-                            FormContenedor formContenedor = new FormContenedor(acceso[0].dni_empleado, acceso[0].nombre, rol);
-                            this.Hide(); // Oculta el formulario de inicio de sesión
-                            formContenedor.ShowDialog(); // Muestra FormContenedor como un cuadro de diálogo modal
+                            SesionUsuario.DniEmpleado = acceso[0].dni_empleado;
+                            SesionUsuario.Nombre = acceso[0].nombre;
+                            SesionUsuario.Rol = rol;
 
-                            // Al cerrar FormContenedor, cerrar la aplicación
+                            FormContenedor formContenedor = new FormContenedor();
+                            this.Hide();
+                            formContenedor.ShowDialog();
                             Application.Exit();
                         }
                         else

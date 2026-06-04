@@ -118,18 +118,13 @@ namespace Control_Gym.Capa_de_datos
             return tabla;
         }
 
-        public DataTable TraerTotales()
+        public DataTable TraerTotalesCuotas()
         {
-            string query = @"SELECT
-                    SUM(monto) AS TotalGeneral,
-                    SUM(CASE 
-                        WHEN MONTH(fecha_pago) = MONTH(GETDATE()) 
-                        AND YEAR(fecha_pago) = YEAR(GETDATE())
-                        THEN monto ELSE 0 END) AS TotalMes,
-                    SUM(CASE 
-                        WHEN CAST(fecha_pago AS DATE) = CAST(GETDATE() AS DATE)
-                        THEN monto ELSE 0 END) AS TotalHoy
-                    FROM cuotas";
+            string query = @"SELECT 
+    ISNULL(SUM(monto), 0) AS TotalGeneral,
+    ISNULL(SUM(CASE WHEN MONTH(fecha_pago) = MONTH(GETDATE()) THEN monto END), 0) AS TotalMes,
+    ISNULL(SUM(CASE WHEN CAST(fecha_pago AS DATE) = CAST(GETDATE() AS DATE) THEN monto END), 0) AS TotalHoy
+FROM cuotas";
 
             DataTable tabla = new DataTable();
 

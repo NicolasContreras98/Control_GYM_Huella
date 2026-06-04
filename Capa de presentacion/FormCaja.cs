@@ -3,6 +3,7 @@ using Control_Gym.Capa_logica;
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace Control_Gym.Capa_de_presentacion
@@ -28,7 +29,7 @@ namespace Control_Gym.Capa_de_presentacion
         {
             CargarVentas();
             CargarCuotas();
-            CargarTotalesVentas();
+            CargarTotalesCuotas();
 
             CargarAnios();
             CargarMeses();
@@ -80,6 +81,24 @@ namespace Control_Gym.Capa_de_presentacion
             lblVentasResult.Text = cVenta.ObtenerTotal().ToString();
             lblTotalMesResult.Text = cVenta.ObtenerTotalMesActual().ToString();
             lblTotalHoyResult.Text = cVenta.ObtenerTotalHoy().ToString();
+        }
+
+        private void CargarTotalesCuotas()
+        {
+            DataTable tabla = cCuotaD.TraerTotalesCuotas();
+
+            if (tabla.Rows.Count > 0)
+            {
+                var cultura = new CultureInfo("es-AR");
+
+                decimal totalGeneral = Convert.ToDecimal(tabla.Rows[0]["TotalGeneral"]);
+                decimal totalMes = Convert.ToDecimal(tabla.Rows[0]["TotalMes"]);
+                decimal totalHoy = Convert.ToDecimal(tabla.Rows[0]["TotalHoy"]);
+
+                lblTotalCuotasResult.Text = totalGeneral.ToString("N0", cultura);
+                lblTotalMesCuotaResult.Text = totalMes.ToString("N0", cultura);
+                lblTotalHoyCuotasResult.Text = totalHoy.ToString("N0", cultura);
+            }
         }
 
         private void btnVerDetalle_Click(object sender, EventArgs e)
@@ -250,18 +269,6 @@ namespace Control_Gym.Capa_de_presentacion
             cbMesCUOTA.Items.Add("Diciembre");
 
             cbMesCUOTA.SelectedIndex = DateTime.Now.Month - 1;
-        }
-
-        private void CargarTotalesVentas()
-        {
-            DataTable tabla = cCuotaD.TraerTotales();
-
-            if (tabla.Rows.Count > 0)
-            {
-                lblTotalCuotasResult.Text = tabla.Rows[0]["TotalGeneral"].ToString();
-                lblTotalMesCuotaResult.Text = tabla.Rows[0]["TotalMes"].ToString();
-                lblTotalHoyCuotasResult.Text = tabla.Rows[0]["TotalHoy"].ToString();
-            }
         }
 
         private void cbAñoCUOTA_SelectedIndexChanged(object sender, EventArgs e)

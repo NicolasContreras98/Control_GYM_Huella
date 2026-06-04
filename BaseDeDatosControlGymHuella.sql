@@ -17,6 +17,7 @@ CREATE TABLE socios (
     dni_socio INT,
     nombre VARCHAR(30) NOT NULL,
     apellido VARCHAR(30) NOT NULL,
+    estado BIT NOT NULL DEFAULT 1,
     telefono VARCHAR(15),
     fecha_nac DATETIME,
     domicilio VARCHAR(100),
@@ -29,8 +30,7 @@ CREATE TABLE huellas_digitales (
     id_huella INT IDENTITY(1,1) PRIMARY KEY,
     id_socio INT NOT NULL,
     huella VARBINARY(MAX) NOT NULL,
-    fecha_registro DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY(id_socio) REFERENCES socios(id_socio)
+    fecha_registro DATETIME DEFAULT GETDATE()
 );
 GO
 
@@ -134,8 +134,7 @@ CREATE TABLE membresias (
     fecha_inicio DATETIME NOT NULL,
     fecha_fin DATETIME NOT NULL,
     estado VARCHAR(20) DEFAULT 'Activa',
-    FOREIGN KEY(cod_tipo_membresia) REFERENCES tipos_membresias(cod_tipo_membresia),
-    FOREIGN KEY(id_socio) REFERENCES socios(id_socio)
+    FOREIGN KEY(cod_tipo_membresia) REFERENCES tipos_membresias(cod_tipo_membresia)
 );
 GO
 
@@ -155,8 +154,7 @@ CREATE TABLE cuotas (
     cod_cuota INT IDENTITY(1,1) PRIMARY KEY,
     cod_membresia INT NOT NULL,
     fecha_pago DATETIME NOT NULL,
-    monto DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY(cod_membresia) REFERENCES membresias(cod_membresia)
+    monto DECIMAL(10,2) NOT NULL
 );
 GO
 
@@ -164,8 +162,7 @@ GO
 CREATE TABLE asistencias (
     id_asistencia INT IDENTITY(1,1) PRIMARY KEY,
     id_socio INT NOT NULL,
-    fecha_asistencia DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (id_socio) REFERENCES socios(id_socio)
+    fecha_asistencia DATETIME DEFAULT GETDATE()
 );
 GO
 
@@ -237,6 +234,7 @@ CREATE PROCEDURE sp_GuardarSocioConHuella
     @dni INT,
     @nombre NVARCHAR(100),
     @apellido NVARCHAR(100),
+    @estado BIT,
     @fechaNacimiento DATE,
     @telefono NVARCHAR(20),
     @domicilio NVARCHAR(255),
@@ -251,9 +249,9 @@ BEGIN
         BEGIN TRANSACTION;
 
         INSERT INTO socios
-        (dni_socio, nombre, apellido, fecha_nac, telefono, domicilio, email)
-        VALUES
-        (@dni, @nombre, @apellido, @fechaNacimiento, @telefono, @domicilio, @email);
+(dni_socio, nombre, apellido, estado, fecha_nac, telefono, domicilio, email )
+VALUES
+(@dni, @nombre, @apellido, @estado, @fechaNacimiento, @telefono, @domicilio, @email);
 
         DECLARE @idSocio INT;
         SET @idSocio = SCOPE_IDENTITY();
@@ -285,22 +283,36 @@ GO
 -- ============================================
 
 CREATE PROCEDURE sp_EliminarSocio
-    @id_socio INT
+    @id_socio INT,
+    @eliminarAsistencias BIT,
+    @eliminarHuellas BIT,
+    @eliminarMembresias BIT,
+    @eliminarCuotas BIT
 AS
 BEGIN
     BEGIN TRY
 
-        DELETE FROM cuotas
-        WHERE cod_membresia IN
-        (SELECT cod_membresia FROM membresias WHERE id_socio = @id_socio)
+        IF @eliminarAsistencias = 1
+            DELETE FROM asistencias WHERE id_socio = @id_socio;
 
-        DELETE FROM membresias WHERE id_socio = @id_socio
-        DELETE FROM huellas_digitales WHERE id_socio = @id_socio
-        DELETE FROM socios WHERE id_socio = @id_socio
+        IF @eliminarHuellas = 1
+            DELETE FROM huellas_digitales WHERE id_socio = @id_socio;
+
+        IF @eliminarCuotas = 1
+            DELETE FROM cuotas
+            WHERE cod_membresia IN (
+                SELECT cod_membresia FROM membresias WHERE id_socio = @id_socio
+            );
+
+        IF @eliminarMembresias = 1
+            DELETE FROM membresias WHERE id_socio = @id_socio;
+
+        -- BORRADO FINAL DEL SOCIO (FÍSICO)
+        DELETE FROM socios WHERE id_socio = @id_socio;
 
     END TRY
     BEGIN CATCH
-        PRINT ERROR_MESSAGE()
+        THROW;
     END CATCH
 END
 GO
